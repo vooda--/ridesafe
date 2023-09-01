@@ -1,0 +1,4 @@
+#Fri Sep 01 10:42:59 EEST 2023
+base.0=/Users/vooda/Dev/ridesafe/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

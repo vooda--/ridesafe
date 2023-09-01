@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:ride_safe/features/quotes/quote.dart';
 import 'package:ride_safe/features/school/school.dart';

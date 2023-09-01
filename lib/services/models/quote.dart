@@ -7,8 +7,8 @@ class Quote {
   final String? youtubeUrl;
   final String? tags;
   final String? content;
-  final Bool draft;
-  final Bool hidden;
+  final bool draft;
+  final bool hidden;
   final String quoteText;
   final String author;
 
