@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/features/main_page.dart';
 import 'package:ride_safe/features/quizzes/quiz.dart';
-import 'package:ride_safe/features/quotes/quote.dart';
+import 'package:ride_safe/features/quotes/quotes.dart';
 import 'package:ride_safe/services/models/menu_model.dart';
 
 import '../../services/models/app_state_model.dart';
@@ -90,7 +90,7 @@ class _MyDrawerState extends State<MyDrawer> {
         nextPage = SchoolPage();
         break;
       case MenuItemType.quotes:
-        nextPage = QuotePage();
+        nextPage = QuotesPage();
         break;
       case MenuItemType.quizzes:
         nextPage = QuizPage();

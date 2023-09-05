@@ -9,6 +9,10 @@ class QuoteProvider with ChangeNotifier {
   API apiService = API();
   List<Quote> _quotes = [];
 
+  selectedQuote(int index) {
+    return _quotes[index];
+  }
+
   List<Quote> get quotes => _quotes;
   
   Future<void> fetchQuotes() async {

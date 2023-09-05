@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 class Quote {
   final int id;

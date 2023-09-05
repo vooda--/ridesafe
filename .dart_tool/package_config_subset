@@ -30,6 +30,10 @@ flutter_lints
 2.19
 file:///Users/vooda/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3/
 file:///Users/vooda/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3/lib/
+fluttericon
+2.12
+file:///Users/vooda/.pub-cache/hosted/pub.dev/fluttericon-2.0.0/
+file:///Users/vooda/.pub-cache/hosted/pub.dev/fluttericon-2.0.0/lib/
 http
 3.0
 file:///Users/vooda/.pub-cache/hosted/pub.dev/http-1.1.0/
@@ -116,6 +120,6 @@ file:///Users/vooda/Dev/flutter/packages/flutter_test/
 file:///Users/vooda/Dev/flutter/packages/flutter_test/lib/
 ride_safe
 2.18
-file:///Users/vooda/Dev/ridesafe/
-file:///Users/vooda/Dev/ridesafe/lib/
+file:///Users/vooda/Dev/mobile/rideSafe/
+file:///Users/vooda/Dev/mobile/rideSafe/lib/
 2

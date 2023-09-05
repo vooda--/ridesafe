@@ -13,7 +13,7 @@ class _SchoolPageState extends State<SchoolPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<QuoteProvider>(context, listen: false).fetchQuotes();
+    // Provider.of<QuoteProvider>(context, listen: false).fetchQuotes();
   }
 
   @override
@@ -25,32 +25,10 @@ class _SchoolPageState extends State<SchoolPage> {
         ),
         body: Container(
           child: Center(
-            child: QuoteList(),
+            child: Text('School Page'),
           ),
         ),
         drawer: MyDrawer());
   }
 }
 
-class QuoteList extends StatefulWidget {
-  @override
-  State<QuoteList> createState() => _QuoteListState();
-}
-
-class _QuoteListState extends State<QuoteList> {
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<QuoteProvider>(
-      builder: (context, quoteProvider, child) {
-        return ListView.builder(
-          itemCount: quoteProvider.quotes.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(quoteProvider.quotes[index].quoteText),
-            );
-          },
-        );
-      },
-    );
-  }
-}
