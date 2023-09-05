@@ -8,6 +8,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "auto_size_text",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/auto_size_text-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
@@ -188,7 +194,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2023-09-02T10:32:06.038483Z",
+  "generated": "2023-09-05T09:13:35.376521Z",
   "generator": "pub",
   "generatorVersion": "3.0.6"
 }

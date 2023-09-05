@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,11 +40,13 @@ class _QuotePageState extends State<QuotePage> {
 
 class SelectedQuote extends StatefulWidget {
   final Quote quote;
+
   const SelectedQuote(this.quote, {Key? key}) : super(key: key);
 
   @override
   State<SelectedQuote> createState() => _SelectedQuoteState();
 }
+
 class _SelectedQuoteState extends State<SelectedQuote> {
   @override
   Widget build(BuildContext context) {
@@ -58,12 +63,24 @@ class _SelectedQuoteState extends State<SelectedQuote> {
             alignment: Alignment.center,
           ),
         ),
+        BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
+          child: Container(
+            color: Colors.black.withOpacity(0.2),
+          ),
+        ),
         Container(
           alignment: Alignment.center,
-          child: Text(
-            textAlign: TextAlign.center,
-            widget.quote.quoteText,
-            style: const TextStyle(fontSize: 20),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: AutoSizeText(
+              textAlign: TextAlign.center,
+              widget.quote.quoteText,
+              maxLines: 5,
+              minFontSize: 18,
+              maxFontSize: 48,
+              style: const TextStyle(fontSize: 26),
+            ),
           ),
         ),
         // Text(
