@@ -14,7 +14,7 @@ void main() {
   runApp(MultiProvider(
   providers: [
         ChangeNotifierProvider(create: (context) => AppStateModel()),
-        ChangeNotifierProvider(create: (context) => QuoteProvider()),
+        ChangeNotifierProvider(create: (context) => RideSafeProvider()),
       ],
       child: MyApp())
   );

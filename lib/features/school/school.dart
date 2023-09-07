@@ -13,7 +13,7 @@ class _SchoolPageState extends State<SchoolPage> {
   @override
   void initState() {
     super.initState();
-    // Provider.of<QuoteProvider>(context, listen: false).fetchQuotes();
+    Provider.of<RideSafeProvider>(context, listen: false).fetchArticles();
   }
 
   @override
@@ -25,10 +25,51 @@ class _SchoolPageState extends State<SchoolPage> {
         ),
         body: Container(
           child: Center(
-            child: Text('School Page'),
+            child: ArticleList(),
           ),
         ),
         drawer: MyDrawer());
+  }
+}
+
+class ArticleList extends StatefulWidget {
+  @override
+  State<ArticleList> createState() => _ArticleListState();
+}
+
+class _ArticleListState extends State<ArticleList> {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<RideSafeProvider>(
+      builder: (context, quoteProvider, child) {
+        return ListView.builder(
+          itemCount: quoteProvider.articles.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              onTap: () {
+                Navigator.pushNamed(context, '/school/selected',
+                    arguments: quoteProvider.articles[index]);
+              },
+              contentPadding: const EdgeInsets.all(5),
+              leading: Image(
+                image:
+                    AssetImage('assets/images/moto/landscape/${index + 1}.jpg'),
+                width: 40,
+              ),
+              title: Text(
+                quoteProvider.articles[index].title,
+                style: TextStyle(fontSize: 18),
+              ),
+              subtitle: Text(
+                quoteProvider.articles[index].description??'',
+                style: TextStyle(fontSize: 14),
+              ),
+              trailing: Icon(Icons.arrow_forward_ios),
+            );
+          },
+        );
+      },
+    );
   }
 }
 

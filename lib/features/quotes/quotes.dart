@@ -15,7 +15,7 @@ class _QuotesPageState extends State<QuotesPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<QuoteProvider>(context, listen: false).fetchQuotes();
+    Provider.of<RideSafeProvider>(context, listen: false).fetchQuotes();
   }
 
   @override
@@ -42,7 +42,7 @@ class QuoteList extends StatefulWidget {
 class _QuoteListState extends State<QuoteList> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<QuoteProvider>(
+    return Consumer<RideSafeProvider>(
       builder: (context, quoteProvider, child) {
         return ListView.builder(
           itemCount: quoteProvider.quotes.length,
