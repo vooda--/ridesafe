@@ -3,10 +3,8 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../services/models/quote.dart';
-import '../../services/providers/ride_safe_provider.dart';
 import '../drawer/my_drawer.dart';
 
 class QuotePage extends StatefulWidget {

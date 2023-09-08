@@ -6,7 +6,7 @@ import 'package:ride_safe/features/quotes/quotes.dart';
 import 'package:ride_safe/services/models/menu_model.dart';
 
 import '../../services/models/app_state_model.dart';
-import '../school/school.dart';
+import '../school/articles.dart';
 import 'menu_item.dart';
 import 'my_header_drawer.dart';
 

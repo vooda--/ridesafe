@@ -49,7 +49,7 @@ class _QuoteListState extends State<QuoteList> {
           itemBuilder: (context, index) {
             return ListTile(
               onTap: () {
-                Navigator.pushNamed(context, '/quote/selected',
+                Navigator.pushNamed(context, '/school/article',
                     arguments: quoteProvider.quotes[index]);
               },
               contentPadding: const EdgeInsets.all(5),

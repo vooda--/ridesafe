@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ride_safe/features/quotes/quotes.dart';
-import 'package:ride_safe/features/school/school.dart';
+import 'package:ride_safe/features/school/articles.dart';
 import 'package:ride_safe/services/models/app_state_model.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
@@ -9,6 +9,7 @@ import 'features/about/about.dart';
 import 'features/main_page.dart';
 import 'features/quizzes/quiz.dart';
 import 'features/quotes/quote.dart';
+import 'features/school/article.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/quote/selected': (context) => QuotePage(), // '/quote/selected
         '/quiz': (context) => QuizPage(),
         '/school': (context) => SchoolPage(),
+        '/school/article': (context) => ArticlePage(),
         '/about': (context) => AboutPage(),
       },
       theme: ThemeData.dark().copyWith(
