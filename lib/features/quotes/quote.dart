@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/models/quote.dart';
-import '../../services/providers/quote_provider.dart';
+import '../../services/providers/ride_safe_provider.dart';
 import '../drawer/my_drawer.dart';
 
 class QuotePage extends StatefulWidget {

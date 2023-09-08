@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import 'models/article.dart';
+import 'models/article_category.dart';
 import 'models/quote.dart';
 
 class API {
@@ -17,6 +18,10 @@ class API {
 
   _articles(String locale) {
     return '$_apiUrl/school/articles/$locale?lastRequest=0';
+  }
+
+  _articleCategories(String locale) {
+    return '$_apiUrl/school/articleCategories/$locale';
   }
 
    _basicAuth() {
@@ -33,6 +38,19 @@ class API {
       return jsonResponse.map((user) => Quote.fromJson(user)).toList();
     } else {
       throw Exception('Failed to load users: $response.statusCode');
+    }
+  }
+
+  Future fetchArticleCategories(String locale) async {
+    final response = await http.get(Uri.parse(_articleCategories(locale)), headers: {
+      HttpHeaders.authorizationHeader: _basicAuth(),
+    });
+    log('Response: $response');
+    if(response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse.map((articleCategory) => ArticleCategory.fromJson(articleCategory)).toList();
+    } else {
+      throw Exception('Failed to load article categories from API $response');
     }
   }
 

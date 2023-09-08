@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 
 import '../../services/helpers.dart';
-import '../../services/providers/quote_provider.dart';
+import '../../services/providers/ride_safe_provider.dart';
 import '../drawer/my_drawer.dart';
 
 class QuotesPage extends StatefulWidget {

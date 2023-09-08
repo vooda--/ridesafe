@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ride_safe/services/providers/quote_provider.dart';
+import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 
 import '../drawer/my_drawer.dart';
 
@@ -14,6 +14,8 @@ class _SchoolPageState extends State<SchoolPage> {
   void initState() {
     super.initState();
     Provider.of<RideSafeProvider>(context, listen: false).fetchArticles();
+    Provider.of<RideSafeProvider>(context, listen: false)
+        .fetchArticleCategories();
   }
 
   @override
@@ -41,30 +43,41 @@ class _ArticleListState extends State<ArticleList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<RideSafeProvider>(
-      builder: (context, quoteProvider, child) {
+      builder: (context, rideSafeProvider, child) {
+        final categories = rideSafeProvider.articleCategories;
         return ListView.builder(
-          itemCount: quoteProvider.articles.length,
+          itemCount: rideSafeProvider.articleCategories.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              onTap: () {
-                Navigator.pushNamed(context, '/school/selected',
-                    arguments: quoteProvider.articles[index]);
-              },
-              contentPadding: const EdgeInsets.all(5),
-              leading: Image(
-                image:
-                    AssetImage('assets/images/moto/landscape/${index + 1}.jpg'),
-                width: 40,
-              ),
-              title: Text(
-                quoteProvider.articles[index].title,
-                style: TextStyle(fontSize: 18),
-              ),
-              subtitle: Text(
-                quoteProvider.articles[index].description??'',
-                style: TextStyle(fontSize: 14),
-              ),
-              trailing: Icon(Icons.arrow_forward_ios),
+            final category = categories[index];
+            final articles = rideSafeProvider.articles
+                .where((element) => element.articleCategory.id == category.id)
+                .toList();
+            return ExpansionTile(
+              title: Text(category.title),
+              subtitle: Text(category.description ?? ''),
+              children: articles
+                  .map((article) => ListTile(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/school/selected',
+                              arguments: rideSafeProvider.articles[index]);
+                        },
+                        contentPadding: const EdgeInsets.all(5),
+                        leading: Image(
+                          image: AssetImage(
+                              'assets/images/moto/landscape/${index + 1}.jpg'),
+                          width: 40,
+                        ),
+                        title: Text(
+                          rideSafeProvider.articles[index].title,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        subtitle: Text(
+                          rideSafeProvider.articles[index].description ?? '',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios),
+                      ))
+                  .toList(),
             );
           },
         );
@@ -72,4 +85,3 @@ class _ArticleListState extends State<ArticleList> {
     );
   }
 }
-

@@ -3,7 +3,7 @@ import 'package:ride_safe/features/quotes/quotes.dart';
 import 'package:ride_safe/features/school/school.dart';
 import 'package:ride_safe/services/models/app_state_model.dart';
 import 'package:provider/provider.dart';
-import 'package:ride_safe/services/providers/quote_provider.dart';
+import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 
 import 'features/about/about.dart';
 import 'features/main_page.dart';
