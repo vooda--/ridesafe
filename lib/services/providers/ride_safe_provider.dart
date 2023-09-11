@@ -1,6 +1,8 @@
 import 'dart:developer';
+import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
+import 'package:ride_safe/services/hive_service.dart';
 import 'package:ride_safe/services/models/article.dart';
 import 'package:ride_safe/services/models/article_category.dart';
 
@@ -8,47 +10,78 @@ import '../api.dart';
 import '../models/quote.dart';
 
 class RideSafeProvider with ChangeNotifier {
-  API apiService = API();
-  List<Quote> _quotes = [];
-  List<Article> _articles = [];
-  List<ArticleCategory> _articleCategories = [];
+  final API apiService;
+  final HiveService hiveService;
+
+  RideSafeProvider(this.hiveService, this.apiService);
 
   selectedQuote(int index) {
-    return _quotes[index];
+    return quotes?[index];
   }
 
-  List<Quote> get quotes => _quotes;
-  List<Article> get articles => _articles;
-  List<ArticleCategory> get articleCategories => _articleCategories;
+  List<Quote> get quotes => hiveService.getQuotesBox();
+
+  List<Article> get articles => hiveService.getArticlesBox();
+
+  List<ArticleCategory> get articleCategories =>
+      hiveService.getArticleCategoriesBox();
+
+  int get lastFetchTime => hiveService.getFetchTime();
+
+  Future<void> fetchAll() async {
+    if (quotes.isNotEmpty) {
+      await hiveService.saveFetchTime(true);
+    }
+
+    await fetchQuotes();
+    await fetchArticles();
+    await fetchArticleCategories();
+    hiveService.saveFetchTime();
+  }
+
+  Future<void> openBoxes() async {
+    await hiveService.openBox(HiveService.quotesKey);
+    await hiveService.openBox(HiveService.articlesKey);
+    await hiveService.openBox(HiveService.articleCategoriesKey);
+    await hiveService.openBox(HiveService.fetchedAt);
+  }
 
   Future<void> fetchQuotes() async {
-    return apiService.fetchQuotes('ru').then((quotes) {
-      _quotes = quotes;
-      log('Fetched quotes: ${_quotes.length}');
+    return apiService.fetchQuotes('ru', lastFetchTime).then((quotes) {
+      if (quotes.length > 0) {
+        hiveService.setQuotes([...this.quotes, ...quotes]);
+      }
+      log('Fetched quotes: ${quotes.length}');
       notifyListeners();
     });
   }
 
   Future<void> fetchArticleCategories() async {
-    return apiService.fetchArticleCategories('en').then((value) => {
-          _articleCategories = value,
-          log('Fetched article categories: ${_articleCategories.length}'),
-          notifyListeners(),
-        });
-  }
+    return apiService.fetchArticleCategories('en').then((value) {
+      if (value.length > 0) {
+        hiveService.setArticleCategories(value);
+      }
 
-  Future<void> fetchArticles() async {
-    return apiService.fetchArticles('en').then((articles) {
-      _articles = articles;
-      log('Fetched articles: ${_articles.length}');
+      log('Fetched article categories: ${articleCategories.length}');
       notifyListeners();
     });
   }
 
+  Future<void> fetchArticles() async {
+    return apiService.fetchArticles('en', lastFetchTime).then((articles) {
+      hiveService.setArticles(articles);
+      log('Fetched articles: ${articles.length}');
+      notifyListeners();
+    });
+  }
+
+  /*
+  @deprecated: remove this method
+   */
   Future<void> fetchUsers() async {
     return apiService.fetchUsers().then((quotes) {
-      _quotes = quotes;
-      log('Users fetched: ${_quotes.length}');
+      // _quotes = quotes;
+      log('Users fetched: ${quotes.length}');
       notifyListeners();
     });
   }

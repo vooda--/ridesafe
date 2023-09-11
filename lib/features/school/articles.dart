@@ -13,9 +13,9 @@ class _SchoolPageState extends State<SchoolPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<RideSafeProvider>(context, listen: false).fetchArticles();
-    Provider.of<RideSafeProvider>(context, listen: false)
-        .fetchArticleCategories();
+    // Provider.of<RideSafeProvider>(context, listen: false).fetchArticles();
+    // Provider.of<RideSafeProvider>(context, listen: false)
+    //     .fetchArticleCategories();
   }
 
   @override

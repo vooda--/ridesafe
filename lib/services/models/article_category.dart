@@ -1,3 +1,4 @@
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ride_safe/services/models/image.dart';
 
 class ArticleCategory {
@@ -22,4 +23,28 @@ class ArticleCategory {
         title: json["title"],
         description: json["description"],
       );
+}
+class ArticleCategoryAdapter extends TypeAdapter<ArticleCategory> {
+  @override
+  final typeId = 2;
+
+  @override
+  ArticleCategory read(BinaryReader reader) {
+    return ArticleCategory(
+      id: reader.read(),
+      image: reader.read(),
+      order: reader.read(),
+      title: reader.read(),
+      description: reader.read(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, ArticleCategory obj) {
+    writer.write(obj.id);
+    writer.write(obj.image);
+    writer.write(obj.order);
+    writer.write(obj.title);
+    writer.write(obj.description);
+  }
 }

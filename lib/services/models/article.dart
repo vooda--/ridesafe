@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:hive/hive.dart';
 import 'package:ride_safe/services/models/article_category.dart';
 import 'package:ride_safe/services/models/image.dart';
 
@@ -49,4 +50,43 @@ class Article {
         content: json["content"] ?? '',
         author: json["author"]?? '',
       );
+}
+
+class ArticleAdapter extends TypeAdapter<Article> {
+  @override
+  final typeId = 1;
+
+  @override
+  Article read(BinaryReader reader) {
+    return Article(
+        id: reader.read(),
+        order: reader.read(),
+        tags: reader.read(),
+        image: reader.read(),
+        draft: reader.read(),
+        hidden: reader.read(),
+        articleCategory: reader.read(),
+        title: reader.read(),
+        url: reader.read(),
+        youtubeUrl: reader.read(),
+        description: reader.read(),
+        content: reader.read());
+  }
+
+
+  @override
+  void write(BinaryWriter writer, Article obj) {
+    writer.write(obj.id);
+    writer.write(obj.order);
+    writer.write(obj.tags);
+    writer.write(obj.image);
+    writer.write(obj.draft);
+    writer.write(obj.hidden);
+    writer.write(obj.articleCategory);
+    writer.write(obj.title);
+    writer.write(obj.url);
+    writer.write(obj.youtubeUrl);
+    writer.write(obj.description);
+    writer.write(obj.content);
+  }
 }

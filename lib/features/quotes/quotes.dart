@@ -7,6 +7,8 @@ import '../../services/providers/ride_safe_provider.dart';
 import '../drawer/my_drawer.dart';
 
 class QuotesPage extends StatefulWidget {
+  const QuotesPage({super.key});
+
   @override
   State<QuotesPage> createState() => _QuotesPageState();
 }
@@ -15,7 +17,6 @@ class _QuotesPageState extends State<QuotesPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<RideSafeProvider>(context, listen: false).fetchQuotes();
   }
 
   @override
@@ -26,7 +27,7 @@ class _QuotesPageState extends State<QuotesPage> {
           title: Text('Quotes'),
         ),
         body: Container(
-          child: Center(
+          child: const Center(
             child: QuoteList(),
           ),
         ),
@@ -35,6 +36,8 @@ class _QuotesPageState extends State<QuotesPage> {
 }
 
 class QuoteList extends StatefulWidget {
+  const QuoteList({super.key});
+
   @override
   State<QuoteList> createState() => _QuoteListState();
 }
@@ -49,7 +52,7 @@ class _QuoteListState extends State<QuoteList> {
           itemBuilder: (context, index) {
             return ListTile(
               onTap: () {
-                Navigator.pushNamed(context, '/school/article',
+                Navigator.pushNamed(context, '/quote/selected',
                     arguments: quoteProvider.quotes[index]);
               },
               contentPadding: const EdgeInsets.all(5),

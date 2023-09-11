@@ -1,4 +1,8 @@
 
+import 'dart:convert';
+
+import 'package:hive/hive.dart';
+
 class Quote {
   final int id;
   final String? image;
@@ -35,4 +39,39 @@ class Quote {
         quoteText: json["quoteText"],
         author: json["author"],
       );
+}
+
+class QuoteAdapter extends TypeAdapter<Quote> {
+  @override
+  final typeId = 0;
+
+  @override
+  Quote read(BinaryReader reader) {
+    return Quote(
+      id: reader.read(),
+      image: reader.read(),
+      url: reader.read(),
+      youtubeUrl: reader.read(),
+      tags: reader.read(),
+      content: reader.read(),
+      draft: reader.read(),
+      hidden: reader.read(),
+      quoteText: reader.read(),
+      author: reader.read(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Quote obj) {
+    writer.write(obj.id);
+    writer.write(obj.image);
+    writer.write(obj.url);
+    writer.write(obj.youtubeUrl);
+    writer.write(obj.tags);
+    writer.write(obj.content);
+    writer.write(obj.draft);
+    writer.write(obj.hidden);
+    writer.write(obj.quoteText);
+    writer.write(obj.author);
+  }
 }

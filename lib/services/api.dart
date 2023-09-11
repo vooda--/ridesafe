@@ -12,12 +12,12 @@ import 'models/quote.dart';
 class API {
   final String _apiUrl = 'http://dev.voodalab.com:8080';
 
-  _quotes(String locale) {
-    return '$_apiUrl/school/quotes/$locale?lastRequest=0';
+  _quotes(String locale, int lastTimeFetched) {
+    return '$_apiUrl/school/quotes/$locale?lastRequest=$lastTimeFetched';
   }
 
-  _articles(String locale) {
-    return '$_apiUrl/school/articles/$locale?lastRequest=0';
+  _articles(String locale, int lastTimeFetched) {
+    return '$_apiUrl/school/articles/$locale?lastRequest=$lastTimeFetched';
   }
 
   _articleCategories(String locale) {
@@ -54,9 +54,9 @@ class API {
     }
   }
 
-  Future fetchArticles(String locale) async {
+  Future fetchArticles(String locale, int lastTimeFetched) async {
     // final String basicAuth = 'Basic ' + base64Encode(utf8.encode('user:test'));
-    final response = await http.get(Uri.parse(_articles(locale)), headers: {
+    final response = await http.get(Uri.parse(_articles(locale, lastTimeFetched)), headers: {
       HttpHeaders.authorizationHeader: _basicAuth(),
     });
     log('Response: $response');
@@ -69,10 +69,10 @@ class API {
     }
   }
 
-  Future fetchQuotes(String locale) async {
+  Future fetchQuotes(String locale, int lastTimeFetched) async {
     // final String basicAuth = 'Basic ' + base64Encode(utf8.encode('user:test'));
 
-    final response = await http.get(Uri.parse(_quotes(locale)), headers: {
+    final response = await http.get(Uri.parse(_quotes(locale, lastTimeFetched)), headers: {
       HttpHeaders.authorizationHeader: _basicAuth(),
     });
     log('Response: $response');
