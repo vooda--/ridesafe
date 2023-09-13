@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ride_safe/services/models/article.dart';
 
 import '../drawer/my_drawer.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class ArticlePage extends StatefulWidget {
   @override
@@ -21,12 +22,16 @@ class _ArticlePageState extends State<ArticlePage> {
     final Article article =
         ModalRoute.of(context)!.settings.arguments as Article;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.teal,
           title: Text(article.title ?? 'Article'),
         ),
-        body: Center(
-          child: SelectedArticle(article),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Center(
+            child: SelectedArticle(article),
+          ),
         ),
         drawer: MyDrawer());
   }
@@ -86,13 +91,19 @@ class _SelectedArticleState extends State<SelectedArticle> {
                 ),
               ),
               const SizedBox(height: 16),
-              Text(
-                widget.article.content ?? 'No text yet...',
-                // Replace with actual article content
-                style: const TextStyle(
+              HtmlWidget(
+                widget.article.content ?? '<div>No text yet...</div>',
+                textStyle: const TextStyle(
                   fontSize: 16,
                 ),
               ),
+              // Text(
+              //   widget.article.content ?? 'No text yet...',
+              //   // Replace with actual article content
+              //   style: const TextStyle(
+              //     fontSize: 16,
+              //   ),
+              // ),
             ],
           ),
         ),

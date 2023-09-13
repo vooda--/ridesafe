@@ -10,7 +10,7 @@ import 'models/article_category.dart';
 import 'models/quote.dart';
 
 class API {
-  final String _apiUrl = 'http://dev.voodalab.com:8080';
+  final String _apiUrl = 'https://dev.voodalab.com';
 
   _quotes(String locale, int lastTimeFetched) {
     return '$_apiUrl/school/quotes/$locale?lastRequest=$lastTimeFetched';
