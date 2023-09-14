@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:ride_safe/services/hive_service.dart';
@@ -65,6 +64,26 @@ class RideSafeProvider with ChangeNotifier {
       log('Fetched article categories: ${articleCategories.length}');
       notifyListeners();
     });
+  }
+
+  Future<Image> randomImage(BuildContext context) {
+    var isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    return apiService.fetchRandomImage(isLandscape ? 'landscape' : 'portrait').then((value) {
+      return Image.memory(value);
+    });
+  }
+
+  Quote randomQuote() {
+    if (quotes == null || quotes!.isEmpty) {
+      return Quote(
+          draft: false,
+          hidden: false,
+          id: 0,
+          quoteText: 'No Quotes yet',
+          author: 'RideSafe');
+    }
+    final index = DateTime.now().millisecondsSinceEpoch % quotes.length;
+    return quotes[index];
   }
 
   Future<void> fetchArticles() async {

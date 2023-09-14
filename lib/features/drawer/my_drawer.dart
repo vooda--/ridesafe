@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ride_safe/features/main_page.dart';
 import 'package:ride_safe/features/quizzes/quiz.dart';
 import 'package:ride_safe/features/quotes/quotes.dart';
+import 'package:ride_safe/features/quotes/random_quote.dart';
 import 'package:ride_safe/services/models/menu_model.dart';
 
 import '../../services/models/app_state_model.dart';
@@ -44,7 +45,7 @@ class _MyDrawerState extends State<MyDrawer> {
         children: [
           menuItem(
               MenuItemType.dashboard,
-              'Dashboard',
+              'Random Quote',
               Icons.dashboard_outlined,
               currentSelectedMenuItem.id == MenuItemType.dashboard,
               selectMenuItem),
@@ -84,7 +85,7 @@ class _MyDrawerState extends State<MyDrawer> {
 
     switch (id) {
       case MenuItemType.dashboard:
-        nextPage = MainPage();
+        nextPage = RandomQuotePage();
         break;
       case MenuItemType.school:
         nextPage = SchoolPage();

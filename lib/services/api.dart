@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:http/http.dart' as http;
 
@@ -16,6 +17,10 @@ class API {
     return '$_apiUrl/school/quotes/$locale?lastRequest=$lastTimeFetched';
   }
 
+  _random(String orientation) {
+    return '$_apiUrl/quotes/randomImage?keywords=girls&orientation=$orientation';
+  }
+
   _articles(String locale, int lastTimeFetched) {
     return '$_apiUrl/school/articles/$locale?lastRequest=$lastTimeFetched';
   }
@@ -25,9 +30,21 @@ class API {
   }
 
    _basicAuth() {
-    return 'Basic ' + base64Encode(utf8.encode('user:test'));
+    return 'Basic ${base64Encode(utf8.encode('user:test'))}';
   }
 
+  Future fetchRandomImage(String orientation) async {
+    final response = await http.get(Uri.parse(_random(orientation)), headers: {
+      HttpHeaders.authorizationHeader: _basicAuth(),
+    });
+    log('Response: $response');
+
+    if (response.statusCode == 200) {
+      return response.bodyBytes;
+    } else {
+      throw Exception('Failed to load image: $response.statusCode');
+    }
+  }
   Future<List<Quote>> fetchUsers() async {
     final String baseUrl = 'https://jsonplaceholder.typicode.com';
 
