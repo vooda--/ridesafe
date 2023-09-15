@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ride_safe/features/bottom_menu/bottom_menu.dart';
 
 import '../../services/models/quote.dart';
 import '../../services/providers/ride_safe_provider.dart';
@@ -23,6 +24,7 @@ class _QuotePageState extends State<QuotePage> {
   @override
   Widget build(BuildContext context) {
     final Quote quote = ModalRoute.of(context)!.settings.arguments as Quote;
+    final ScrollController controller = ScrollController();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.teal,
@@ -33,6 +35,7 @@ class _QuotePageState extends State<QuotePage> {
             child: SelectedQuote(quote),
           ),
         ),
+        bottomNavigationBar: BottomNavigationMenu(controller: controller,),
         drawer: MyDrawer());
   }
 }

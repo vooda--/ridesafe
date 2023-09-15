@@ -4,6 +4,7 @@ import 'package:fluttericon/font_awesome_icons.dart';
 
 import '../../services/helpers.dart';
 import '../../services/providers/ride_safe_provider.dart';
+import '../bottom_menu/bottom_menu.dart';
 import '../drawer/my_drawer.dart';
 
 class QuotesPage extends StatefulWidget {
@@ -21,17 +22,20 @@ class _QuotesPageState extends State<QuotesPage> {
 
   @override
   Widget build(BuildContext context) {
+    ScrollController controller = ScrollController();
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.teal,
-          title: Text('Quotes'),
+      appBar: AppBar(
+        backgroundColor: Colors.teal,
+        title: Text('Quotes'),
+      ),
+      body: Container(
+        child: const Center(
+          child: QuoteList(),
         ),
-        body: Container(
-          child: const Center(
-            child: QuoteList(),
-          ),
-        ),
-        drawer: MyDrawer());
+      ),
+      drawer: MyDrawer(),
+      bottomNavigationBar: BottomNavigationMenu(controller: controller,),
+    );
   }
 }
 
