@@ -43,8 +43,10 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => MainPage(),
-        '/quote': (context) => QuotesPage(),
+        '/quote': (context) => QuotesPage(quoteType: QuoteType.all), // '/quote
         '/quote/selected': (context) => QuotePage(), // '/quote/selected
+        '/favorites': (context) => const QuotesPage(quoteType: QuoteType.favorite), // '/favorites
+        '/favorites/selected': (context) => QuotePage(), // '/favorites/selected
         '/quiz': (context) => QuizPage(),
         '/school': (context) => SchoolPage(),
         '/school/article': (context) => ArticlePage(),

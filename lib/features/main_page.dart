@@ -15,10 +15,10 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.teal,
-          title: Text('Ride Safe'),
+          title: const Text('Ride Safe'),
         ),
         body: Container(
-          child: Text('Main Page'),
+          child: const Text('Main Page'),
         ),
         drawer: MyDrawer());
   }

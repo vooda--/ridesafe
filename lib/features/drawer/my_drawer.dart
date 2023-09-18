@@ -69,6 +69,12 @@ class _MyDrawerState extends State<MyDrawer> {
               Icons.format_quote_outlined,
               currentSelectedMenuItem.id == MenuItemType.quotes,
               selectMenuItem),
+          menuItem(
+              MenuItemType.favoriteQuotes,
+              'Favorite Quotes',
+              Icons.favorite_rounded,
+              currentSelectedMenuItem.id == MenuItemType.favoriteQuotes,
+              selectMenuItem),
           Divider(),
           menuItem(MenuItemType.about, 'About', Icons.question_mark_outlined,
               currentSelectedMenuItem.id == MenuItemType.about, selectMenuItem),
@@ -91,7 +97,10 @@ class _MyDrawerState extends State<MyDrawer> {
         nextPage = SchoolPage();
         break;
       case MenuItemType.quotes:
-        nextPage = QuotesPage();
+        nextPage = const QuotesPage(quoteType: QuoteType.all);
+        break;
+      case MenuItemType.favoriteQuotes:
+        nextPage = const QuotesPage(quoteType: QuoteType.favorite);
         break;
       case MenuItemType.quizzes:
         nextPage = QuizPage();

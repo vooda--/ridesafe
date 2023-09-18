@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -35,7 +36,15 @@ class _QuotePageState extends State<QuotePage> {
             child: SelectedQuote(quote),
           ),
         ),
-        bottomNavigationBar: BottomNavigationMenu(controller: controller,),
+        bottomNavigationBar: BottomNavigationMenu(
+          controller: controller,
+          onAddToFavoriteClick: () {
+            log('Callback add favorite ${quote.quoteText}');
+            Provider.of<RideSafeProvider>(context, listen: false)
+                .hiveService
+                .addFavoriteQuote(quote);
+          },
+        ),
         drawer: MyDrawer());
   }
 }
@@ -55,7 +64,6 @@ class _SelectedQuoteState extends State<SelectedQuote> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override

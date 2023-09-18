@@ -7,8 +7,11 @@ import '../../services/providers/ride_safe_provider.dart';
 import '../bottom_menu/bottom_menu.dart';
 import '../drawer/my_drawer.dart';
 
+enum QuoteType { all, favorite }
+
 class QuotesPage extends StatefulWidget {
-  const QuotesPage({super.key});
+  final QuoteType quoteType;
+  const QuotesPage({super.key, required this.quoteType});
 
   @override
   State<QuotesPage> createState() => _QuotesPageState();
@@ -22,16 +25,17 @@ class _QuotesPageState extends State<QuotesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final String title = widget.quoteType == QuoteType.all
+        ? 'All Quotes'
+        : 'Favorite Quotes';
     ScrollController controller = ScrollController();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: Text('Quotes'),
+        title: Text(title),
       ),
-      body: Container(
-        child: const Center(
-          child: QuoteList(),
-        ),
+      body: Center(
+        child: QuoteList(quoteType: widget.quoteType),
       ),
       drawer: MyDrawer(),
       bottomNavigationBar: BottomNavigationMenu(controller: controller,),
@@ -40,24 +44,28 @@ class _QuotesPageState extends State<QuotesPage> {
 }
 
 class QuoteList extends StatefulWidget {
-  const QuoteList({super.key});
+  final QuoteType quoteType;
+  const QuoteList({super.key, required this.quoteType});
 
   @override
   State<QuoteList> createState() => _QuoteListState();
 }
 
 class _QuoteListState extends State<QuoteList> {
+  QuoteList get widget => super.widget;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<RideSafeProvider>(
       builder: (context, quoteProvider, child) {
+        final quotes = widget.quoteType == QuoteType.all ? quoteProvider.quotes : quoteProvider.favoriteQuotes;
         return ListView.builder(
-          itemCount: quoteProvider.quotes.length,
+          itemCount: quotes.length,
           itemBuilder: (context, index) {
             return ListTile(
               onTap: () {
                 Navigator.pushNamed(context, '/quote/selected',
-                    arguments: quoteProvider.quotes[index]);
+                    arguments: quotes[index]);
               },
               contentPadding: const EdgeInsets.all(5),
               leading: Image(
@@ -67,7 +75,7 @@ class _QuoteListState extends State<QuoteList> {
               ),
               trailing: const Icon(FontAwesome.heart, size: 20),
               title: Text(Helpers.trimString(
-                  quoteProvider.quotes[index].quoteText, 80)),
+                  quotes[index].quoteText, 80)),
               // subtitle: Text(quoteProvider.quotes[index].author),
             );
           },

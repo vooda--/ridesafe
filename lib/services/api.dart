@@ -29,7 +29,7 @@ class API {
     return '$_apiUrl/school/articleCategories/$locale';
   }
 
-   _basicAuth() {
+  _basicAuth() {
     return 'Basic ${base64Encode(utf8.encode('user:test'))}';
   }
 
@@ -45,6 +45,7 @@ class API {
       throw Exception('Failed to load image: $response.statusCode');
     }
   }
+
   Future<List<Quote>> fetchUsers() async {
     final String baseUrl = 'https://jsonplaceholder.typicode.com';
 
@@ -59,26 +60,29 @@ class API {
   }
 
   Future fetchArticleCategories(String locale) async {
-    final response = await http.get(Uri.parse(_articleCategories(locale)), headers: {
+    final response =
+        await http.get(Uri.parse(_articleCategories(locale)), headers: {
       HttpHeaders.authorizationHeader: _basicAuth(),
     });
     log('Response: $response');
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((articleCategory) => ArticleCategory.fromJson(articleCategory)).toList();
+      return jsonResponse
+          .map((articleCategory) => ArticleCategory.fromJson(articleCategory))
+          .toList();
     } else {
       throw Exception('Failed to load article categories from API $response');
     }
   }
 
   Future fetchArticles(String locale, int lastTimeFetched) async {
-    // final String basicAuth = 'Basic ' + base64Encode(utf8.encode('user:test'));
-    final response = await http.get(Uri.parse(_articles(locale, lastTimeFetched)), headers: {
+    final response =
+        await http.get(Uri.parse(_articles(locale, lastTimeFetched)), headers: {
       HttpHeaders.authorizationHeader: _basicAuth(),
     });
     log('Response: $response');
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((article) => Article.fromJson(article)).toList();
     } else {
@@ -87,9 +91,8 @@ class API {
   }
 
   Future fetchQuotes(String locale, int lastTimeFetched) async {
-    // final String basicAuth = 'Basic ' + base64Encode(utf8.encode('user:test'));
-
-    final response = await http.get(Uri.parse(_quotes(locale, lastTimeFetched)), headers: {
+    final response =
+        await http.get(Uri.parse(_quotes(locale, lastTimeFetched)), headers: {
       HttpHeaders.authorizationHeader: _basicAuth(),
     });
     log('Response: $response');

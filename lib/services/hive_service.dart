@@ -1,4 +1,3 @@
-
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ride_safe/services/models/article.dart';
 import 'package:ride_safe/services/models/article_category.dart';
@@ -7,6 +6,7 @@ import 'models/quote.dart';
 
 class HiveService {
   static const String quotesKey = 'quotes';
+  static const String favoriteQuotesKey = 'favoriteQuotes';
   static const String articlesKey = 'articles';
   static const String articleCategoriesKey = 'articleCategories';
   static const String fetchedAt = 'fetchedAt';
@@ -25,6 +25,18 @@ class HiveService {
     await Hive.box(boxName).close();
   }
 
+  List<Quote> getFavoriteQuotes() {
+    var quotes = Hive.box(favoriteQuotesKey).get('quotes') ??
+        List<Quote>.empty(growable: true);
+    return (quotes.cast<Quote>());
+  }
+
+  Future<void> addFavoriteQuote(Quote quote) async {
+    List value = getFavoriteQuotes();
+    value.add(quote);
+    await Hive.box(favoriteQuotesKey).put('quotes', value);
+  }
+
   Future<void> setQuotes(List<Quote> quotes) async {
     await Hive.box(quotesKey).put('quotes', quotes);
   }
@@ -34,8 +46,10 @@ class HiveService {
     await Hive.box(fetchedAt).put(fetchedAt, time);
   }
 
-  Future<void> setArticleCategories(List<ArticleCategory> articleCategories) async {
-    await Hive.box(articleCategoriesKey).put('articleCategories', articleCategories);
+  Future<void> setArticleCategories(
+      List<ArticleCategory> articleCategories) async {
+    await Hive.box(articleCategoriesKey)
+        .put('articleCategories', articleCategories);
   }
 
   Future<void> setArticles(List<Article> articles) async {

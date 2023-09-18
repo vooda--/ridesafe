@@ -22,6 +22,8 @@ class RideSafeProvider with ChangeNotifier {
 
   List<Article> get articles => hiveService.getArticlesBox();
 
+  List<Quote> get favoriteQuotes => hiveService.getFavoriteQuotes();
+
   List<ArticleCategory> get articleCategories =>
       hiveService.getArticleCategoriesBox();
 
@@ -43,6 +45,7 @@ class RideSafeProvider with ChangeNotifier {
     await hiveService.openBox(HiveService.articlesKey);
     await hiveService.openBox(HiveService.articleCategoriesKey);
     await hiveService.openBox(HiveService.fetchedAt);
+    await hiveService.openBox(HiveService.favoriteQuotesKey);
   }
 
   Future<void> fetchQuotes() async {
