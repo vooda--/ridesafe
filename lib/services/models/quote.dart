@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:hive/hive.dart';
 
@@ -14,6 +15,7 @@ class Quote {
   final bool hidden;
   final String quoteText;
   final String author;
+  Uint8List? imageBytes;
 
   Quote(
       {this.image,
@@ -21,6 +23,7 @@ class Quote {
       this.youtubeUrl,
       this.tags,
       this.content,
+      this.imageBytes,
       required this.draft,
       required this.hidden,
       required this.id,
@@ -58,6 +61,7 @@ class QuoteAdapter extends TypeAdapter<Quote> {
       hidden: reader.read(),
       quoteText: reader.read(),
       author: reader.read(),
+      imageBytes: reader.read(),
     );
   }
 
@@ -73,5 +77,6 @@ class QuoteAdapter extends TypeAdapter<Quote> {
     writer.write(obj.hidden);
     writer.write(obj.quoteText);
     writer.write(obj.author);
+    writer.write(obj.imageBytes);
   }
 }

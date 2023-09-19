@@ -25,6 +25,8 @@ class _RandomQuotePageState extends State<RandomQuotePage> {
 
   @override
   Widget build(BuildContext context) {
+    final image = Provider.of<RideSafeProvider>(context, listen: false)
+        .randomImage(context);
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.teal,
@@ -32,7 +34,7 @@ class _RandomQuotePageState extends State<RandomQuotePage> {
         ),
         body: Container(
           child: Center(
-            child: SelectedQuote(_randomQuote!),
+            child: SelectedQuote(_randomQuote!, image),
           ),
         ),
         drawer: MyDrawer());

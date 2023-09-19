@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:ride_safe/services/hive_service.dart';
@@ -69,10 +70,10 @@ class RideSafeProvider with ChangeNotifier {
     });
   }
 
-  Future<Image> randomImage(BuildContext context) {
+  Future<Uint8List> randomImage(BuildContext context) {
     var isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
     return apiService.fetchRandomImage(isLandscape ? 'landscape' : 'portrait').then((value) {
-      return Image.memory(value);
+      return value;
     });
   }
 

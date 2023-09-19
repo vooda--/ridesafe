@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+import 'dart:ui';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ride_safe/services/models/article.dart';
 import 'package:ride_safe/services/models/article_category.dart';
@@ -7,6 +10,7 @@ import 'models/quote.dart';
 class HiveService {
   static const String quotesKey = 'quotes';
   static const String favoriteQuotesKey = 'favoriteQuotes';
+  static const String favoriteImageKey = 'favoriteImage';
   static const String articlesKey = 'articles';
   static const String articleCategoriesKey = 'articleCategories';
   static const String fetchedAt = 'fetchedAt';
@@ -31,8 +35,9 @@ class HiveService {
     return (quotes.cast<Quote>());
   }
 
-  Future<void> addFavoriteQuote(Quote quote) async {
+  Future<void> addFavoriteQuote(Quote quote, Future<Uint8List> imageFuture) async {
     List value = getFavoriteQuotes();
+    quote.imageBytes = await imageFuture;
     value.add(quote);
     await Hive.box(favoriteQuotesKey).put('quotes', value);
   }

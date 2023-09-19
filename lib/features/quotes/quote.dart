@@ -1,8 +1,11 @@
 import 'dart:developer';
+import 'dart:typed_data';
+import 'dart:ui' as dart_ui;
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
+
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/features/bottom_menu/bottom_menu.dart';
@@ -17,6 +20,8 @@ class QuotePage extends StatefulWidget {
 }
 
 class _QuotePageState extends State<QuotePage> {
+  Future<Uint8List>? _randomImage;
+
   @override
   void initState() {
     super.initState();
@@ -26,6 +31,10 @@ class _QuotePageState extends State<QuotePage> {
   Widget build(BuildContext context) {
     final Quote quote = ModalRoute.of(context)!.settings.arguments as Quote;
     final ScrollController controller = ScrollController();
+    if (quote.imageBytes == null) {
+      _randomImage = Provider.of<RideSafeProvider>(context, listen: false)
+          .randomImage(context);
+    }
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.teal,
@@ -33,16 +42,18 @@ class _QuotePageState extends State<QuotePage> {
         ),
         body: Container(
           child: Center(
-            child: SelectedQuote(quote),
+            child: SelectedQuote(quote, _randomImage),
           ),
         ),
         bottomNavigationBar: BottomNavigationMenu(
           controller: controller,
           onAddToFavoriteClick: () {
             log('Callback add favorite ${quote.quoteText}');
-            Provider.of<RideSafeProvider>(context, listen: false)
-                .hiveService
-                .addFavoriteQuote(quote);
+            if (_randomImage != null) {
+              Provider.of<RideSafeProvider>(context, listen: false)
+                  .hiveService
+                  .addFavoriteQuote(quote, _randomImage!);
+            }
           },
         ),
         drawer: MyDrawer());
@@ -51,16 +62,15 @@ class _QuotePageState extends State<QuotePage> {
 
 class SelectedQuote extends StatefulWidget {
   final Quote quote;
+  late Future<Uint8List>? randomImage;
 
-  SelectedQuote(this.quote, {Key? key}) : super(key: key);
+  SelectedQuote(this.quote, this.randomImage, {Key? key}) : super(key: key);
 
   @override
   State<SelectedQuote> createState() => _SelectedQuoteState();
 }
 
 class _SelectedQuoteState extends State<SelectedQuote> {
-  late Future<Image> _randomImage;
-
   @override
   void initState() {
     super.initState();
@@ -68,10 +78,24 @@ class _SelectedQuoteState extends State<SelectedQuote> {
 
   @override
   Widget build(BuildContext context) {
-    _randomImage = Provider.of<RideSafeProvider>(context, listen: false)
-        .randomImage(context);
-    return FutureBuilder<Image>(
-      future: _randomImage,
+    if (widget.quote.imageBytes != null) {
+      return QuoteStack(widget.quote, widget.quote.imageBytes!);
+    } else {
+      return FutureImage(widget.randomImage!, widget.quote);
+    }
+  }
+}
+
+class FutureImage extends StatelessWidget {
+  final Future<Uint8List> randomImage;
+  final Quote quote;
+
+  FutureImage(this.randomImage, this.quote);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Uint8List>(
+      future: randomImage,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While the future is still running, you can show a loading indicator.
@@ -81,44 +105,56 @@ class _SelectedQuoteState extends State<SelectedQuote> {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
           // If the future completed successfully, display the loaded image.
-          return Stack(
-            children: [
-              Container(
-                alignment: Alignment.center,
-                child: Image(
-                  image: snapshot.data!.image,
-                  fit: BoxFit.contain,
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                ),
-              ),
-              BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
-                child: Container(
-                  color: Colors.black.withOpacity(0.2),
-                ),
-              ),
-              Container(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: AutoSizeText(
-                    textAlign: TextAlign.center,
-                    widget.quote.quoteText,
-                    maxLines: 5,
-                    minFontSize: 18,
-                    maxFontSize: 48,
-                    style: const TextStyle(fontSize: 26),
-                  ),
-                ),
-              ),
-            ],
-          );
+          return QuoteStack(quote, snapshot.data!);
         } else {
           // Handle other cases as needed.
           return Text('No data available.');
         }
       },
+    );
+  }
+}
+
+class QuoteStack extends StatelessWidget {
+  final Quote quote;
+  final Uint8List image;
+
+  QuoteStack(this.quote, this.image);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          alignment: Alignment.center,
+          child: Image(
+            image: Image.memory(image).image,
+            fit: BoxFit.contain,
+            width: double.infinity,
+            alignment: Alignment.center,
+          ),
+        ),
+        BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
+          child: Container(
+            color: Colors.black.withOpacity(0.2),
+          ),
+        ),
+        Container(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: AutoSizeText(
+              textAlign: TextAlign.center,
+              quote.quoteText,
+              maxLines: 5,
+              minFontSize: 18,
+              maxFontSize: 48,
+              style: const TextStyle(fontSize: 26),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
