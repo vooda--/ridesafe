@@ -10,6 +10,7 @@ import 'package:ride_safe/services/models/article.dart';
 import 'package:ride_safe/services/models/article_category.dart';
 import 'package:ride_safe/services/models/quote.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
+import 'package:ride_safe/services/providers/screenshot_provider.dart';
 
 import 'features/about/about.dart';
 import 'features/main_page.dart';
@@ -30,6 +31,7 @@ void main() async {
   runApp(MultiProvider(
   providers: [
         ChangeNotifierProvider(create: (context) => AppStateModel()),
+        ChangeNotifierProvider(create: (context) => ScreenshotProvider()),
         ChangeNotifierProvider(create: (context) => rideSafeProvider),
       ],
       child: MyApp())

@@ -9,11 +9,16 @@ class BottomNavigationMenu extends StatelessWidget {
   late final ScrollController controller;
 
   void Function()? onAddToFavoriteClick;
+  void Function()? onShareClick;
 
   BottomNavigationMenu(
-      {Key? key, required this.controller, this.onAddToFavoriteClick})
+      {Key? key,
+      required this.controller,
+      this.onAddToFavoriteClick,
+      this.onShareClick})
       : super(key: key) {
     onAddToFavoriteClick ??= () {};
+    onShareClick ??= () {};
   }
 
   @override
@@ -33,7 +38,11 @@ class BottomNavigationMenu extends StatelessWidget {
                   onAddToFavoriteClick!();
                 },
                 icon: Icon(Icons.favorite)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.person)),
+            IconButton(
+                onPressed: () {
+                  onShareClick!();
+                },
+                icon: Icon(Icons.share)),
           ],
         ));
   }

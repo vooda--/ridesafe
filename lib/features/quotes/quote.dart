@@ -4,9 +4,14 @@ import 'dart:ui' as dart_ui;
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:ride_safe/services/providers/screenshot_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'dart:io';
 
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/features/bottom_menu/bottom_menu.dart';
 
@@ -47,6 +52,11 @@ class _QuotePageState extends State<QuotePage> {
         ),
         bottomNavigationBar: BottomNavigationMenu(
           controller: controller,
+          onShareClick: () {
+            log('Callback share ${quote.quoteText}');
+            Provider.of<ScreenshotProvider>(context, listen: false)
+                .shareQuoteScreenshot();
+          },
           onAddToFavoriteClick: () {
             log('Callback add favorite ${quote.quoteText}');
             if (_randomImage != null) {
@@ -118,43 +128,75 @@ class FutureImage extends StatelessWidget {
 class QuoteStack extends StatelessWidget {
   final Quote quote;
   final Uint8List image;
+  static GlobalKey screenshotKey = GlobalKey();
 
   QuoteStack(this.quote, this.image);
 
+  void takeScreenshotAndShare() async {
+    RenderRepaintBoundary boundary = screenshotKey.currentContext!
+        .findRenderObject() as RenderRepaintBoundary;
+    dart_ui.Image screenshot = await boundary.toImage(pixelRatio: 2.0);
+    ByteData? byteData =
+        await screenshot.toByteData(format: ImageByteFormat.png);
+    Uint8List pngBytes = byteData!.buffer.asUint8List();
+    // Get the directory for saving the image
+    final directory = await getApplicationDocumentsDirectory();
+    final imagePath = '${directory.path}/screenshot.png';
+
+    // Write the image data to a file
+    File(imagePath).writeAsBytesSync(pngBytes);
+
+    await Share.shareFiles([imagePath],
+        text: quote.quoteText,
+        subject: quote.author,
+        mimeTypes: ['image/png'],
+        sharePositionOrigin: const Rect.fromLTWH(0, 0, 10, 10));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          child: Image(
-            image: Image.memory(image).image,
-            fit: BoxFit.contain,
-            width: double.infinity,
-            alignment: Alignment.center,
+    return Consumer<ScreenshotProvider>(
+      builder: (BuildContext context, provider, Widget? child) {
+        provider.addListener(() {
+          takeScreenshotAndShare();
+        });
+        return RepaintBoundary(
+          key: screenshotKey,
+          child: Stack(
+            children: [
+              Container(
+                alignment: Alignment.center,
+                child: Image(
+                  image: Image.memory(image).image,
+                  fit: BoxFit.contain,
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                ),
+              ),
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
+                child: Container(
+                  color: Colors.black.withOpacity(0.2),
+                ),
+              ),
+              Container(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: AutoSizeText(
+                    textAlign: TextAlign.center,
+                    quote.quoteText,
+                    maxLines: 5,
+                    minFontSize: 18,
+                    maxFontSize: 48,
+                    style: const TextStyle(fontSize: 26),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
-          child: Container(
-            color: Colors.black.withOpacity(0.2),
-          ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: AutoSizeText(
-              textAlign: TextAlign.center,
-              quote.quoteText,
-              maxLines: 5,
-              minFontSize: 18,
-              maxFontSize: 48,
-              style: const TextStyle(fontSize: 26),
-            ),
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 }

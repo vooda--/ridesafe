@@ -109,3 +109,4 @@ class RideSafeProvider with ChangeNotifier {
     });
   }
 }
+class ScreenshotEvent {}

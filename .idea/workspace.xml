@@ -10,18 +10,88 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1bbc5a4-212e-476f-8e54-8510a9eae15e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/services/providers/screenshot_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/21.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/22.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/23.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/24.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/25.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/26.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/27.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/28.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/29.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/30.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/31.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/32.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/33.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/34.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/35.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/36.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/37.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/38.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/39.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/40.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/41.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/42.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/43.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/44.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/45.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/46.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/47.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/48.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/49.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/50.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/51.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/52.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/53.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/54.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/55.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/56.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/57.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/58.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/59.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/60.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/61.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/62.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/63.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/64.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/65.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/66.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/67.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/68.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/69.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/70.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/71.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/72.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/73.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/74.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/75.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/76.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/77.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/78.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/79.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/80.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/81.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/82.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/83.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/84.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/85.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/86.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/87.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/moto/portrait/88.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/features/bottom_menu/bottom_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/bottom_menu/bottom_menu.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/drawer/my_drawer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/drawer/my_drawer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/main_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/main_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/features/quotes/quote.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/quotes/quote.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/quotes/quotes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/quotes/quotes.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/services/api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/api.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/services/hive_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/hive_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/services/models/app_state_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/models/app_state_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/services/models/menu_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/models/menu_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/services/providers/ride_safe_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/providers/ride_safe_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,16 +195,6 @@
           <url>file://$PROJECT_DIR$/lib/features/bottom_menu/bottom_mixin/bottom_mixin.dart</url>
           <line>23</line>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/services/hive_service.dart</url>
-          <line>35</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/services/hive_service.dart</url>
-          <line>30</line>
-          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

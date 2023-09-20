@@ -57,9 +57,9 @@
     },
     {
       "name": "chewie",
-      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/chewie-1.7.1",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/chewie-1.5.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "2.13"
     },
     {
       "name": "clock",
@@ -72,6 +72,12 @@
       "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/collection-1.17.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "cross_file",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/cross_file-0.3.3+5",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "crypto",
@@ -92,12 +98,6 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "dbus",
-      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/dbus-0.7.8",
-      "packageUri": "lib/",
-      "languageVersion": "2.15"
-    },
-    {
       "name": "fake_async",
       "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/fake_async-1.3.1",
       "packageUri": "lib/",
@@ -111,9 +111,9 @@
     },
     {
       "name": "file",
-      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/file-7.0.0",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/file-6.1.4",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.12"
     },
     {
       "name": "flutter",
@@ -290,6 +290,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "mime",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/mime-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "nested",
       "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/nested-1.0.0",
       "packageUri": "lib/",
@@ -298,18 +304,6 @@
     {
       "name": "octo_image",
       "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/octo_image-1.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "package_info_plus",
-      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/package_info_plus-4.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
-      "name": "package_info_plus_platform_interface",
-      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/package_info_plus_platform_interface-2.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -388,6 +382,42 @@
     {
       "name": "rxdart",
       "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/rxdart-0.27.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "share_plus",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/share_plus-5.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "share_plus_linux",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/share_plus_linux-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "share_plus_macos",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/share_plus_macos-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "share_plus_platform_interface",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/share_plus_platform_interface-3.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "share_plus_web",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/share_plus_web-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "share_plus_windows",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/share_plus_windows-4.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -543,7 +573,7 @@
     },
     {
       "name": "video_player",
-      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/video_player-2.7.1",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/video_player-2.7.2",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -572,16 +602,34 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "wakelock_plus",
-      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/wakelock_plus-1.1.1",
+      "name": "wakelock",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/wakelock-0.6.2",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "2.12"
     },
     {
-      "name": "wakelock_plus_platform_interface",
-      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/wakelock_plus_platform_interface-1.1.0",
+      "name": "wakelock_macos",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/wakelock_macos-0.4.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "wakelock_platform_interface",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/wakelock_platform_interface-0.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "wakelock_web",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/wakelock_web-0.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "wakelock_windows",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/wakelock_windows-0.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "webview_flutter",
@@ -591,7 +639,7 @@
     },
     {
       "name": "webview_flutter_android",
-      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/webview_flutter_android-3.10.0",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/webview_flutter_android-3.10.1",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -609,9 +657,9 @@
     },
     {
       "name": "win32",
-      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/win32-5.0.7",
+      "rootUri": "file:///Users/vooda/.pub-cache/hosted/pub.dev/win32-2.7.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.17"
     },
     {
       "name": "xdg_directories",
@@ -632,7 +680,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2023-09-13T07:57:22.046792Z",
+  "generated": "2023-09-20T09:15:10.015837Z",
   "generator": "pub",
   "generatorVersion": "3.0.6"
 }
