@@ -57,6 +57,9 @@ class _QuotePageState extends State<QuotePage> {
             Provider.of<ScreenshotProvider>(context, listen: false)
                 .shareQuoteScreenshot();
           },
+          onSearchClick: () {
+            log('Callback search ${quote.quoteText}');
+          },
           onAddToFavoriteClick: () {
             log('Callback add favorite ${quote.quoteText}');
             if (_randomImage != null) {

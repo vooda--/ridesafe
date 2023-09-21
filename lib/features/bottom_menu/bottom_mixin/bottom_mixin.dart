@@ -1,14 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 
-class BottomMenuLogic {
+class BottomMenuLogic extends ChangeNotifier {
   bool _isVisible = true;
-  final ScrollController controller;
-  final BuildContext context;
+  bool _searchIsVisible = false;
+  late final ScrollController controller;
+  late final BuildContext context;
 
   bool get isVisible => _isVisible;
 
-  BottomMenuLogic(this.controller, this.context) {
+  bool get searchIsVisible => _searchIsVisible;
+
+  setListener(controller, context) {
     controller.addListener(_listen);
   }
 
@@ -26,6 +31,14 @@ class BottomMenuLogic {
     } else if (direction == ScrollDirection.reverse) {
       _hide();
     }
+    notifyListeners();
+  }
+
+  void toggleSearch() {
+    log('Toggle search ${_searchIsVisible}');
+    _searchIsVisible = !_searchIsVisible;
+    _isVisible = !_isVisible;
+    notifyListeners();
   }
 
   void _show() {

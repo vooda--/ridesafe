@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 import 'dart:ui';
 
@@ -65,8 +66,15 @@ class HiveService {
     return Hive.box(fetchedAt).get(fetchedAt) ?? 0;
   }
 
-  List<Quote> getQuotesBox() {
-    var quotes = Hive.box(quotesKey).get('quotes') ?? [];
+  List<Quote> getQuotesBox(String? filter) {
+    List<dynamic> quotes = Hive.box(quotesKey).get('quotes') ?? List.empty(growable: true);
+    if (filter != null && filter.isNotEmpty) {
+      quotes = quotes
+          .where((quote) =>
+              quote.quoteText.toLowerCase().contains(filter.toLowerCase()))
+          .toList();
+    }
+    log('Quotes: ${quotes.length}');
     return (quotes.cast<Quote>());
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ride_safe/features/bottom_menu/bottom_mixin/bottom_mixin.dart';
 import 'package:ride_safe/features/quotes/quotes.dart';
 import 'package:ride_safe/features/school/articles.dart';
 import 'package:ride_safe/services/api.dart';
@@ -32,6 +33,7 @@ void main() async {
   providers: [
         ChangeNotifierProvider(create: (context) => AppStateModel()),
         ChangeNotifierProvider(create: (context) => ScreenshotProvider()),
+        ChangeNotifierProvider(create: (context) => BottomMenuLogic()),
         ChangeNotifierProvider(create: (context) => rideSafeProvider),
       ],
       child: MyApp())

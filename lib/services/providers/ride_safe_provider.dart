@@ -12,6 +12,7 @@ import '../models/quote.dart';
 class RideSafeProvider with ChangeNotifier {
   final API apiService;
   final HiveService hiveService;
+  String filter = '';
 
   RideSafeProvider(this.hiveService, this.apiService);
 
@@ -19,7 +20,7 @@ class RideSafeProvider with ChangeNotifier {
     return quotes?[index];
   }
 
-  List<Quote> get quotes => hiveService.getQuotesBox();
+  List<Quote> get quotes => hiveService.getQuotesBox(filter);
 
   List<Article> get articles => hiveService.getArticlesBox();
 
@@ -29,6 +30,11 @@ class RideSafeProvider with ChangeNotifier {
       hiveService.getArticleCategoriesBox();
 
   int get lastFetchTime => hiveService.getFetchTime();
+
+  void filterQuotes(String? filter) {
+    this.filter = filter ?? '';
+    notifyListeners();
+  }
 
   Future<void> fetchAll() async {
     if (quotes.isNotEmpty) {
