@@ -1,8 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/features/bottom_menu/bottom_mixin/bottom_mixin.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
@@ -14,17 +12,20 @@ class BottomNavigationMenu extends StatelessWidget {
   void Function()? onAddToFavoriteClick;
   void Function()? onShareClick;
   void Function()? onSearchClick;
+  void Function(String filter)? searchCallback;
 
   BottomNavigationMenu(
       {Key? key,
       required this.controller,
       this.onAddToFavoriteClick,
       this.onSearchClick,
+      this.searchCallback,
       this.onShareClick})
       : super(key: key) {
     onAddToFavoriteClick ??= () {};
     onShareClick ??= () {};
     onSearchClick ??= () {};
+    searchCallback ??= (String filter) {};
   }
 
   @override
@@ -45,14 +46,12 @@ class BottomNavigationMenu extends StatelessWidget {
                     child: TextField(
                         onChanged: (value) {
                           log('Search $value');
-                          Provider.of<RideSafeProvider>(context, listen: false)
-                              .filterQuotes(value);
+                          searchCallback!(value);
                         },
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
                                 onPressed: () {
-                                  Provider.of<RideSafeProvider>(context, listen: false)
-                                      .filterQuotes(null);
+                                  searchCallback!('');
                                   menuLogic.toggleSearch();
                                 },
                                 icon: const Icon(Icons.close)),

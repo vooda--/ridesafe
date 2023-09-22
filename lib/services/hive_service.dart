@@ -36,7 +36,8 @@ class HiveService {
     return (quotes.cast<Quote>());
   }
 
-  Future<void> addFavoriteQuote(Quote quote, Future<Uint8List> imageFuture) async {
+  Future<void> addFavoriteQuote(
+      Quote quote, Future<Uint8List> imageFuture) async {
     List value = getFavoriteQuotes();
     quote.imageBytes = await imageFuture;
     value.add(quote);
@@ -67,7 +68,8 @@ class HiveService {
   }
 
   List<Quote> getQuotesBox(String? filter) {
-    List<dynamic> quotes = Hive.box(quotesKey).get('quotes') ?? List.empty(growable: true);
+    List<dynamic> quotes =
+        Hive.box(quotesKey).get('quotes') ?? List.empty(growable: true);
     if (filter != null && filter.isNotEmpty) {
       quotes = quotes
           .where((quote) =>
@@ -78,8 +80,21 @@ class HiveService {
     return (quotes.cast<Quote>());
   }
 
-  List<Article> getArticlesBox() {
-    return Hive.box(articlesKey).get('articles') ?? [];
+  List<Article> getArticlesBox(String? filter) {
+    List<dynamic> articles =
+        Hive.box(articlesKey).get('articles') ?? List.empty(growable: true);
+
+    if (filter != null && filter.isNotEmpty) {
+      articles = articles
+          .where((article) =>
+              article.title.toLowerCase().contains(filter.toLowerCase()) ||
+              article.description
+                  .toLowerCase()
+                  .contains(filter.toLowerCase()) ||
+              article.content.toLowerCase().contains(filter.toLowerCase()))
+          .toList();
+    }
+    return (articles.cast<Article>());
   }
 
   List<ArticleCategory> getArticleCategoriesBox() {

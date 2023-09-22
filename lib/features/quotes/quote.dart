@@ -60,6 +60,11 @@ class _QuotePageState extends State<QuotePage> {
           onSearchClick: () {
             log('Callback search ${quote.quoteText}');
           },
+          searchCallback: (String filter) {
+            log('Callback search $filter');
+            Provider.of<RideSafeProvider>(context, listen: false)
+                .filterQuotes(filter);
+          },
           onAddToFavoriteClick: () {
             log('Callback add favorite ${quote.quoteText}');
             if (_randomImage != null) {

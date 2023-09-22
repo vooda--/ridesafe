@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 
+import '../bottom_menu/bottom_menu.dart';
 import '../drawer/my_drawer.dart';
 
 class SchoolPage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _SchoolPageState extends State<SchoolPage> {
 
   @override
   Widget build(BuildContext context) {
+    var controller = ScrollController();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.teal,
@@ -30,7 +32,16 @@ class _SchoolPageState extends State<SchoolPage> {
             child: ArticleList(),
           ),
         ),
-        drawer: MyDrawer());
+        drawer: MyDrawer(),
+        bottomNavigationBar: BottomNavigationMenu(controller: controller,
+        onSearchClick: () => {
+
+        },
+        searchCallback: (String filter) => {
+          Provider.of<RideSafeProvider>(context, listen: false).filterArticles(filter)
+        },),
+
+    );
   }
 }
 

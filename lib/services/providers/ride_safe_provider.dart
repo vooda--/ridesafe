@@ -13,6 +13,7 @@ class RideSafeProvider with ChangeNotifier {
   final API apiService;
   final HiveService hiveService;
   String filter = '';
+  String articleFilter = '';
 
   RideSafeProvider(this.hiveService, this.apiService);
 
@@ -22,7 +23,7 @@ class RideSafeProvider with ChangeNotifier {
 
   List<Quote> get quotes => hiveService.getQuotesBox(filter);
 
-  List<Article> get articles => hiveService.getArticlesBox();
+  List<Article> get articles => hiveService.getArticlesBox(articleFilter);
 
   List<Quote> get favoriteQuotes => hiveService.getFavoriteQuotes();
 
@@ -33,6 +34,10 @@ class RideSafeProvider with ChangeNotifier {
 
   void filterQuotes(String? filter) {
     this.filter = filter ?? '';
+    notifyListeners();
+  }
+  void filterArticles(String? filter) {
+    this.articleFilter = filter ?? '';
     notifyListeners();
   }
 
