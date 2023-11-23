@@ -7,11 +7,14 @@ import 'package:ride_safe/features/quotes/random_quote.dart';
 import 'package:ride_safe/services/models/menu_model.dart';
 
 import '../../services/models/app_state_model.dart';
+import '../quizzes/quizes.dart';
 import '../school/articles.dart';
 import 'menu_item.dart';
 import 'my_header_drawer.dart';
 
 class MyDrawer extends StatefulWidget {
+  const MyDrawer({super.key});
+
   @override
   State<MyDrawer> createState() => _MyDrawerState();
 }
@@ -32,7 +35,7 @@ class _MyDrawerState extends State<MyDrawer> {
     return Drawer(
       child: SingleChildScrollView(
         child: Column(
-          children: [MyHeaderDrawer(), MyDrawerList()],
+          children: [const MyHeaderDrawer(), MyDrawerList()],
         ),
       ),
     );
@@ -40,7 +43,7 @@ class _MyDrawerState extends State<MyDrawer> {
 
   Widget MyDrawerList() {
     return Container(
-      padding: EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(top: 15),
       child: Column(
         children: [
           menuItem(
@@ -49,7 +52,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Icons.dashboard_outlined,
               currentSelectedMenuItem.id == MenuItemType.dashboard,
               selectMenuItem),
-          Divider(),
+          const Divider(),
           menuItem(
               MenuItemType.school,
               'School',
@@ -62,7 +65,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Icons.quiz_outlined,
               currentSelectedMenuItem.id == MenuItemType.quizzes,
               selectMenuItem),
-          Divider(),
+          const Divider(),
           menuItem(
               MenuItemType.quotes,
               'Quotes',
@@ -75,7 +78,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Icons.favorite_rounded,
               currentSelectedMenuItem.id == MenuItemType.favoriteQuotes,
               selectMenuItem),
-          Divider(),
+          const Divider(),
           menuItem(MenuItemType.about, 'About', Icons.question_mark_outlined,
               currentSelectedMenuItem.id == MenuItemType.about, selectMenuItem),
         ],
@@ -85,16 +88,16 @@ class _MyDrawerState extends State<MyDrawer> {
 
   selectMenuItem(MenuItemType id) {
     // Navigator.pop(context);
-    print('Selected item: ' + id.toString());
-    print('Curr sel: ' + currentSelectedMenuItem.id.toString());
-    StatefulWidget nextPage = MainPage();
+    print('Selected item: $id');
+    print('Curr sel: ${currentSelectedMenuItem.id}');
+    StatefulWidget nextPage = const MainPage();
 
     switch (id) {
       case MenuItemType.dashboard:
-        nextPage = RandomQuotePage();
+        nextPage = const RandomQuotePage();
         break;
       case MenuItemType.school:
-        nextPage = SchoolPage();
+        nextPage = const SchoolPage();
         break;
       case MenuItemType.quotes:
         nextPage = const QuotesPage(quoteType: QuoteType.all);
@@ -103,7 +106,7 @@ class _MyDrawerState extends State<MyDrawer> {
         nextPage = const QuotesPage(quoteType: QuoteType.favorite);
         break;
       case MenuItemType.quizzes:
-        nextPage = QuizPage();
+        nextPage = const QuizesPage();
         break;
     }
     Navigator.of(context).push(_createRoute(nextPage));

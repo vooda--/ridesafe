@@ -5,14 +5,14 @@ import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 import '../bottom_menu/bottom_menu.dart';
 import '../drawer/my_drawer.dart';
 
-class SchoolPage extends StatefulWidget {
-  const SchoolPage({super.key});
+class QuizesPage extends StatefulWidget {
+  const QuizesPage({super.key});
 
   @override
-  State<SchoolPage> createState() => _SchoolPageState();
+  State<QuizesPage> createState() => _QuizesPageState();
 }
 
-class _SchoolPageState extends State<SchoolPage> {
+class _QuizesPageState extends State<QuizesPage> {
   @override
   void initState() {
     super.initState();
@@ -27,11 +27,11 @@ class _SchoolPageState extends State<SchoolPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.teal,
-          title: const Text('Ride Safe'),
+          title: const Text('Ride Safe quiz'),
         ),
         body: Container(
           child: const Center(
-            child: ArticleList(),
+            child: QuizList(),
           ),
         ),
         drawer: const MyDrawer(),
@@ -40,41 +40,41 @@ class _SchoolPageState extends State<SchoolPage> {
 
         },
         searchCallback: (String filter) => {
-          Provider.of<RideSafeProvider>(context, listen: false).filterArticles(filter)
+          Provider.of<RideSafeProvider>(context, listen: false).filterQuizes(filter)
         },),
 
     );
   }
 }
 
-class ArticleList extends StatefulWidget {
-  const ArticleList({super.key});
+class QuizList extends StatefulWidget {
+  const QuizList({super.key});
 
   @override
-  State<ArticleList> createState() => _ArticleListState();
+  State<QuizList> createState() => _QuizListState();
 }
 
-class _ArticleListState extends State<ArticleList> {
+class _QuizListState extends State<QuizList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<RideSafeProvider>(
       builder: (context, rideSafeProvider, child) {
-        final categories = rideSafeProvider.articleCategories;
+        final categories = rideSafeProvider.quizCategories;
         return ListView.builder(
-          itemCount: rideSafeProvider.articleCategories.length,
+          itemCount: rideSafeProvider.quizCategories.length,
           itemBuilder: (context, index) {
             final category = categories[index];
-            final articles = rideSafeProvider.articles
-                .where((element) => element.articleCategory.id == category.id)
+            final quizes = rideSafeProvider.quizzes
+                .where((element) => element.quizCategory.id == category.id)
                 .toList();
             return ExpansionTile(
               title: Text(category.title),
               subtitle: Text(category.description ?? ''),
-              children: articles
-                  .map((article) => ListTile(
+              children: quizes
+                  .map((quiz) => ListTile(
                         onTap: () {
-                          Navigator.pushNamed(context, '/school/article',
-                              arguments: article);
+                          Navigator.pushNamed(context, '/quizes/quiz',
+                              arguments: quiz);
                         },
                         contentPadding: const EdgeInsets.all(5),
                         leading: Image(
@@ -83,11 +83,11 @@ class _ArticleListState extends State<ArticleList> {
                           width: 40,
                         ),
                         title: Text(
-                          article.title,
+                          quiz.title,
                           style: const TextStyle(fontSize: 18),
                         ),
                         subtitle: Text(
-                          article.description ?? '',
+                          quiz.description ?? '',
                           style: const TextStyle(fontSize: 14),
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios),

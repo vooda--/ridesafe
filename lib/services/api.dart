@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:http/http.dart' as http;
+import 'package:ride_safe/services/models/quiz_category.dart';
 
 import 'models/article.dart';
 import 'models/article_category.dart';
+import 'models/quiz.dart';
 import 'models/quote.dart';
 
 class API {
@@ -17,12 +18,20 @@ class API {
     return '$_apiUrl/school/quotes/$locale?lastRequest=$lastTimeFetched';
   }
 
+  _quizes(String locale, int lastTimeFetched) {
+    return '$_apiUrl/quiz/quizes/$locale?lastRequest=$lastTimeFetched';
+  }
+
   _random(String orientation) {
     return '$_apiUrl/quotes/randomImage?keywords=girls&orientation=$orientation';
   }
 
   _articles(String locale, int lastTimeFetched) {
     return '$_apiUrl/school/articles/$locale?lastRequest=$lastTimeFetched';
+  }
+
+  _quizCategories(String locale) {
+    return '$_apiUrl/quizCategory/categories/$locale';
   }
 
   _articleCategories(String locale) {
@@ -47,7 +56,7 @@ class API {
   }
 
   Future<List<Quote>> fetchUsers() async {
-    final String baseUrl = 'https://jsonplaceholder.typicode.com';
+    const String baseUrl = 'https://jsonplaceholder.typicode.com';
 
     final response = await http.get(Uri.parse('$baseUrl/users'));
 
@@ -56,6 +65,22 @@ class API {
       return jsonResponse.map((user) => Quote.fromJson(user)).toList();
     } else {
       throw Exception('Failed to load users: $response.statusCode');
+    }
+  }
+
+  Future fetchQuizCategories(String locale) async {
+    final response = await http.get(Uri.parse(_quizCategories(locale)), headers: {
+      HttpHeaders.authorizationHeader: _basicAuth(),
+    });
+
+    log('Response: $response');
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse
+          .map((articleCategory) => QuizCategory.fromJson(articleCategory))
+          .toList();
+    } else {
+      throw Exception('Failed to load quiz categories from API $response');
     }
   }
 
@@ -72,6 +97,21 @@ class API {
           .toList();
     } else {
       throw Exception('Failed to load article categories from API $response');
+    }
+  }
+
+  Future fetchQuizes(String locale, int lastTImeFetched) async {
+    final response =
+        await http.get(Uri.parse(_quizes(locale, lastTImeFetched)), headers: {
+      HttpHeaders.authorizationHeader: _basicAuth(),
+    });
+    log('Response: $response');
+
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse.map((quiz) => Quiz.fromJson(quiz)).toList();
+    } else {
+      throw Exception('Failed to load quizes from API $response');
     }
   }
 

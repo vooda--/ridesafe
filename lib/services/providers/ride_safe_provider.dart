@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:ride_safe/services/hive_service.dart';
 import 'package:ride_safe/services/models/article.dart';
 import 'package:ride_safe/services/models/article_category.dart';
+import 'package:ride_safe/services/models/quiz.dart';
+import 'package:ride_safe/services/models/quiz_category.dart';
 
 import '../api.dart';
 import '../models/quote.dart';
@@ -18,8 +20,10 @@ class RideSafeProvider with ChangeNotifier {
   RideSafeProvider(this.hiveService, this.apiService);
 
   selectedQuote(int index) {
-    return quotes?[index];
+    return quotes[index];
   }
+
+  List<Quiz> get quizzes => hiveService.getQuizzesBox(filter);
 
   List<Quote> get quotes => hiveService.getQuotesBox(filter);
 
@@ -27,6 +31,7 @@ class RideSafeProvider with ChangeNotifier {
 
   List<Quote> get favoriteQuotes => hiveService.getFavoriteQuotes();
 
+  List<QuizCategory> get quizCategories => hiveService.getQuizCategoriesBox();
   List<ArticleCategory> get articleCategories =>
       hiveService.getArticleCategoriesBox();
 
@@ -36,8 +41,12 @@ class RideSafeProvider with ChangeNotifier {
     this.filter = filter ?? '';
     notifyListeners();
   }
+  void filterQuizes(String? filter) {
+    this.filter = filter ?? '';
+    notifyListeners();
+  }
   void filterArticles(String? filter) {
-    this.articleFilter = filter ?? '';
+    articleFilter = filter ?? '';
     notifyListeners();
   }
 
@@ -47,6 +56,8 @@ class RideSafeProvider with ChangeNotifier {
     }
 
     await fetchQuotes();
+    await fetchQuizes();
+    await fetchQuizCategories();
     await fetchArticles();
     await fetchArticleCategories();
     hiveService.saveFetchTime();
@@ -54,18 +65,38 @@ class RideSafeProvider with ChangeNotifier {
 
   Future<void> openBoxes() async {
     await hiveService.openBox(HiveService.quotesKey);
+    await hiveService.openBox(HiveService.quizCategoriesKey);
+    await hiveService.openBox(HiveService.quizesKeys);
     await hiveService.openBox(HiveService.articlesKey);
     await hiveService.openBox(HiveService.articleCategoriesKey);
     await hiveService.openBox(HiveService.fetchedAt);
     await hiveService.openBox(HiveService.favoriteQuotesKey);
   }
 
+  Future<void> fetchQuizes() async {
+    return apiService.fetchQuizes('en', lastFetchTime).then((quizzes) {
+      hiveService.setQuizzes(quizzes);
+      log('Fetched quizzes: ${quizzes.length}');
+      notifyListeners();
+    });
+  }
   Future<void> fetchQuotes() async {
     return apiService.fetchQuotes('ru', lastFetchTime).then((quotes) {
       if (quotes.length > 0) {
         hiveService.setQuotes([...this.quotes, ...quotes]);
       }
       log('Fetched quotes: ${quotes.length}');
+      notifyListeners();
+    });
+  }
+
+  Future<void> fetchQuizCategories() async {
+    return apiService.fetchQuizCategories('en').then((value) {
+      if (value.length > 0) {
+        hiveService.setQuizCategories(value);
+      }
+
+      log('Fetched quiz categories: ${quizCategories.length}');
       notifyListeners();
     });
   }
@@ -89,7 +120,7 @@ class RideSafeProvider with ChangeNotifier {
   }
 
   Quote randomQuote() {
-    if (quotes == null || quotes!.isEmpty) {
+    if (quotes.isEmpty) {
       return Quote(
           draft: false,
           hidden: false,

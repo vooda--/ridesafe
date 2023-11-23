@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ride_safe/services/models/article.dart';
 
@@ -6,6 +5,8 @@ import '../drawer/my_drawer.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class ArticlePage extends StatefulWidget {
+  const ArticlePage({super.key});
+
   @override
   State<ArticlePage> createState() => _ArticlePageState();
 }
@@ -33,7 +34,7 @@ class _ArticlePageState extends State<ArticlePage> {
             child: SelectedArticle(article),
           ),
         ),
-        drawer: MyDrawer());
+        drawer: const MyDrawer());
   }
 }
 
@@ -63,7 +64,7 @@ class _SelectedArticleState extends State<SelectedArticle> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 'Category: ${widget.article.articleCategory.title}',
                 // Replace with actual category

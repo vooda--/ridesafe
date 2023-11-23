@@ -37,7 +37,7 @@ class _QuotesPageState extends State<QuotesPage> {
       body: Center(
         child: QuoteList(quoteType: widget.quoteType),
       ),
-      drawer: MyDrawer(),
+      drawer: const MyDrawer(),
       bottomNavigationBar: BottomNavigationMenu(controller: controller,),
     );
   }
@@ -52,7 +52,6 @@ class QuoteList extends StatefulWidget {
 }
 
 class _QuoteListState extends State<QuoteList> {
-  QuoteList get widget => super.widget;
 
   @override
   Widget build(BuildContext context) {

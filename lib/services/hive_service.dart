@@ -1,14 +1,17 @@
 import 'dart:developer';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ride_safe/services/models/article.dart';
 import 'package:ride_safe/services/models/article_category.dart';
+import 'package:ride_safe/services/models/quiz.dart';
+import 'package:ride_safe/services/models/quiz_category.dart';
 
 import 'models/quote.dart';
 
 class HiveService {
+  static const String quizCategoriesKey = 'quizCategories';
+  static const String quizesKeys = 'quizzes';
   static const String quotesKey = 'quotes';
   static const String favoriteQuotesKey = 'favoriteQuotes';
   static const String favoriteImageKey = 'favoriteImage';
@@ -44,6 +47,10 @@ class HiveService {
     await Hive.box(favoriteQuotesKey).put('quotes', value);
   }
 
+  Future<void> setQuizzes(List<Quiz> quizes) async {
+    await Hive.box(quizesKeys).put('quizzes', quizes);
+  }
+
   Future<void> setQuotes(List<Quote> quotes) async {
     await Hive.box(quotesKey).put('quotes', quotes);
   }
@@ -51,6 +58,12 @@ class HiveService {
   Future<void> saveFetchTime([bool? reset]) async {
     var time = (reset == true) ? 0 : DateTime.now().millisecondsSinceEpoch;
     await Hive.box(fetchedAt).put(fetchedAt, time);
+  }
+
+  Future<void> setQuizCategories(
+      List<QuizCategory> quizCategories) async {
+    await Hive.box(quizCategoriesKey)
+        .put('quizCategories', quizCategories);
   }
 
   Future<void> setArticleCategories(
@@ -99,5 +112,24 @@ class HiveService {
 
   List<ArticleCategory> getArticleCategoriesBox() {
     return Hive.box(articleCategoriesKey).get('articleCategories') ?? [];
+  }
+
+  List<Quiz> getQuizzesBox(String? filter) {
+    List<dynamic> quizzes =
+        Hive.box(quizesKeys).get('quizzes') ?? List.empty(growable: true);
+    if (filter != null && filter.isNotEmpty) {
+      quizzes = quizzes
+          .where((quiz) =>
+              quiz.title.toLowerCase().contains(filter.toLowerCase()) ||
+              quiz.description
+                  .toLowerCase()
+                  .contains(filter.toLowerCase()))
+          .toList();
+    }
+    return (quizzes.cast<Quiz>());
+  }
+
+  List<QuizCategory> getQuizCategoriesBox() {
+    return Hive.box(quizCategoriesKey).get('quizCategories') ?? [];
   }
 }

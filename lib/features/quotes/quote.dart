@@ -20,6 +20,8 @@ import '../../services/providers/ride_safe_provider.dart';
 import '../drawer/my_drawer.dart';
 
 class QuotePage extends StatefulWidget {
+  const QuotePage({super.key});
+
   @override
   State<QuotePage> createState() => _QuotePageState();
 }
@@ -43,7 +45,7 @@ class _QuotePageState extends State<QuotePage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.teal,
-          title: Text('Quotes'),
+          title: const Text('Quotes'),
         ),
         body: Container(
           child: Center(
@@ -74,7 +76,7 @@ class _QuotePageState extends State<QuotePage> {
             }
           },
         ),
-        drawer: MyDrawer());
+        drawer: const MyDrawer());
   }
 }
 
@@ -108,7 +110,7 @@ class FutureImage extends StatelessWidget {
   final Future<Uint8List> randomImage;
   final Quote quote;
 
-  FutureImage(this.randomImage, this.quote);
+  const FutureImage(this.randomImage, this.quote, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +119,7 @@ class FutureImage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While the future is still running, you can show a loading indicator.
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           // If there was an error, you can display an error message.
           return Text('Error: ${snapshot.error}');
@@ -126,7 +128,7 @@ class FutureImage extends StatelessWidget {
           return QuoteStack(quote, snapshot.data!);
         } else {
           // Handle other cases as needed.
-          return Text('No data available.');
+          return const Text('No data available.');
         }
       },
     );
@@ -138,7 +140,7 @@ class QuoteStack extends StatelessWidget {
   final Uint8List image;
   static GlobalKey screenshotKey = GlobalKey();
 
-  QuoteStack(this.quote, this.image);
+  const QuoteStack(this.quote, this.image, {super.key});
 
   void takeScreenshotAndShare() async {
     RenderRepaintBoundary boundary = screenshotKey.currentContext!

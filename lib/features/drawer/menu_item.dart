@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ride_safe/services/models/menu_model.dart';
 
-import 'my_drawer.dart';
 
 Widget menuItem(MenuItemType id, String title, IconData icon, bool isSelected,
     Function selectItem) {
@@ -11,7 +10,7 @@ Widget menuItem(MenuItemType id, String title, IconData icon, bool isSelected,
     child: InkWell(
       onTap: () {selectItem(id);},
       child: Padding(
-        padding: EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(15.0),
         child: Row(
           children: [
             Expanded(
@@ -25,7 +24,7 @@ Widget menuItem(MenuItemType id, String title, IconData icon, bool isSelected,
                 flex: 3,
                 child: Text(
                   title,
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
                 ))
           ],
         ),

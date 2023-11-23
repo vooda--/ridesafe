@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/features/quotes/quote.dart';
@@ -8,6 +7,8 @@ import '../../services/providers/ride_safe_provider.dart';
 import '../drawer/my_drawer.dart';
 
 class RandomQuotePage extends StatefulWidget {
+  const RandomQuotePage({super.key});
+
 
   @override
   State<RandomQuotePage> createState() => _RandomQuotePageState();
@@ -30,13 +31,13 @@ class _RandomQuotePageState extends State<RandomQuotePage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.teal,
-          title: Text('Quotes'),
+          title: const Text('Quotes'),
         ),
         body: Container(
           child: Center(
             child: SelectedQuote(_randomQuote!, image),
           ),
         ),
-        drawer: MyDrawer());
+        drawer: const MyDrawer());
   }
 }

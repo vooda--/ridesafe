@@ -25,7 +25,7 @@ class BottomMenuLogic extends ChangeNotifier {
 
   void _listen() {
     final ScrollDirection direction =
-        Scrollable.of(context)!.position.userScrollDirection;
+        Scrollable.of(context).position.userScrollDirection;
     if (direction == ScrollDirection.forward) {
       _show();
     } else if (direction == ScrollDirection.reverse) {
@@ -35,7 +35,7 @@ class BottomMenuLogic extends ChangeNotifier {
   }
 
   void toggleSearch() {
-    log('Toggle search ${_searchIsVisible}');
+    log('Toggle search $_searchIsVisible');
     _searchIsVisible = !_searchIsVisible;
     _isVisible = !_isVisible;
     notifyListeners();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ride_safe/features/bottom_menu/bottom_mixin/bottom_mixin.dart';
+import 'package:ride_safe/features/quizzes/quizes.dart';
 import 'package:ride_safe/features/quotes/quotes.dart';
 import 'package:ride_safe/features/school/articles.dart';
 import 'package:ride_safe/services/api.dart';
@@ -9,6 +10,9 @@ import 'package:ride_safe/services/models/app_state_model.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/services/models/article.dart';
 import 'package:ride_safe/services/models/article_category.dart';
+import 'package:ride_safe/services/models/question.dart';
+import 'package:ride_safe/services/models/quiz.dart';
+import 'package:ride_safe/services/models/quiz_category.dart';
 import 'package:ride_safe/services/models/quote.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 import 'package:ride_safe/services/providers/screenshot_provider.dart';
@@ -22,6 +26,9 @@ import 'features/school/article.dart';
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(QuoteAdapter());
+  Hive.registerAdapter(QuizCategoryAdapter());
+  Hive.registerAdapter(QuestionAdapter());
+  Hive.registerAdapter(QuizAdapter());
   Hive.registerAdapter(ArticleAdapter());
   Hive.registerAdapter(ArticleCategoryAdapter());
   var rideSafeProvider = RideSafeProvider(HiveService(), API());
@@ -36,29 +43,32 @@ void main() async {
         ChangeNotifierProvider(create: (context) => BottomMenuLogic()),
         ChangeNotifierProvider(create: (context) => rideSafeProvider),
       ],
-      child: MyApp())
+      child: const MyApp())
   );
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => MainPage(),
-        '/quote': (context) => QuotesPage(quoteType: QuoteType.all), // '/quote
-        '/quote/selected': (context) => QuotePage(), // '/quote/selected
+        '/': (context) => const MainPage(),
+        '/quote': (context) => const QuotesPage(quoteType: QuoteType.all), // '/quote
+        '/quote/selected': (context) => const QuotePage(), // '/quote/selected
         '/favorites': (context) => const QuotesPage(quoteType: QuoteType.favorite), // '/favorites
-        '/favorites/selected': (context) => QuotePage(), // '/favorites/selected
-        '/quiz': (context) => QuizPage(),
-        '/school': (context) => SchoolPage(),
-        '/school/article': (context) => ArticlePage(),
-        '/about': (context) => AboutPage(),
+        '/favorites/selected': (context) => const QuotePage(), // '/favorites/selected
+        '/quizes': (context) => const QuizesPage(),
+        '/quizes/quiz': (context) => const QuizPage(),
+        '/school': (context) => const SchoolPage(),
+        '/school/article': (context) => const ArticlePage(),
+        '/about': (context) => const AboutPage(),
       },
       theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: Color(0xFF0A0E21),
-          primaryColor: Color(0xFF0A0E21)),
+          scaffoldBackgroundColor: const Color(0xFF0A0E21),
+          primaryColor: const Color(0xFF0A0E21)),
     );
   }
 }

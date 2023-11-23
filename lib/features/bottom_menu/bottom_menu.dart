@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/features/bottom_menu/bottom_mixin/bottom_mixin.dart';
-import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 
 class BottomNavigationMenu extends StatelessWidget {
   late final BottomMenuLogic menuLogic;
