@@ -34,6 +34,7 @@ class SelectedQuiz extends StatefulWidget {
   final Quiz quiz;
   late final QuizEngine quizEngine;
   bool _isPreview = true;
+  bool _isFinished = false;
 
   SelectedQuiz(this.quiz, {Key? key}) : super(key: key) {
     quizEngine = QuizEngine(quiz.content!);
@@ -48,7 +49,7 @@ class _SelectedQuizState extends State<SelectedQuiz> {
   void onAnswerSelected(int answer) {
     widget.quizEngine.answerQuestion(answer);
     if (widget.quizEngine.isFinished) {
-      Navigator.pushNamed(context, '/quiz_result', arguments: widget.quizEngine);
+      Navigator.pushNamed(context, '/quizes/quiz/result', arguments: widget.quizEngine);
     } else {
       setState(() {
         widget.quizEngine.nextQuestion();

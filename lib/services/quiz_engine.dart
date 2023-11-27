@@ -5,12 +5,15 @@ class QuizEngine {
   int _correctAnswers = 0;
   int _incorrectAnswers = 0;
   int _totalQuestions = 0;
+  int _timeStarted = 0;
+  int _timeFinished = 0;
   final List<Question> _questions;
 
   int get questionNumber => _currentQuestionNumber;
   int get correctAnswers => _correctAnswers;
   int get incorrectAnswers => _incorrectAnswers;
   int get totalQuestions => _totalQuestions;
+  Duration get timeSpent => Duration(milliseconds: _timeFinished - _timeStarted);
   Question get currentQuestion => _questions[_currentQuestionNumber];
   bool get isFinished => _currentQuestionNumber >= _totalQuestions - 1;
 
@@ -34,6 +37,7 @@ class QuizEngine {
 
   nextQuestion() {
     if (isFinished) {
+      _timeFinished = DateTime.now().millisecondsSinceEpoch;
       return false;
     }
     _currentQuestionNumber++;
@@ -44,5 +48,6 @@ class QuizEngine {
     _currentQuestionNumber = 0;
     _correctAnswers = 0;
     _incorrectAnswers = 0;
+    _timeStarted = DateTime.now().millisecondsSinceEpoch;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ride_safe/features/bottom_menu/bottom_mixin/bottom_mixin.dart';
+import 'package:ride_safe/features/quizzes/quiz_result.dart';
 import 'package:ride_safe/features/quizzes/quizes.dart';
 import 'package:ride_safe/features/quotes/quotes.dart';
 import 'package:ride_safe/features/school/articles.dart';
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
         '/favorites/selected': (context) => const QuotePage(), // '/favorites/selected
         '/quizes': (context) => const QuizesPage(),
         '/quizes/quiz': (context) => const QuizPage(),
+        '/quizes/quiz/result': (context) => const QuizResultPage(),
         '/school': (context) => const SchoolPage(),
         '/school/article': (context) => const ArticlePage(),
         '/about': (context) => const AboutPage(),
