@@ -6,6 +6,7 @@ import 'package:ride_safe/features/quizzes/quizes.dart';
 import 'package:ride_safe/features/quotes/quotes.dart';
 import 'package:ride_safe/features/school/articles.dart';
 import 'package:ride_safe/services/api.dart';
+import 'package:ride_safe/services/constants.dart';
 import 'package:ride_safe/services/hive_service.dart';
 import 'package:ride_safe/services/models/app_state_model.dart';
 import 'package:provider/provider.dart';
@@ -68,10 +69,12 @@ class MyApp extends StatelessWidget {
         '/school/article': (context) => const ArticlePage(),
         '/about': (context) => const AboutPage(),
       },
-      theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: const Color(0xFF0A0E21),
-          primaryColor: const Color(0xFF0A0E21)),
-    );
+      theme: ThemeData.light(useMaterial3: true).copyWith(
+          scaffoldBackgroundColor: const Color(0xFFFFFFFF),
+          primaryColor: const Color(AppColors.primaryColor),
+          // primaryColorDark: const Color(AppColors.primaryColorDark),
+          // primaryColorLight: const Color(AppColors.primaryColorLight),
+    ));
   }
 }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/features/main_page.dart';
-import 'package:ride_safe/features/quizzes/quiz.dart';
 import 'package:ride_safe/features/quotes/quotes.dart';
 import 'package:ride_safe/features/quotes/random_quote.dart';
 import 'package:ride_safe/services/models/menu_model.dart';

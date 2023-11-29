@@ -19,7 +19,7 @@ class _QuizPageState extends State<QuizPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.teal,
-          title: Text(quiz?.title ?? 'Quiz'),
+          title: Text(quiz.title ?? 'Quiz'),
         ),
         body: Container(
           child: Center(
@@ -34,7 +34,7 @@ class SelectedQuiz extends StatefulWidget {
   final Quiz quiz;
   late final QuizEngine quizEngine;
   bool _isPreview = true;
-  bool _isFinished = false;
+  final bool _isFinished = false;
 
   SelectedQuiz(this.quiz, {Key? key}) : super(key: key) {
     quizEngine = QuizEngine(quiz.content!);
@@ -62,7 +62,7 @@ class _SelectedQuizState extends State<SelectedQuiz> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: widget._isPreview ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -79,6 +79,16 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
   fonts:
+  - family: Ubuntu
+    fonts:
+      - asset: assets/fonts/Ubuntu-Regular.ttf
+      - asset: assets/fonts/Ubuntu-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/Ubuntu-Italic.ttf
+        style: italic
+      - asset: assets/fonts/Ubuntu-BoldItalic.ttf
+        weight: 700
+        style: italic
   - family: Pacifico
     fonts:
       - asset: assets/fonts/Pacifico-Regular.ttf
