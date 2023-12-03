@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ride_safe/services/constants.dart';
+import 'package:ride_safe/services/helpers.dart';
 import 'package:ride_safe/services/quiz_engine.dart';
 
 import '../../services/providers/ride_safe_provider.dart';
@@ -33,18 +35,20 @@ class _QuizResultState extends State<QuizResultPage> {
       ),
       body: Container(
         child: Center(
-          child: QuizResultWidget(quizEngine: quizEngine,),
+          child: QuizResultWidget(
+            quizEngine: quizEngine,
+          ),
         ),
       ),
       drawer: const MyDrawer(),
-      bottomNavigationBar: BottomNavigationMenu(controller: controller,
-        onSearchClick: () => {
-
-        },
+      bottomNavigationBar: BottomNavigationMenu(
+        controller: controller,
+        onSearchClick: () => {},
         searchCallback: (String filter) => {
-          Provider.of<RideSafeProvider>(context, listen: false).filterQuizes(filter)
-        },),
-
+          Provider.of<RideSafeProvider>(context, listen: false)
+              .filterQuizes(filter)
+        },
+      ),
     );
   }
 }
@@ -57,7 +61,8 @@ class QuizResultWidget extends StatefulWidget {
     Key? key,
     required this.quizEngine,
   }) : super(key: key) {
-    score = (quizEngine.correctAnswers / quizEngine.totalQuestions * 100).round();
+    score =
+        (quizEngine.correctAnswers / quizEngine.totalQuestions * 100).round();
   }
 
   @override
@@ -65,57 +70,43 @@ class QuizResultWidget extends StatefulWidget {
 }
 
 class _QuizResultWidgetState extends State<QuizResultWidget> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Container(
+          margin: const EdgeInsets.only(bottom: 30),
+          child: Text(
+            (widget.score > 80) ? 'Congrats!' : 'You can do better!',
+            style: const TextStyle(
+                fontSize: 48,
+                fontFamily: 'Ubuntu',
+                fontWeight: FontWeight.bold),
+          ),
+        ),
         Text(
-          'Your score is ${widget.score}',
+          'Your score is ${widget.quizEngine.correctAnswers}/${widget.quizEngine.totalQuestions}',
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10,
         ),
         Text(
-          'You answered ${widget.quizEngine.correctAnswers} questions correctly',
-          style: const TextStyle(fontSize: 20),
+          '+${widget.quizEngine.correctAnswers} POINTS',
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
-          height: 10,
+          height: 30,
         ),
-        Text(
-          'You answered ${widget.quizEngine.incorrectAnswers} questions incorrectly',
-          style: const TextStyle(fontSize: 20),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        // Text(
-        //   'You skipped ${widget.quizEngine.skippedQuestions} questions',
-        //   style: const TextStyle(fontSize: 20),
-        // ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          'You answered ${widget.quizEngine.totalQuestions} questions in total',
-          style: const TextStyle(fontSize: 20),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          'You answered ${widget.score}% of questions correctly',
-          style: const TextStyle(fontSize: 20),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          'You took ${widget.quizEngine.timeSpent.inMinutes>0 ? widget.quizEngine.timeSpent.inMinutes : ''} ${(widget.quizEngine.timeSpent.inSeconds % 60).floor()}s to complete the quiz',
-          style: const TextStyle(fontSize: 20),
-        ),
+        OutlinedButton(
+            style: ButtonStyle(
+                textStyle: const MaterialStatePropertyAll(TextStyle(
+                    color: AppColors.grayTextColor, fontWeight: FontWeight.bold)),
+                backgroundColor: MaterialStatePropertyAll(
+                    createMaterialColor(AppColors.primaryColor))),
+            onPressed: () => Navigator.pushNamed(context, '/quizes'),
+            child: const Text('Play other quizzes')),
       ],
     );
   }

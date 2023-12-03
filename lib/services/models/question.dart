@@ -16,7 +16,7 @@ class Question {
     Map<String, dynamic> rawAnswers = json["answers"];
     Map<String, String> parsedAnswers = {};
     rawAnswers.forEach((key, value) {
-      parsedAnswers[key] = value.toString();
+      parsedAnswers[key as String] = value.toString() as String;
     });
 
     return Question(
@@ -35,7 +35,7 @@ class QuestionAdapter extends TypeAdapter<Question> {
   Question read(BinaryReader reader) {
     return Question(
       question: reader.read(),
-      answers: reader.read(),
+      answers: Map<String, String>.from(reader.read()), // Specify the type
       correctAnswer: reader.read(),
     );
   }

@@ -17,9 +17,8 @@ class QuizEngine {
   Question get currentQuestion => _questions[_currentQuestionNumber];
   bool get isFinished => _currentQuestionNumber >= _totalQuestions - 1;
 
-  answerQuestion(int answer) {
-    String key = currentQuestion.answers.keys.elementAt(answer);
-    if (key == currentQuestion.correctAnswer) {
+  answerQuestion(String answer) {
+    if (answer == currentQuestion.correctAnswer) {
       _correctAnswers++;
       return true;
     } else {

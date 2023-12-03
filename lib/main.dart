@@ -5,8 +5,10 @@ import 'package:ride_safe/features/quizzes/quiz_result.dart';
 import 'package:ride_safe/features/quizzes/quizes.dart';
 import 'package:ride_safe/features/quotes/quotes.dart';
 import 'package:ride_safe/features/school/articles.dart';
+import 'package:ride_safe/my_colors.dart';
 import 'package:ride_safe/services/api.dart';
 import 'package:ride_safe/services/constants.dart';
+import 'package:ride_safe/services/helpers.dart';
 import 'package:ride_safe/services/hive_service.dart';
 import 'package:ride_safe/services/models/app_state_model.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +21,7 @@ import 'package:ride_safe/services/models/quote.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 import 'package:ride_safe/services/providers/screenshot_provider.dart';
 
+import 'color_schemes.g.dart';
 import 'features/about/about.dart';
 import 'features/main_page.dart';
 import 'features/quizzes/quiz.dart';
@@ -39,7 +42,7 @@ void main() async {
   await rideSafeProvider.fetchAll();
 
   runApp(MultiProvider(
-  providers: [
+      providers: [
         ChangeNotifierProvider(create: (context) => AppStateModel()),
         ChangeNotifierProvider(create: (context) => ScreenshotProvider()),
         ChangeNotifierProvider(create: (context) => BottomMenuLogic()),
@@ -58,10 +61,15 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const MainPage(),
-        '/quote': (context) => const QuotesPage(quoteType: QuoteType.all), // '/quote
-        '/quote/selected': (context) => const QuotePage(), // '/quote/selected
-        '/favorites': (context) => const QuotesPage(quoteType: QuoteType.favorite), // '/favorites
-        '/favorites/selected': (context) => const QuotePage(), // '/favorites/selected
+        '/quote': (context) => const QuotesPage(quoteType: QuoteType.all),
+        // '/quote
+        '/quote/selected': (context) => const QuotePage(),
+        // '/quote/selected
+        '/favorites': (context) =>
+        const QuotesPage(quoteType: QuoteType.favorite),
+        // '/favorites
+        '/favorites/selected': (context) => const QuotePage(),
+        // '/favorites/selected
         '/quizes': (context) => const QuizesPage(),
         '/quizes/quiz': (context) => const QuizPage(),
         '/quizes/quiz/result': (context) => const QuizResultPage(),
@@ -69,12 +77,31 @@ class MyApp extends StatelessWidget {
         '/school/article': (context) => const ArticlePage(),
         '/about': (context) => const AboutPage(),
       },
+      // darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+
       theme: ThemeData.light(useMaterial3: true).copyWith(
-          scaffoldBackgroundColor: const Color(0xFFFFFFFF),
-          primaryColor: const Color(AppColors.primaryColor),
-          // primaryColorDark: const Color(AppColors.primaryColorDark),
-          // primaryColorLight: const Color(AppColors.primaryColorLight),
-    ));
+        scaffoldBackgroundColor: MaterialColorGenerator.from(Colors.white),
+        // extensions: <ThemeExtension<dynamic>>[
+        //   const MyColors(grayBorderColor: AppColors.buttonBorderColor,
+        //       lightBlueBg: AppColors.lightBlueColor,
+        //       blackTextColor: AppColors.primaryTextColor,
+        //       grayTextColor: AppColors.grayTextColor,
+        //       whiteTextColor: AppColors.whiteColor,
+        //       blueBg: AppColors.primaryColor,
+        //       successBg: AppColors.successColor,
+        //       dangerBg: AppColors.dangerColor)
+        // ])
+        // colorScheme: ColorScheme.light(
+        //   primary: MaterialColorGenerator.from(AppColors.primaryColor),
+        //   secondary: MaterialColorGenerator.from(AppColors.secondaryColor),
+        //   error: MaterialColorGenerator.from(AppColors.dangerColor),
+        //   tertiary: MaterialColorGenerator.from(AppColors.accentColor),
+        //   brightness: Brightness.light,
+        // )
+      //   // primaryColorDark: const Color(AppColors.primaryColorDark),
+      //   // primaryColorLight: const Color(AppColors.primaryColorLight),
+      )
+    );
   }
 }
 

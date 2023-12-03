@@ -46,8 +46,7 @@ class SelectedQuiz extends StatefulWidget {
 
 class _SelectedQuizState extends State<SelectedQuiz> {
 
-  void onAnswerSelected(int answer) {
-    widget.quizEngine.answerQuestion(answer);
+  void onContinue() {
     if (widget.quizEngine.isFinished) {
       Navigator.pushNamed(context, '/quizes/quiz/result', arguments: widget.quizEngine);
     } else {
@@ -55,6 +54,9 @@ class _SelectedQuizState extends State<SelectedQuiz> {
         widget.quizEngine.nextQuestion();
       });
     }
+  }
+  bool onAnswerSelected(String answer) {
+    return widget.quizEngine.answerQuestion(answer);
   }
 
   @override
@@ -89,7 +91,11 @@ class _SelectedQuizState extends State<SelectedQuiz> {
                 fit: BoxFit.cover,
               ),
             ],
-          ) : QuestionWidget(question: widget.quizEngine.currentQuestion, index: widget.quizEngine.questionNumber, totalQuestions: widget.quizEngine.totalQuestions, onAnswerSelected: onAnswerSelected)
+          ) : QuestionWidget(question: widget.quizEngine.currentQuestion,
+              index: widget.quizEngine.questionNumber,
+              totalQuestions: widget.quizEngine.totalQuestions,
+              onContinue: onContinue,
+              onAnswerSelected: onAnswerSelected)
         ),
       ],
     );
