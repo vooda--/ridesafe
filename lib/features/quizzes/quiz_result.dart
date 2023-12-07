@@ -107,6 +107,11 @@ class _QuizResultWidgetState extends State<QuizResultWidget> {
                     createMaterialColor(AppColors.primaryColor))),
             onPressed: () => Navigator.pushNamed(context, '/quizes'),
             child: const Text('Play other quizzes')),
+        Image(
+          image: widget.score > 80 ? const AssetImage('assets/images/good_result.png') : const AssetImage('assets/images/bad_result.png'),
+          width: MediaQuery.of(context).size.width * 0.7,
+          fit: BoxFit.cover,
+        ),
       ],
     );
   }

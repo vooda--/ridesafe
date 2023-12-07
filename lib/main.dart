@@ -5,9 +5,7 @@ import 'package:ride_safe/features/quizzes/quiz_result.dart';
 import 'package:ride_safe/features/quizzes/quizes.dart';
 import 'package:ride_safe/features/quotes/quotes.dart';
 import 'package:ride_safe/features/school/articles.dart';
-import 'package:ride_safe/my_colors.dart';
 import 'package:ride_safe/services/api.dart';
-import 'package:ride_safe/services/constants.dart';
 import 'package:ride_safe/services/helpers.dart';
 import 'package:ride_safe/services/hive_service.dart';
 import 'package:ride_safe/services/models/app_state_model.dart';
@@ -21,7 +19,6 @@ import 'package:ride_safe/services/models/quote.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 import 'package:ride_safe/services/providers/screenshot_provider.dart';
 
-import 'color_schemes.g.dart';
 import 'features/about/about.dart';
 import 'features/main_page.dart';
 import 'features/quizzes/quiz.dart';

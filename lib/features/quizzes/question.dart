@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ride_safe/my_colors.dart';
 import 'package:ride_safe/services/constants.dart';
 
 import '../../services/helpers.dart';
@@ -111,7 +110,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                     ),
                     backgroundColor: MaterialStateColor.resolveWith((state)=>getColor(e.key)),
                     minimumSize:
-                        Size(double.infinity, 48),
+                        const Size(double.infinity, 48),
                     // Set minimum width to 100%
                     shape:
                       RoundedRectangleBorder(
@@ -132,14 +131,14 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(child: Text(e.value, maxLines: 3, overflow: TextOverflow.ellipsis), flex: 9,),
+                      Expanded(flex: 9,child: Text(e.value, maxLines: 3, overflow: TextOverflow.ellipsis),),
                       (e.key == widget.question.correctAnswer && _selectedAnswer.isNotEmpty) ?
                       Expanded(
                         flex: 1,
                         child: IconButton(icon: const Icon(Icons.info, color: Colors.white,), iconSize: 30, onPressed: () => {
                           print('Icon clicked')
                         }),
-                      ) : SizedBox(height: 0, width: 0,)
+                      ) : const SizedBox(height: 0, width: 0,)
                     ],
                   ),
                 ),

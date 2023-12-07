@@ -16,7 +16,7 @@ class Question {
     Map<String, dynamic> rawAnswers = json["answers"];
     Map<String, String> parsedAnswers = {};
     rawAnswers.forEach((key, value) {
-      parsedAnswers[key as String] = value.toString() as String;
+      parsedAnswers[key] = value.toString();
     });
 
     return Question(
