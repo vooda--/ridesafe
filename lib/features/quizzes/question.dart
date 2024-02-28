@@ -205,7 +205,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   foregroundColor:
                       createMaterialColor(AppColors.secondaryTextColor),
                   //MaterialStateColor.resolveWith((state)=>getColor('A')),
-                  minimumSize: const Size(130, 30),
+                  minimumSize: const Size(130, 45),
                   shape: RoundedRectangleBorder(
                     side: const BorderSide(
                       color: AppColors.primaryColor,

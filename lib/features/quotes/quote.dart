@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:ride_safe/services/constants.dart';
 import 'package:ride_safe/services/providers/screenshot_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:io';
@@ -44,8 +45,11 @@ class _QuotePageState extends State<QuotePage> {
     }
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.teal,
-          title: const Text('Quotes'),
+          backgroundColor: AppColors.whiteColor,
+          title: Text(
+            'Quotes',
+            style: AppTextStyles.headline5,
+          ),
         ),
         body: Container(
           child: Center(
@@ -178,7 +182,7 @@ class QuoteStack extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Image(
                   image: Image.memory(image).image,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                   width: double.infinity,
                   alignment: Alignment.center,
                 ),
@@ -186,7 +190,7 @@ class QuoteStack extends StatelessWidget {
               BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
                 child: Container(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.black.withOpacity(0.25),
                 ),
               ),
               Container(
@@ -194,12 +198,17 @@ class QuoteStack extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: AutoSizeText(
+                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     quote.quoteText,
                     maxLines: 5,
-                    minFontSize: 18,
+                    minFontSize: 22,
                     maxFontSize: 48,
-                    style: const TextStyle(fontSize: 26),
+                    style: const TextStyle(
+                        fontSize: 26,
+                        height: 1.4,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.secondaryTextColor),
                   ),
                 ),
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
+import 'package:ride_safe/services/constants.dart';
 
 import '../../services/helpers.dart';
 import '../../services/providers/ride_safe_provider.dart';
@@ -31,8 +32,8 @@ class _QuotesPageState extends State<QuotesPage> {
     ScrollController controller = ScrollController();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal,
-        title: Text(title),
+        backgroundColor: AppColors.whiteColor,
+        title: Text(title, style: AppTextStyles.headline5,),
       ),
       body: Center(
         child: QuoteList(quoteType: widget.quoteType),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ride_safe/services/constants.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 
 import '../bottom_menu/bottom_menu.dart';
@@ -26,8 +27,8 @@ class _QuizesPageState extends State<QuizesPage> {
     var controller = ScrollController();
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.teal,
-          title: const Text('Ride Safe quiz'),
+          backgroundColor: AppColors.whiteColor,
+          title: Text('Ride Safe quiz', style: AppTextStyles.headline5,),
         ),
         body: Container(
           child: const Center(

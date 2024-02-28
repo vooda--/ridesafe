@@ -28,10 +28,14 @@ class _QuizResultState extends State<QuizResultPage> {
   Widget build(BuildContext context) {
     var quizEngine = ModalRoute.of(context)!.settings.arguments as QuizEngine;
     var controller = ScrollController();
+    var quizName = quizEngine.quizName;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal,
-        title: const Text('Ride Safe quiz result'),
+        backgroundColor: AppColors.whiteColor,
+        title: Text(
+          quizName,
+          style: AppTextStyles.headline5,
+        ),
       ),
       body: Container(
         child: Center(
@@ -86,8 +90,10 @@ class _QuizResultWidgetState extends State<QuizResultWidget> {
           ),
         ),
         Text(
-          'Your score is ${widget.quizEngine.correctAnswers}/${widget.quizEngine.totalQuestions}'.toUpperCase(),
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          'Your score is: ${widget.quizEngine.correctAnswers}/${widget.quizEngine.totalQuestions}'
+              .toUpperCase(),
+          style: const TextStyle(
+              fontSize: 16, height: 1, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10,
@@ -101,14 +107,24 @@ class _QuizResultWidgetState extends State<QuizResultWidget> {
         ),
         OutlinedButton(
             style: ButtonStyle(
+                side: MaterialStateProperty.all(
+                    BorderSide(color: AppColors.primaryColor)),
+                padding: MaterialStateProperty.all(
+                    EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0)),
                 textStyle: const MaterialStatePropertyAll(TextStyle(
-                    color: AppColors.grayTextColor, fontWeight: FontWeight.bold)),
+                    color: AppColors.secondaryTextColor,
+                    fontWeight: FontWeight.bold)),
                 backgroundColor: MaterialStatePropertyAll(
                     createMaterialColor(AppColors.primaryColor))),
             onPressed: () => Navigator.pushNamed(context, '/quizes'),
-            child: const Text('Play other quizzes')),
+            child: const Text(
+              'Play other quizzes',
+              style: TextStyle(color: AppColors.secondaryTextColor),
+            )),
         Image(
-          image: widget.score > 80 ? const AssetImage('assets/images/good_result.png') : const AssetImage('assets/images/bad_result.png'),
+          image: widget.score > 80
+              ? const AssetImage('assets/images/good_result.png')
+              : const AssetImage('assets/images/bad_result.png'),
           width: MediaQuery.of(context).size.width * 0.7,
           fit: BoxFit.cover,
         ),

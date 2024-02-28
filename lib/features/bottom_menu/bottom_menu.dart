@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/features/bottom_menu/bottom_mixin/bottom_mixin.dart';
 
@@ -35,7 +36,7 @@ class BottomNavigationMenu extends StatelessWidget {
 
         return AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            height: 56.0,
+            height: 50.0,
             child: Column(
               children: [
                 Visibility(
@@ -60,28 +61,40 @@ class BottomNavigationMenu extends StatelessWidget {
                 ),
                 Visibility(
                   visible: menuLogic.isVisible,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.home)),
-                      IconButton(
-                          onPressed: () {
-                            onSearchClick!();
-                            menuLogic.toggleSearch();
-                          },
-                          icon: const Icon(Icons.search)),
-                      IconButton(
-                          onPressed: () {
-                            onAddToFavoriteClick!();
-                          },
-                          icon: const Icon(Icons.favorite)),
-                      IconButton(
-                          onPressed: () {
-                            onShareClick!();
-                          },
-                          icon: const Icon(Icons.share)),
-                    ],
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      width: 150,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          IconButton(
+                            onPressed: () {},
+                            icon: SvgPicture.asset('assets/icons/download.svg',
+                                height: 24,
+                                width: 24,
+                                semanticsLabel: 'Download'),
+                          ),
+                          // IconButton(
+                          //     onPressed: () {
+                          //       onSearchClick!();
+                          //       menuLogic.toggleSearch();
+                          //     },
+                          //     icon: const Icon(Icons.search)),
+                          IconButton(
+                              onPressed: () {
+                                onAddToFavoriteClick!();
+                              },
+                              icon: const Icon(Icons.favorite)),
+                          IconButton(
+                              onPressed: () {
+                                onShareClick!();
+                              },
+                              icon: const Icon(Icons.share)),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],

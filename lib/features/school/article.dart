@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ride_safe/services/constants.dart';
 import 'package:ride_safe/services/models/article.dart';
 
 import '../drawer/my_drawer.dart';
@@ -25,8 +26,8 @@ class _ArticlePageState extends State<ArticlePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          backgroundColor: Colors.teal,
-          title: Text(article.title ?? 'Article'),
+          backgroundColor: AppColors.whiteColor,
+          title: Text(article.title ?? 'Article', style: AppTextStyles.headline5,),
         ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,

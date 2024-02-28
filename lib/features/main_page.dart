@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ride_safe/services/constants.dart';
 
 import 'drawer/my_drawer.dart';
 
@@ -14,8 +15,8 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.teal,
-          title: const Text('Ride Safe'),
+          backgroundColor: AppColors.whiteColor,
+          title: Text('Ride Safe', style: AppTextStyles.headline5,),
         ),
         body: Container(
           child: const Text('Main Page'),

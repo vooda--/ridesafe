@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ride_safe/features/quizzes/question.dart';
 import 'package:ride_safe/services/quiz_engine.dart';
 
+import '../../services/constants.dart';
 import '../../services/models/quiz.dart';
 import '../drawer/my_drawer.dart';
 
@@ -18,8 +19,8 @@ class _QuizPageState extends State<QuizPage> {
     final Quiz quiz = ModalRoute.of(context)!.settings.arguments as Quiz;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.teal,
-          title: Text(quiz.title ?? 'Quiz'),
+          backgroundColor: AppColors.whiteColor,
+          title: Text(quiz.title ?? 'Quiz', style: AppTextStyles.headline5,),
         ),
         body: Container(
           child: Center(
@@ -37,7 +38,7 @@ class SelectedQuiz extends StatefulWidget {
   final bool _isFinished = false;
 
   SelectedQuiz(this.quiz, {Key? key}) : super(key: key) {
-    quizEngine = QuizEngine(quiz.content!);
+    quizEngine = QuizEngine(quiz.content!, quiz.title);
   }
 
   @override
