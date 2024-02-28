@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/features/main_page.dart';
 import 'package:ride_safe/features/quotes/quotes.dart';
 import 'package:ride_safe/features/quotes/random_quote.dart';
+import 'package:ride_safe/services/constants.dart';
 import 'package:ride_safe/services/models/menu_model.dart';
 
 import '../../services/models/app_state_model.dart';
@@ -32,54 +34,86 @@ class _MyDrawerState extends State<MyDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [const MyHeaderDrawer(), MyDrawerList()],
-        ),
+      width: 358.0,
+      surfaceTintColor: Colors.white,
+      backgroundColor: Colors.white,
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const MyHeaderDrawer(),
+          Expanded(child: MyDrawerList()),
+          const Text(
+            'Developed by VoodaLab LLC. Copyright 2024',
+            style: TextStyle(
+                color: AppColors.neutrals5,
+                fontWeight: FontWeight.normal,
+                fontSize: 12),
+          )
+        ],
       ),
     );
   }
 
   Widget MyDrawerList() {
     return Container(
-      padding: const EdgeInsets.only(top: 15),
+      decoration: const BoxDecoration(color: Colors.white),
+      padding: const EdgeInsets.only(top: 16),
       child: Column(
         children: [
           menuItem(
               MenuItemType.dashboard,
               'Random Quote',
-              Icons.dashboard_outlined,
+              SvgPicture.asset('assets/icons/random.svg',
+                  height: 20, width: 20, semanticsLabel: 'Random Quote'),
               currentSelectedMenuItem.id == MenuItemType.dashboard,
               selectMenuItem),
-          const Divider(),
+          // const Divider(),
           menuItem(
               MenuItemType.school,
               'School',
-              Icons.school_outlined,
+              SvgPicture.asset('assets/icons/school.svg',
+                  height: 20, width: 20, semanticsLabel: 'School'),
               currentSelectedMenuItem.id == MenuItemType.school,
               selectMenuItem),
           menuItem(
               MenuItemType.quizzes,
               'Quizzes',
-              Icons.quiz_outlined,
+              SvgPicture.asset('assets/icons/quizzes.svg',
+                  height: 20, width: 20, semanticsLabel: 'Quizzes'),
               currentSelectedMenuItem.id == MenuItemType.quizzes,
               selectMenuItem),
-          const Divider(),
+          // const Divider(),
           menuItem(
               MenuItemType.quotes,
               'Quotes',
-              Icons.format_quote_outlined,
+              SvgPicture.asset('assets/icons/quotes.svg',
+                  height: 20, width: 20, semanticsLabel: 'Quotes'),
               currentSelectedMenuItem.id == MenuItemType.quotes,
               selectMenuItem),
           menuItem(
               MenuItemType.favoriteQuotes,
               'Favorite Quotes',
-              Icons.favorite_rounded,
+              SvgPicture.asset('assets/icons/favorite.svg',
+                  height: 20, width: 20, semanticsLabel: 'Favorite'),
               currentSelectedMenuItem.id == MenuItemType.favoriteQuotes,
               selectMenuItem),
-          const Divider(),
-          menuItem(MenuItemType.about, 'About', Icons.question_mark_outlined,
-              currentSelectedMenuItem.id == MenuItemType.about, selectMenuItem),
+          menuItem(
+              MenuItemType.subscription,
+              'My Subscription',
+              SvgPicture.asset('assets/icons/subscription.svg',
+                  height: 20, width: 20, semanticsLabel: 'Subscription'),
+              currentSelectedMenuItem.id == MenuItemType.subscription,
+              selectMenuItem),
+          // const Divider(),
+          menuItem(
+              MenuItemType.about,
+              'About',
+              SvgPicture.asset('assets/icons/about.svg',
+                  height: 20, width: 20, semanticsLabel: 'Random Quote'),
+              currentSelectedMenuItem.id == MenuItemType.about,
+              selectMenuItem),
         ],
       ),
     );

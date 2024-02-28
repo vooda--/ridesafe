@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-enum MenuItemType { dashboard, school, quotes, quizzes, about, home, favoriteQuotes }
+enum MenuItemType { dashboard, school, quotes, quizzes, about, home, favoriteQuotes, subscription }
 
 class MenuModel {
   final String title;

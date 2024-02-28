@@ -86,8 +86,8 @@ class _QuizResultWidgetState extends State<QuizResultWidget> {
           ),
         ),
         Text(
-          'Your score is ${widget.quizEngine.correctAnswers}/${widget.quizEngine.totalQuestions}',
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          'Your score is ${widget.quizEngine.correctAnswers}/${widget.quizEngine.totalQuestions}'.toUpperCase(),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10,
