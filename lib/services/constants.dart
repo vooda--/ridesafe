@@ -12,8 +12,11 @@ class AppColors {
     static const dangerColor = Color(0xFFE33850);
     static const buttonBorderColor = Color(0xFFC2C2C2);
     static const neutrals3 = Color(0xFF606060);
+    static const neutrals4 = Color(0xFF818181);
     static const neutrals5 = Color(0xFF979797);
     static const neutrals8 = Color(0xFFFFFFFF);
+    static const secondary1 = Color(0xFFFAF8F3);
+
 }
 class AppTextStyles {
     static TextStyle headline5 = const TextStyle(
@@ -23,4 +26,20 @@ class AppTextStyles {
         fontFamily: 'Ubuntu',
         color: AppColors.primaryTextColor,
     );
+    static TextStyle hairlineLarge = const TextStyle(
+        fontSize: 16,
+        letterSpacing: 1,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Ubuntu',
+        color: AppColors.primaryTextColor,
+    );
+    static TextStyle captions = const TextStyle(
+        fontSize: 14,
+        letterSpacing: 1.4,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Ubuntu',
+        color: AppColors.neutrals4,
+    );
+
+
 }
