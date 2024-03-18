@@ -5,12 +5,14 @@ class Question {
   final Map<String, String> answers;
   final String correctAnswer;
   final String explanation;
+  final String imageId;
 
   Question({
     required this.question,
     required this.answers,
     required this.correctAnswer,
-    required this.explanation
+    required this.explanation,
+    required this.imageId
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class Question {
       answers: parsedAnswers,
       correctAnswer: json["correctAnswer"],
       explanation: json["explanation"] ?? '',
+      imageId: json["imageId"] ?? '',
     );
   }
 }
@@ -41,6 +44,7 @@ class QuestionAdapter extends TypeAdapter<Question> {
       answers: Map<String, String>.from(reader.read()), // Specify the type
       correctAnswer: reader.read(),
       explanation: reader.read(),
+      imageId: reader.read(),
     );
   }
 
@@ -50,5 +54,6 @@ class QuestionAdapter extends TypeAdapter<Question> {
     writer.write(obj.answers);
     writer.write(obj.correctAnswer);
     writer.write(obj.explanation);
+    writer.write(obj.imageId);
   }
 }

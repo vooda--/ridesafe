@@ -12,6 +12,7 @@ import 'package:ride_safe/services/models/app_state_model.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/services/models/article.dart';
 import 'package:ride_safe/services/models/article_category.dart';
+import 'package:ride_safe/services/models/image.dart';
 import 'package:ride_safe/services/models/question.dart';
 import 'package:ride_safe/services/models/quiz.dart';
 import 'package:ride_safe/services/models/quiz_category.dart';
@@ -31,6 +32,7 @@ void main() async {
   Hive.registerAdapter(QuizCategoryAdapter());
   Hive.registerAdapter(QuestionAdapter());
   Hive.registerAdapter(QuizAdapter());
+  Hive.registerAdapter(ImageAdapter());
   Hive.registerAdapter(ArticleAdapter());
   Hive.registerAdapter(ArticleCategoryAdapter());
   var rideSafeProvider = RideSafeProvider(HiveService(), API());

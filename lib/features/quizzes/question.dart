@@ -1,8 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ride_safe/services/constants.dart';
+import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 
 import '../../services/helpers.dart';
 import '../../services/models/question.dart';
+import '../futureImage.dart';
 
 class QuestionWidget extends StatefulWidget {
   final Question question;
@@ -27,6 +32,7 @@ class QuestionWidget extends StatefulWidget {
 class _QuestionWidgetState extends State<QuestionWidget> {
   String _selectedAnswer = '';
   bool _isCorrect = false;
+  late Future<Uint8List> image;
 
   // Color btnNextColor() {
   //   if (_selectedAnswer.isEmpty) {
@@ -72,6 +78,18 @@ class _QuestionWidgetState extends State<QuestionWidget> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var provider = Provider.of<RideSafeProvider>(context, listen: false);
+    setState(() {
+      image = widget.question.imageId.isNotEmpty
+          ? provider.getImage(context, int.parse(widget.question.imageId))
+          : provider.loadImageAsUint8List('assets/images/default.jpeg');
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     // final MyColors myColors = Theme.of(context).extension<MyColors>()!;
 
@@ -100,8 +118,15 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                 )),
           ],
         ),
+        const SizedBox(
+          height: 36.0,
+        ),
         Container(
-            margin: const EdgeInsets.only(top: 96, bottom: 24),
+          constraints: const BoxConstraints(maxHeight: 300),
+          child: FutureImage(image, width: double.infinity, fit: BoxFit.cover),
+        ),
+        Container(
+            margin: const EdgeInsets.only(top: 16, bottom: 24),
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width,
             child: Text(
@@ -167,7 +192,8 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                                         builder: (context) {
                                           return AlertDialog(
                                             title: const Text('Explanation'),
-                                            content: const Text( //widget.question.explanation ??
+                                            content: Text(widget
+                                                    .question.explanation ??
                                                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."),
                                             actions: [
                                               TextButton(

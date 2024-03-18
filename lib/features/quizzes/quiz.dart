@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:ride_safe/features/futureImage.dart';
 import 'package:ride_safe/features/quizzes/question.dart';
+import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 import 'package:ride_safe/services/quiz_engine.dart';
 
 import '../../services/constants.dart';
@@ -20,7 +24,10 @@ class _QuizPageState extends State<QuizPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.whiteColor,
-          title: Text(quiz.title ?? 'Quiz', style: AppTextStyles.headline5,),
+          title: Text(
+            quiz.title ?? 'Quiz',
+            style: AppTextStyles.headline5,
+          ),
         ),
         body: Container(
           child: Center(
@@ -46,18 +53,33 @@ class SelectedQuiz extends StatefulWidget {
 }
 
 class _SelectedQuizState extends State<SelectedQuiz> {
+  late Future<Uint8List> image;
 
   void onContinue() {
     if (widget.quizEngine.isFinished) {
-      Navigator.pushNamed(context, '/quizes/quiz/result', arguments: widget.quizEngine);
+      Navigator.pushNamed(context, '/quizes/quiz/result',
+          arguments: widget.quizEngine);
     } else {
       setState(() {
         widget.quizEngine.nextQuestion();
       });
     }
   }
+
   bool onAnswerSelected(String answer) {
     return widget.quizEngine.answerQuestion(answer);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    var provider = Provider.of<RideSafeProvider>(context, listen: false);
+
+    setState(() {
+      image = widget.quiz.image != null
+          ? provider.getImage(context, widget.quiz.image!.id)
+          : provider.loadImageAsUint8List('assets/images/default.jpeg');
+    });
   }
 
   @override
@@ -65,39 +87,38 @@ class _SelectedQuizState extends State<SelectedQuiz> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: widget._isPreview ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    widget._isPreview = !widget._isPreview;
-                  });
-                },
-                child: Text(
-                  widget.quiz.description ?? 'Description',
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Image.network(
-                widget.quiz.image?.pathToFile ??
-                    'https://images.unsplash.com/photo-1593309404036-8e39088b6071?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1024&q=80',
-                // Use the article's main image URL
-                width: double.infinity, // Set the width as needed
-                height: 300, // Set the height as needed
-                fit: BoxFit.cover,
-              ),
-            ],
-          ) : QuestionWidget(question: widget.quizEngine.currentQuestion,
-              index: widget.quizEngine.questionNumber,
-              totalQuestions: widget.quizEngine.totalQuestions,
-              onContinue: onContinue,
-              onAnswerSelected: onAnswerSelected)
-        ),
+            padding: const EdgeInsets.all(16.0),
+            child: widget._isPreview
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            widget._isPreview = !widget._isPreview;
+                          });
+                        },
+                        child: Text(
+                          widget.quiz.description ?? 'Description',
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      FutureImage(image,
+                          width: double.infinity,
+                          height: 300,
+                          fit: BoxFit.cover)
+                    ],
+                  )
+                : QuestionWidget(
+                    question: widget.quizEngine.currentQuestion,
+                    index: widget.quizEngine.questionNumber,
+                    totalQuestions: widget.quizEngine.totalQuestions,
+                    onContinue: onContinue,
+                    onAnswerSelected: onAnswerSelected)),
       ],
     );
   }

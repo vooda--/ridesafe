@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ride_safe/services/hive_service.dart';
 import 'package:ride_safe/services/models/article.dart';
 import 'package:ride_safe/services/models/article_category.dart';
@@ -109,6 +110,18 @@ class RideSafeProvider with ChangeNotifier {
 
       log('Fetched article categories: ${articleCategories.length}');
       notifyListeners();
+    });
+  }
+
+  Future<Uint8List> loadImageAsUint8List(String imagePath) async {
+    ByteData data = await rootBundle.load(imagePath);
+    List<int> bytes = data.buffer.asUint8List();
+    return Uint8List.fromList(bytes);
+  }
+
+  Future<Uint8List> getImage(BuildContext context, int id) {
+    return apiService.imageById(id).then((value) {
+      return value;
     });
   }
 

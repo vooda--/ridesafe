@@ -29,6 +29,7 @@ class QuotePage extends StatefulWidget {
 
 class _QuotePageState extends State<QuotePage> {
   Future<Uint8List>? _randomImage;
+  late Quote quote;
 
   @override
   void initState() {
@@ -36,13 +37,21 @@ class _QuotePageState extends State<QuotePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final Quote quote = ModalRoute.of(context)!.settings.arguments as Quote;
-    final ScrollController controller = ScrollController();
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    quote = ModalRoute.of(context)!.settings.arguments as Quote;
+
     if (quote.imageBytes == null) {
       _randomImage = Provider.of<RideSafeProvider>(context, listen: false)
           .randomImage(context);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ScrollController controller = ScrollController();
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.whiteColor,

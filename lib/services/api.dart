@@ -26,6 +26,10 @@ class API {
     return '$_apiUrl/quotes/randomImage?keywords=girls&orientation=$orientation';
   }
 
+  _imageById(int id) {
+    return '$_apiUrl/images/${id}';
+  }
+
   _articles(String locale, int lastTimeFetched) {
     return '$_apiUrl/school/articles/$locale?lastRequest=$lastTimeFetched';
   }
@@ -40,6 +44,19 @@ class API {
 
   _basicAuth() {
     return 'Basic ${base64Encode(utf8.encode('user:test'))}';
+  }
+
+  Future imageById(int id) async {
+    final response = await http.get(Uri.parse(_imageById(id)), headers: {
+      HttpHeaders.authorizationHeader: _basicAuth(),
+    });
+    log('Response image: $response');
+
+    if (response.statusCode == 200) {
+      return response.bodyBytes;
+    } else {
+      throw Exception('Failed to load image: $response.statusCode');
+    }
   }
 
   Future fetchRandomImage(String orientation) async {
@@ -69,7 +86,8 @@ class API {
   }
 
   Future fetchQuizCategories(String locale) async {
-    final response = await http.get(Uri.parse(_quizCategories(locale)), headers: {
+    final response =
+        await http.get(Uri.parse(_quizCategories(locale)), headers: {
       HttpHeaders.authorizationHeader: _basicAuth(),
     });
 
