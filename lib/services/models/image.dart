@@ -1,10 +1,14 @@
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
-class Image {
+@HiveType(typeId: 6)
+class Image extends HiveObject {
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final String name;
-  final String pathToFile;
+  final String? pathToFile;
+
   final int? articleId;
   final int? quoteId;
   final int? quizId;
@@ -12,7 +16,7 @@ class Image {
   Image(
       {required this.id,
       required this.name,
-      required this.pathToFile,
+      this.pathToFile,
       this.articleId,
       this.quizId,
       this.quoteId});
@@ -33,13 +37,12 @@ class ImageAdapter extends TypeAdapter<Image> {
   @override
   Image read(BinaryReader reader) {
     return Image(
-      id: reader.read(),
-      name: reader.read(),
-      pathToFile: reader.read(),
-      articleId: reader.read(),
-      quoteId: reader.read(),
-      quizId: reader.read()
-    );
+        id: reader.read(),
+        name: reader.read(),
+        pathToFile: reader.read(),
+        articleId: reader.read(),
+        quoteId: reader.read(),
+        quizId: reader.read());
   }
 
   @override

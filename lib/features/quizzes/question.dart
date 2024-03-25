@@ -32,7 +32,7 @@ class QuestionWidget extends StatefulWidget {
 class _QuestionWidgetState extends State<QuestionWidget> {
   String _selectedAnswer = '';
   bool _isCorrect = false;
-  late Future<Uint8List> image;
+  late Future<Uint8List>? image;
 
   // Color btnNextColor() {
   //   if (_selectedAnswer.isEmpty) {
@@ -78,6 +78,21 @@ class _QuestionWidgetState extends State<QuestionWidget> {
   }
 
   @override
+  void didUpdateWidget(covariant QuestionWidget oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.question != widget.question) {
+      var provider = Provider.of<RideSafeProvider>(context, listen: false);
+
+      setState(() {
+        image = widget.question.imageId.isNotEmpty
+            ? provider.getImage(context, int.parse(widget.question.imageId))
+            : null;
+      });
+    }
+  }
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -85,7 +100,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
     setState(() {
       image = widget.question.imageId.isNotEmpty
           ? provider.getImage(context, int.parse(widget.question.imageId))
-          : provider.loadImageAsUint8List('assets/images/default.jpeg');
+          : null;
     });
   }
 
@@ -121,10 +136,13 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         const SizedBox(
           height: 36.0,
         ),
-        Container(
-          constraints: const BoxConstraints(maxHeight: 300),
-          child: FutureImage(image, width: double.infinity, fit: BoxFit.cover),
-        ),
+        image == null
+            ? SizedBox.shrink()
+            : Container(
+                constraints: const BoxConstraints(maxHeight: 250),
+                child: FutureImage(image!,
+                    width: double.infinity, fit: BoxFit.cover),
+              ),
         Container(
             margin: const EdgeInsets.only(top: 16, bottom: 24),
             alignment: Alignment.center,

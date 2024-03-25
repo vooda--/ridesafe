@@ -65,7 +65,7 @@ class _QuoteListState extends State<QuoteList> {
             return ListTile(
               onTap: () {
                 Navigator.pushNamed(context, '/quote/selected',
-                    arguments: quotes[index]);
+                    arguments: quotes.elementAt(index));
               },
               contentPadding: const EdgeInsets.all(5),
               leading: Image(
@@ -75,7 +75,7 @@ class _QuoteListState extends State<QuoteList> {
               ),
               trailing: const Icon(FontAwesome.heart, size: 20),
               title: Text(Helpers.trimString(
-                  quotes[index].quoteText, 80)),
+                  quotes.elementAt(index).quoteText, 80)),
               // subtitle: Text(quoteProvider.quotes[index].author),
             );
           },

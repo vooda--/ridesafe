@@ -1,11 +1,15 @@
 import 'dart:developer';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:ride_safe/services/hive_service.dart';
 import 'package:ride_safe/services/models/article.dart';
 import 'package:ride_safe/services/models/article_category.dart';
+import 'package:ride_safe/services/models/image.dart' as IMAGE;
 import 'package:ride_safe/services/models/quiz.dart';
 import 'package:ride_safe/services/models/quiz_category.dart';
 
@@ -15,24 +19,33 @@ import '../models/quote.dart';
 class RideSafeProvider with ChangeNotifier {
   final API apiService;
   final HiveService hiveService;
+
   String filter = '';
   String articleFilter = '';
 
   RideSafeProvider(this.hiveService, this.apiService);
 
   selectedQuote(int index) {
-    return quotes[index];
+    return quotes.elementAt(index);
+  }
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
   }
 
   List<Quiz> get quizzes => hiveService.getQuizzesBox(filter);
 
-  List<Quote> get quotes => hiveService.getQuotesBox(filter);
+  Iterable<Quote> get quotes => hiveService.getQuotesBox(filter);
+
+  Box<IMAGE.Image> get images => hiveService.getImagesBox();
 
   List<Article> get articles => hiveService.getArticlesBox(articleFilter);
 
   List<Quote> get favoriteQuotes => hiveService.getFavoriteQuotes();
 
   List<QuizCategory> get quizCategories => hiveService.getQuizCategoriesBox();
+
   List<ArticleCategory> get articleCategories =>
       hiveService.getArticleCategoriesBox();
 
@@ -42,10 +55,12 @@ class RideSafeProvider with ChangeNotifier {
     this.filter = filter ?? '';
     notifyListeners();
   }
+
   void filterQuizes(String? filter) {
     this.filter = filter ?? '';
     notifyListeners();
   }
+
   void filterArticles(String? filter) {
     articleFilter = filter ?? '';
     notifyListeners();
@@ -65,7 +80,7 @@ class RideSafeProvider with ChangeNotifier {
   }
 
   Future<void> openBoxes() async {
-    await hiveService.openBox(HiveService.quotesKey);
+    await hiveService.initialize();
     await hiveService.openBox(HiveService.quizCategoriesKey);
     await hiveService.openBox(HiveService.quizesKeys);
     await hiveService.openBox(HiveService.articlesKey);
@@ -81,6 +96,7 @@ class RideSafeProvider with ChangeNotifier {
       notifyListeners();
     });
   }
+
   Future<void> fetchQuotes() async {
     return apiService.fetchQuotes('ru', lastFetchTime).then((quotes) {
       if (quotes.length > 0) {
@@ -119,15 +135,39 @@ class RideSafeProvider with ChangeNotifier {
     return Uint8List.fromList(bytes);
   }
 
+  void saveFile(Uint8List imageData, int id) async {
+    final filePath = await _localPath;
+    File file = File("$filePath/${id}.jpg");
+    await file.writeAsBytes(imageData);
+    log("File is written to: , ${file.path}");
+  }
+
+  Future<Uint8List> _getFile(int id) async {
+    final filePath = await _localPath;
+    File file = File("$filePath/${id}.jpg");
+    return file.readAsBytes();
+  }
+
   Future<Uint8List> getImage(BuildContext context, int id) {
+    IMAGE.Image? image = images.values.where((element) => element.id == id).firstOrNull;
+    if (image != null) {
+      log('Have found ${id} image in the box!');
+      return _getFile(id);
+    }
+    log('Image ${id} not found in the box!');
     return apiService.imageById(id).then((value) {
+      hiveService.setImage(IMAGE.Image(id: id, name: id.toString()));
+      saveFile(value, id);
       return value;
     });
   }
 
   Future<Uint8List> randomImage(BuildContext context) {
-    var isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-    return apiService.fetchRandomImage(isLandscape ? 'landscape' : 'portrait').then((value) {
+    var isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    return apiService
+        .fetchRandomImage(isLandscape ? 'landscape' : 'portrait')
+        .then((value) {
       return value;
     });
   }
@@ -142,7 +182,7 @@ class RideSafeProvider with ChangeNotifier {
           author: 'RideSafe');
     }
     final index = DateTime.now().millisecondsSinceEpoch % quotes.length;
-    return quotes[index];
+    return quotes.elementAt(index);
   }
 
   Future<void> fetchArticles() async {
@@ -164,4 +204,5 @@ class RideSafeProvider with ChangeNotifier {
     });
   }
 }
+
 class ScreenshotEvent {}
