@@ -12,34 +12,34 @@ import 'models/quiz.dart';
 import 'models/quote.dart';
 
 class API {
-  final String _apiUrl = 'https://dev.voodalab.com';
+  static String API_URL = 'https://dev.voodalab.com';
 
   _quotes(String locale, int lastTimeFetched) {
-    return '$_apiUrl/school/quotes/$locale?lastRequest=$lastTimeFetched';
+    return '$API_URL/school/quotes/$locale?lastRequest=$lastTimeFetched';
   }
 
   _quizes(String locale, int lastTimeFetched) {
-    return '$_apiUrl/quiz/quizes/$locale?lastRequest=$lastTimeFetched';
+    return '$API_URL/quiz/quizes/$locale?lastRequest=$lastTimeFetched';
   }
 
   _random(String orientation) {
-    return '$_apiUrl/quotes/randomImage?keywords=girls&orientation=$orientation';
+    return '$API_URL/quotes/randomImage?keywords=girls&orientation=$orientation';
   }
 
   _imageById(int id) {
-    return '$_apiUrl/images/${id}';
+    return '$API_URL/images/${id}';
   }
 
   _articles(String locale, int lastTimeFetched) {
-    return '$_apiUrl/school/articles/$locale?lastRequest=$lastTimeFetched';
+    return '$API_URL/school/articles/$locale?lastRequest=$lastTimeFetched';
   }
 
   _quizCategories(String locale) {
-    return '$_apiUrl/quizCategory/categories/$locale';
+    return '$API_URL/quizCategory/categories/$locale';
   }
 
   _articleCategories(String locale) {
-    return '$_apiUrl/school/articleCategories/$locale';
+    return '$API_URL/school/articleCategories/$locale';
   }
 
   _basicAuth() {

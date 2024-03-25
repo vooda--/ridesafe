@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/services/constants.dart';
@@ -32,7 +33,8 @@ class QuestionWidget extends StatefulWidget {
 class _QuestionWidgetState extends State<QuestionWidget> {
   String _selectedAnswer = '';
   bool _isCorrect = false;
-  late Future<Uint8List>? image;
+  String imageId = '';
+  // late Future<Uint8List>? image;
 
   // Color btnNextColor() {
   //   if (_selectedAnswer.isEmpty) {
@@ -82,12 +84,9 @@ class _QuestionWidgetState extends State<QuestionWidget> {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     if (oldWidget.question != widget.question) {
-      var provider = Provider.of<RideSafeProvider>(context, listen: false);
 
       setState(() {
-        image = widget.question.imageId.isNotEmpty
-            ? provider.getImage(context, int.parse(widget.question.imageId))
-            : null;
+        imageId = widget.question.imageId;
       });
     }
   }
@@ -96,11 +95,9 @@ class _QuestionWidgetState extends State<QuestionWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    var provider = Provider.of<RideSafeProvider>(context, listen: false);
+    // var provider = Provider.of<RideSafeProvider>(context, listen: false);
     setState(() {
-      image = widget.question.imageId.isNotEmpty
-          ? provider.getImage(context, int.parse(widget.question.imageId))
-          : null;
+      imageId = widget.question.imageId;
     });
   }
 
@@ -136,13 +133,24 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         const SizedBox(
           height: 36.0,
         ),
-        image == null
+        widget.question.imageId.isEmpty
             ? SizedBox.shrink()
             : Container(
                 constraints: const BoxConstraints(maxHeight: 250),
-                child: FutureImage(image!,
-                    width: double.infinity, fit: BoxFit.cover),
-              ),
+                child: CachedNetworkImage(
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    cacheKey: Helpers.getImageUrlById(
+                      int.parse(widget.question.imageId),
+                    ),
+                    imageUrl: Helpers.getImageUrlById(
+                      int.parse(widget.question.imageId),
+                    ),
+                    errorWidget: (context, url, error) => const Image(
+                          image: AssetImage('assets/images/default.jpeg'),
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ))),
         Container(
             margin: const EdgeInsets.only(top: 16, bottom: 24),
             alignment: Alignment.center,

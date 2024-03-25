@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:ride_safe/services/api.dart';
 
 class Helpers {
   static String trimString(String string, int maxLength) {
@@ -8,6 +9,9 @@ class Helpers {
       return '${string.substring(0, maxLength)}...';
     }
     return string;
+  }
+  static String getImageUrlById(int id) {
+    return '${API.API_URL}/images/$id';
   }
 }
 

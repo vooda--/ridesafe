@@ -56,18 +56,18 @@ class SelectedArticle extends StatefulWidget {
 }
 
 class _SelectedArticleState extends State<SelectedArticle> {
-  late Future<Uint8List> image;
+  // late Future<Uint8List> image;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    var provider = Provider.of<RideSafeProvider>(context, listen: false);
-    setState(() {
-      image = widget.article.image != null
-          ? provider.getImage(context, widget.article.image!.id)
-          : provider.loadImageAsUint8List('assets/images/default.jpeg');
-    });
+    // var provider = Provider.of<RideSafeProvider>(context, listen: false);
+    // setState(() {
+    //   image = widget.article.image != null
+    //       ? provider.getImage(context, widget.article.image!.id)
+    //       : provider.loadImageAsUint8List('assets/images/default.jpeg');
+    // });
   }
 
   @override
@@ -96,8 +96,11 @@ class _SelectedArticleState extends State<SelectedArticle> {
                 ),
               ),
               const SizedBox(height: 8),
-              FutureImage(image,
-                  width: double.infinity, height: 300, fit: BoxFit.cover),
+              FutureImage(
+                  id: widget.article.image?.id,
+                  width: double.infinity,
+                  height: 300,
+                  fit: BoxFit.cover),
               // Image.network(
               //   widget.article.image?.pathToFile ??
               //       'https://images.unsplash.com/photo-1593309404036-8e39088b6071?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1024&q=80',

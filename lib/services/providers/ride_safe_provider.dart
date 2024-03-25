@@ -12,6 +12,7 @@ import 'package:ride_safe/services/models/article_category.dart';
 import 'package:ride_safe/services/models/image.dart' as IMAGE;
 import 'package:ride_safe/services/models/quiz.dart';
 import 'package:ride_safe/services/models/quiz_category.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../api.dart';
 import '../models/quote.dart';
@@ -29,12 +30,12 @@ class RideSafeProvider with ChangeNotifier {
     return quotes.elementAt(index);
   }
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
-  }
+  // Future<String> get _localPath async {
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   return directory.path;
+  // }
 
-  List<Quiz> get quizzes => hiveService.getQuizzesBox(filter);
+  List<Quiz> get quizzes => hiveService.getQuizzes(filter);
 
   Iterable<Quote> get quotes => hiveService.getQuotesBox(filter);
 
@@ -81,12 +82,6 @@ class RideSafeProvider with ChangeNotifier {
 
   Future<void> openBoxes() async {
     await hiveService.initialize();
-    await hiveService.openBox(HiveService.quizCategoriesKey);
-    await hiveService.openBox(HiveService.quizesKeys);
-    await hiveService.openBox(HiveService.articlesKey);
-    await hiveService.openBox(HiveService.articleCategoriesKey);
-    await hiveService.openBox(HiveService.fetchedAt);
-    await hiveService.openBox(HiveService.favoriteQuotesKey);
   }
 
   Future<void> fetchQuizes() async {
@@ -100,7 +95,7 @@ class RideSafeProvider with ChangeNotifier {
   Future<void> fetchQuotes() async {
     return apiService.fetchQuotes('ru', lastFetchTime).then((quotes) {
       if (quotes.length > 0) {
-        hiveService.setQuotes([...this.quotes, ...quotes]);
+        hiveService.addQuotes(quotes);
       }
       log('Fetched quotes: ${quotes.length}');
       notifyListeners();
@@ -136,21 +131,36 @@ class RideSafeProvider with ChangeNotifier {
   }
 
   void saveFile(Uint8List imageData, int id) async {
-    final filePath = await _localPath;
-    File file = File("$filePath/${id}.jpg");
-    await file.writeAsBytes(imageData);
-    log("File is written to: , ${file.path}");
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      var path = directory.path;
+      File file = File("$path/${id}.jpg");
+      await file.writeAsBytes(imageData);
+      log("File is written to: , ${file.path}");
+    } catch (e) {
+      print(e);
+    }
   }
 
-  Future<Uint8List> _getFile(int id) async {
-    final filePath = await _localPath;
-    File file = File("$filePath/${id}.jpg");
-    return file.readAsBytes();
+  Future<Uint8List> _getFile(int? id) async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      var path = directory.path;
+      File file = File("$path/${id}.jpg");
+      return file.readAsBytes();
+    } catch (e) {
+      print(e);
+      return Future(() => Uint8List.fromList([]));
+    }
   }
 
-  Future<Uint8List> getImage(BuildContext context, int id) {
-    IMAGE.Image? image = images.values.where((element) => element.id == id).firstOrNull;
-    if (image != null) {
+  Future<Uint8List> getImage(BuildContext context, int? id) {
+    if (id == null) {
+      return Future(() => Uint8List.fromList([])); // Empty image data
+    }
+    IMAGE.Image? image =
+        images.values.where((element) => element.id == id).firstOrNull;
+    if (image != null && !kIsWeb) {
       log('Have found ${id} image in the box!');
       return _getFile(id);
     }

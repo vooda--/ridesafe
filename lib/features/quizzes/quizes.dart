@@ -1,5 +1,4 @@
-import 'dart:typed_data';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/services/constants.dart';
@@ -9,6 +8,7 @@ import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 import '../../services/models/quiz.dart';
 import '../bottom_menu/bottom_menu.dart';
 import '../drawer/my_drawer.dart';
+import '../futureImage.dart';
 
 class QuizesPage extends StatefulWidget {
   const QuizesPage({super.key});
@@ -21,9 +21,6 @@ class _QuizesPageState extends State<QuizesPage> {
   @override
   void initState() {
     super.initState();
-    // Provider.of<RideSafeProvider>(context, listen: false).fetchArticles();
-    // Provider.of<RideSafeProvider>(context, listen: false)
-    //     .fetchArticleCategories();
   }
 
   @override
@@ -67,9 +64,9 @@ class _QuizListState extends State<QuizList> {
   List<Quiz> listQuizz = List.empty(growable: true);
 
   Color getColor(int currentCategory) {
-    print('getColor');
-    print(currentCategory);
-    print(selectedCategory);
+    // print('getColor');
+    // print(currentCategory);
+    // print(selectedCategory);
     if (selectedCategory == currentCategory) {
       return AppColors.primaryColor;
     }
@@ -84,11 +81,10 @@ class _QuizListState extends State<QuizList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     var provider = Provider.of<RideSafeProvider>(context, listen: false);
     setState(() {
-      selectedCategory = provider.quizCategories.first?.id ?? 0;
+      selectedCategory = provider.quizCategories.first.id ?? 0;
       updateQuizList(provider.quizzes);
     });
   }
@@ -120,11 +116,11 @@ class _QuizListState extends State<QuizList> {
                         child: OutlinedButton(
                           onPressed: () => {
                             print('Updating set'),
-                            setState(() => {
-                                  selectedCategory = category.id,
-                                  updateQuizList(quizzes),
-                                  print(listQuizz.length),
-                                  print(selectedCategory)
+                            setState(() {
+                                  selectedCategory = category.id;
+                                  updateQuizList(quizzes);
+                                  print(listQuizz.length);
+                                  print(selectedCategory);
                                 })
                           },
                           style: OutlinedButton.styleFrom(
@@ -173,7 +169,7 @@ class _QuizListState extends State<QuizList> {
                                 arguments: quiz);
                           },
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 shape: BoxShape.rectangle,
                                 color: Colors.white,
                                 borderRadius:
@@ -184,13 +180,29 @@ class _QuizListState extends State<QuizList> {
                               children: [
                                 Container(
                                   alignment: Alignment.centerLeft,
-                                  child: Image(
-                                    image: AssetImage(
-                                        'assets/images/moto/landscape/${quiz.id}.jpg'),
-                                    fit: BoxFit.cover,
+                                  child: CachedNetworkImage(
                                     width: double.infinity,
-                                    alignment: Alignment.center,
+                                    fit: BoxFit.cover,
+                                    cacheKey: Helpers.getImageUrlById(
+                                      quiz.image?.id ?? 0,
+                                    ),
+                                    imageUrl: Helpers.getImageUrlById(
+                                      quiz.image?.id ?? 0,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Image(
+                                      image: AssetImage(
+                                          'assets/images/default.jpeg'),
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    // child: FutureImage(id: int.parse(widget.question.imageId),
+                                    //     width: double.infinity, fit: BoxFit.cover),
                                   ),
+                                  // child: FutureImage(
+                                  //     id: quiz.image?.id,
+                                  //     width: double.infinity,
+                                  //     fit: BoxFit.cover),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
