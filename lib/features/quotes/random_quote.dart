@@ -45,6 +45,6 @@ class _RandomQuotePageState extends State<RandomQuotePage> {
             child: SelectedQuote(_randomQuote!, image),
           ),
         ),
-        drawer: const MyDrawer());
+        drawer: const SafeArea(child: MyDrawer()));
   }
 }

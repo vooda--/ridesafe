@@ -73,7 +73,6 @@ class _QuestionWidgetState extends State<QuestionWidget> {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     if (oldWidget.question != widget.question) {
-
       setState(() {
         imageId = widget.question.imageId;
       });
@@ -127,6 +126,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
             : Container(
                 constraints: const BoxConstraints(maxHeight: 250),
                 child: CachedNetworkImage(
+                    height: 250,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     cacheKey: Helpers.getImageUrlById(
@@ -162,8 +162,8 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Ubuntu',
                 ),
-                backgroundColor:
-                    MaterialStateColor.resolveWith((state) => getColor(e.key)),
+                backgroundColor: MaterialStateColor.resolveWith(
+                    (state) => getColor(e.key)),
                 foregroundColor: MaterialStateColor.resolveWith(
                     (states) => getForegroundColor(e.key)),
                 minimumSize: const Size(double.infinity, 48),
@@ -242,7 +242,8 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Ubuntu',
                   ),
-                  backgroundColor: createMaterialColor(AppColors.primaryColor),
+                  backgroundColor:
+                      createMaterialColor(AppColors.primaryColor),
                   foregroundColor:
                       createMaterialColor(AppColors.secondaryTextColor),
                   //MaterialStateColor.resolveWith((state)=>getColor('A')),

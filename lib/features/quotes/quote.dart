@@ -89,7 +89,7 @@ class _QuotePageState extends State<QuotePage> {
             }
           },
         ),
-        drawer: const MyDrawer());
+        drawer: const SafeArea(child: MyDrawer()));
   }
 }
 

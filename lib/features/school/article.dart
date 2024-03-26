@@ -44,7 +44,7 @@ class _ArticlePageState extends State<ArticlePage> {
             child: SelectedArticle(article),
           ),
         ),
-        drawer: const MyDrawer());
+        drawer: const SafeArea(child: MyDrawer()));
   }
 }
 

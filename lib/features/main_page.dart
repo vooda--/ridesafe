@@ -21,6 +21,6 @@ class _MainPageState extends State<MainPage> {
         body: Container(
           child: const Text('Main Page'),
         ),
-        drawer: const MyDrawer());
+        drawer: const SafeArea(child: MyDrawer()));
   }
 }

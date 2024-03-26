@@ -29,11 +29,9 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         body: Container(
-          child: Center(
-            child: SelectedQuiz(quiz),
-          ),
+          child: SelectedQuiz(quiz),
         ),
-        drawer: const MyDrawer());
+        drawer: const SafeArea(child: MyDrawer()));
   }
 }
 
@@ -74,17 +72,20 @@ class _SelectedQuizState extends State<SelectedQuiz> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: QuestionWidget(
-                question: widget.quizEngine.currentQuestion,
-                index: widget.quizEngine.questionNumber,
-                totalQuestions: widget.quizEngine.totalQuestions,
-                onContinue: onContinue,
-                onAnswerSelected: onAnswerSelected)),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: QuestionWidget(
+                  question: widget.quizEngine.currentQuestion,
+                  index: widget.quizEngine.questionNumber,
+                  totalQuestions: widget.quizEngine.totalQuestions,
+                  onContinue: onContinue,
+                  onAnswerSelected: onAnswerSelected)),
+        ],
+      ),
     );
   }
 }
