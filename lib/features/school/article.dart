@@ -1,10 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/services/constants.dart';
 import 'package:ride_safe/services/models/article.dart';
 
+import '../../services/helpers.dart';
 import '../../services/providers/ride_safe_provider.dart';
 import '../drawer/my_drawer.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -96,19 +98,21 @@ class _SelectedArticleState extends State<SelectedArticle> {
                 ),
               ),
               const SizedBox(height: 8),
-              FutureImage(
-                  id: widget.article.image?.id,
+            CachedNetworkImage(
+                width: double.infinity,
+                fit: BoxFit.cover,
+                height: 300,
+                cacheKey: Helpers.getImageUrlById(
+                  widget.article.image?.id,
+                ),
+                imageUrl: Helpers.getImageUrlById(
+                  widget.article.image?.id,
+                ),
+                errorWidget: (context, url, error) => const Image(
+                  image: AssetImage('assets/images/default.jpeg'),
                   width: double.infinity,
-                  height: 300,
-                  fit: BoxFit.cover),
-              // Image.network(
-              //   widget.article.image?.pathToFile ??
-              //       'https://images.unsplash.com/photo-1593309404036-8e39088b6071?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1024&q=80',
-              //   // Use the article's main image URL
-              //   width: double.infinity, // Set the width as needed
-              //   height: 300, // Set the height as needed
-              //   fit: BoxFit.cover,
-              // ),
+                  fit: BoxFit.cover,
+                )),
               const SizedBox(height: 16),
               Text(
                 'Author: ${widget.article.author}',

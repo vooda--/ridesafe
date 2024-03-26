@@ -34,17 +34,6 @@ class _QuestionWidgetState extends State<QuestionWidget> {
   String _selectedAnswer = '';
   bool _isCorrect = false;
   String imageId = '';
-  // late Future<Uint8List>? image;
-
-  // Color btnNextColor() {
-  //   if (_selectedAnswer.isEmpty) {
-  //     return createMaterialColor(AppColors.grayTextColor);
-  //   } else if (_isCorrect) {
-  //     return createMaterialColor(AppColors.successColor);
-  //   } else {
-  //     return createMaterialColor(Colors.red);
-  //   }
-  // }
 
   Color getForegroundColor(String answer) {
     if (_selectedAnswer.isEmpty) {

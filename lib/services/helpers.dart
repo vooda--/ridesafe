@@ -10,7 +10,10 @@ class Helpers {
     }
     return string;
   }
-  static String getImageUrlById(int id) {
+  static String getImageUrlById(int? id) {
+    if (id == null) {
+      return '';
+    }
     return '${API.API_URL}/images/$id';
   }
 }

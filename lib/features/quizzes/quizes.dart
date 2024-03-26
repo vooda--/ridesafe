@@ -103,7 +103,7 @@ class _QuizListState extends State<QuizList> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: SizedBox(
-                  height: 40.0,
+                  height: 45.0, //40 doesn't fit to android devices
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: rideSafeProvider.quizCategories.length,
@@ -112,7 +112,7 @@ class _QuizListState extends State<QuizList> {
                       return Container(
                         margin: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 5.0),
-                        height: 40,
+                        height: 45,
                         child: OutlinedButton(
                           onPressed: () => {
                             print('Updating set'),
@@ -156,7 +156,6 @@ class _QuizListState extends State<QuizList> {
                 ),
               ),
               Expanded(
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: listQuizz.length,
@@ -199,10 +198,6 @@ class _QuizListState extends State<QuizList> {
                                     // child: FutureImage(id: int.parse(widget.question.imageId),
                                     //     width: double.infinity, fit: BoxFit.cover),
                                   ),
-                                  // child: FutureImage(
-                                  //     id: quiz.image?.id,
-                                  //     width: double.infinity,
-                                  //     fit: BoxFit.cover),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),

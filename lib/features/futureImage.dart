@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../services/providers/ride_safe_provider.dart';
 
+///deprecated use cachedImage instead
 class FutureImage extends StatelessWidget {
   final int? id;
   final double width;

@@ -52,8 +52,6 @@ class SelectedQuiz extends StatefulWidget {
 }
 
 class _SelectedQuizState extends State<SelectedQuiz> {
-  // late Future<Uint8List> image;
-
   void onContinue() {
     if (widget.quizEngine.isFinished) {
       Navigator.pushNamed(context, '/quizes/quiz/result',
@@ -72,13 +70,6 @@ class _SelectedQuizState extends State<SelectedQuiz> {
   @override
   void initState() {
     super.initState();
-    // var provider = Provider.of<RideSafeProvider>(context, listen: false);
-    //
-    // setState(() {
-    //   image = widget.quiz.image != null
-    //       ? provider.getImage(context, widget.quiz.image!.id)
-    //       : provider.loadImageAsUint8List('assets/images/default.jpeg');
-    // });
   }
 
   @override
