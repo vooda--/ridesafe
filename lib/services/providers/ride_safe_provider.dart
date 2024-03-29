@@ -10,6 +10,7 @@ import 'package:ride_safe/services/hive_service.dart';
 import 'package:ride_safe/services/models/article.dart';
 import 'package:ride_safe/services/models/article_category.dart';
 import 'package:ride_safe/services/models/image.dart' as IMAGE;
+import 'package:ride_safe/services/models/prefetchedImage.dart';
 import 'package:ride_safe/services/models/quiz.dart';
 import 'package:ride_safe/services/models/quiz_category.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -67,10 +68,21 @@ class RideSafeProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  addImagesToQuoteList(List<PrefetchedImage> images) {
+    quotes.where((q) => q.image == null).forEach((Quote element) {
+      if (images.isEmpty) return;
+      var imageObj = images.removeLast();
+      element.image = imageObj.name;
+      element.imageBytes = imageObj.data;
+      element.save();
+    });
+    notifyListeners();
+  }
+
   Future<void> fetchAll() async {
-    if (quotes.isNotEmpty) {
-      await hiveService.saveFetchTime(true);
-    }
+    // if (quotes.isNotEmpty) {
+    //   await hiveService.saveFetchTime(true);
+    // }
 
     await fetchQuotes();
     await fetchQuizes();

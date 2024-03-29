@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:ride_safe/services/models/prefetchedImage.dart';
 import 'package:ride_safe/services/models/quiz_category.dart';
 
 import 'models/article.dart';
@@ -26,8 +28,16 @@ class API {
     return '$API_URL/quotes/randomImage?keywords=girls&orientation=$orientation';
   }
 
+  _randomN(String orientation, int quantity) {
+    return '$API_URL/quotes/randomImages?keywords=girls&orientation=$orientation&quantity=$quantity';
+  }
+
   _imageById(int id) {
     return '$API_URL/images/${id}';
+  }
+
+  _imageByName() {
+    return '$API_URL/images/name';
   }
 
   _articles(String locale, int lastTimeFetched) {
@@ -59,6 +69,21 @@ class API {
     }
   }
 
+  Future imageByName(String name) async {
+    final response = await http.post(Uri.parse(_imageByName()), body: {
+      'name': name,
+    }, headers: {
+      HttpHeaders.authorizationHeader: _basicAuth(),
+    });
+    log('Response image: $response');
+
+    if (response.statusCode == 200) {
+      return response.bodyBytes;
+    } else {
+      throw Exception('Failed to load image: $response.statusCode');
+    }
+  }
+
   Future fetchRandomImage(String orientation) async {
     final response = await http.get(Uri.parse(_random(orientation)), headers: {
       HttpHeaders.authorizationHeader: _basicAuth(),
@@ -69,6 +94,26 @@ class API {
       return response.bodyBytes;
     } else {
       throw Exception('Failed to load image: $response.statusCode');
+    }
+  }
+
+  Future fetchRandomImages(String orientation, int number) async {
+    final response =
+        await http.get(Uri.parse(_randomN(orientation, number)), headers: {
+      HttpHeaders.authorizationHeader: _basicAuth(),
+    });
+    log('Response: $response');
+
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      if (kDebugMode) {
+        print(jsonResponse.length);
+      }
+      return jsonResponse
+          .map((prefetchedImage) => PrefetchedImage.fromJson(prefetchedImage))
+          .toList();
+    } else {
+      throw Exception('Failed to load images: $response.statusCode');
     }
   }
 

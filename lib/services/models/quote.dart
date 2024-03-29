@@ -3,17 +3,28 @@ import 'dart:typed_data';
 
 import 'package:hive/hive.dart';
 
-class Quote {
+class Quote extends HiveObject {
+  @HiveField(0)
   final int id;
-  final String? image;
+  @HiveField(1)
+  String? image;
+  @HiveField(2)
   final String? url;
+  @HiveField(3)
   final String? youtubeUrl;
+  @HiveField(4)
   final String? tags;
+  @HiveField(5)
   final String? content;
+  @HiveField(6)
   final bool draft;
+  @HiveField(7)
   final bool hidden;
+  @HiveField(8)
   final String quoteText;
+  @HiveField(9)
   final String author;
+  @HiveField(10)
   Uint8List? imageBytes;
 
   Quote(

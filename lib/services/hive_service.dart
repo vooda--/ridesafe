@@ -13,6 +13,7 @@ import 'models/quote.dart';
 class HiveService {
   static const String quizCategoriesKey = 'quizCategories';
   static const String quizesKeys = 'quizzes';
+  static const String prefetchedImages = 'prefetchedImages';
   static const String quotesKey = 'quotes';
   static const String imagesKey = 'images';
   static const String favoriteQuotesKey = 'favoriteQuotes';
@@ -22,6 +23,7 @@ class HiveService {
   static const String fetchedAt = 'fetchedAt';
   late Box quotesBox;
   late Box imagesBox;
+  late Box prefetchedImagesBox;
   late Box quizCategoriesBox;
   late Box quizzesBox;
   late Box articlesBox;
@@ -34,6 +36,7 @@ class HiveService {
   Future<void> initialize() async {
     quotesBox = await Hive.openBox<Quote>(HiveService.quotesKey);
     imagesBox = await Hive.openBox<Image>(HiveService.imagesKey);
+    prefetchedImagesBox = await Hive.openBox<Image>(HiveService.prefetchedImages);
     quizCategoriesBox =
         await Hive.openBox<QuizCategory>(HiveService.quizCategoriesKey);
     quizzesBox = await Hive.openBox(HiveService.quizesKeys);
@@ -82,11 +85,13 @@ class HiveService {
   }
 
   Future<void> setQuizCategories(List<QuizCategory> quizCategories) async {
+    await quizCategoriesBox.clear();
     await quizCategoriesBox.addAll(quizCategories);
   }
 
   Future<void> setArticleCategories(
       List<ArticleCategory> articleCategories) async {
+    await articleCategoriesBox.clear();
     await articleCategoriesBox.addAll(articleCategories);
   }
 
