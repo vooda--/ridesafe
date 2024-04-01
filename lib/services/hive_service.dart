@@ -36,7 +36,8 @@ class HiveService {
   Future<void> initialize() async {
     quotesBox = await Hive.openBox<Quote>(HiveService.quotesKey);
     imagesBox = await Hive.openBox<Image>(HiveService.imagesKey);
-    prefetchedImagesBox = await Hive.openBox<Image>(HiveService.prefetchedImages);
+    prefetchedImagesBox =
+        await Hive.openBox<Image>(HiveService.prefetchedImages);
     quizCategoriesBox =
         await Hive.openBox<QuizCategory>(HiveService.quizCategoriesKey);
     quizzesBox = await Hive.openBox(HiveService.quizesKeys);
@@ -59,16 +60,20 @@ class HiveService {
   }
 
   List<Quote> getFavoriteQuotes() {
-    var quotes = quotesBox.values.toList();
-    return (quotes.cast<Quote>());
+    List<Quote>? quotes = [];
+    if (quotesBox.isOpen) {
+      quotes = quotesBox.values
+          .where((element) =>
+              element.isFavorite != null && element.isFavorite == true)
+          .cast<Quote>()
+          .toList();
+    }
+    return quotes;
   }
 
-  Future<void> addFavoriteQuote(
-      Quote quote, Future<Uint8List> imageFuture) async {
-    List value = getFavoriteQuotes();
-    quote.imageBytes = await imageFuture;
-    value.add(quote);
-    await Hive.box(favoriteQuotesKey).put('quotes', value);
+  Future<void> setFavorite(Quote quote) async {
+    quote.isFavorite = (quote.isFavorite == null) ? true : false;
+    await quote.save();
   }
 
   Future<void> setQuizzes(List<Quiz> quizes) async {

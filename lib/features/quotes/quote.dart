@@ -66,29 +66,33 @@ class _QuotePageState extends State<QuotePage> {
           ),
         ),
         bottomNavigationBar: BottomNavigationMenu(
-          controller: controller,
-          onShareClick: () {
-            log('Callback share ${quote.quoteText}');
-            Provider.of<ScreenshotProvider>(context, listen: false)
-                .shareQuoteScreenshot();
-          },
-          onSearchClick: () {
-            log('Callback search ${quote.quoteText}');
-          },
-          searchCallback: (String filter) {
-            log('Callback search $filter');
-            Provider.of<RideSafeProvider>(context, listen: false)
-                .filterQuotes(filter);
-          },
-          onAddToFavoriteClick: () {
-            log('Callback add favorite ${quote.quoteText}');
-            if (_randomImage != null) {
+            controller: controller,
+            onShareClick: () {
+              log('Callback share ${quote.quoteText}');
+              Provider.of<ScreenshotProvider>(context, listen: false)
+                  .shareQuoteScreenshot();
+            },
+            onSearchClick: () {
+              log('Callback search ${quote.quoteText}');
+            },
+            searchCallback: (String filter) {
+              log('Callback search $filter');
+              Provider.of<RideSafeProvider>(context, listen: false)
+                  .filterQuotes(filter);
+            },
+            onAddToFavoriteClick: () {
+              log('Callback add favorite ${quote.quoteText}');
+              // if (_randomImage != null) {
+              //   Provider.of<RideSafeProvider>(context, listen: false)
+              //       .hiveService
+              //       .addFavoriteQuote(quote);
+              // } else {
               Provider.of<RideSafeProvider>(context, listen: false)
                   .hiveService
-                  .addFavoriteQuote(quote, _randomImage!);
+                  .setFavorite(quote);
             }
-          },
-        ),
+            // },
+            ),
         drawer: const SafeArea(child: MyDrawer()));
   }
 }

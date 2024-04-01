@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 
 import 'package:hive/hive.dart';
@@ -26,6 +25,8 @@ class Quote extends HiveObject {
   final String author;
   @HiveField(10)
   Uint8List? imageBytes;
+  @HiveField(11)
+  bool? isFavorite;
 
   Quote(
       {this.image,
@@ -34,6 +35,7 @@ class Quote extends HiveObject {
       this.tags,
       this.content,
       this.imageBytes,
+      this.isFavorite,
       required this.draft,
       required this.hidden,
       required this.id,
@@ -72,6 +74,7 @@ class QuoteAdapter extends TypeAdapter<Quote> {
       quoteText: reader.read(),
       author: reader.read(),
       imageBytes: reader.read(),
+      isFavorite: reader.read(),
     );
   }
 
@@ -83,6 +86,7 @@ class QuoteAdapter extends TypeAdapter<Quote> {
     writer.write(obj.youtubeUrl);
     writer.write(obj.tags);
     writer.write(obj.content);
+    writer.write(obj.isFavorite);
     writer.write(obj.draft);
     writer.write(obj.hidden);
     writer.write(obj.quoteText);
