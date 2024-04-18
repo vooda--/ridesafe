@@ -53,14 +53,14 @@ class _QuotePageState extends State<QuotePage> {
     final ScrollController controller = ScrollController();
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.whiteColor,
-          title: Text(
-            'Quotes',
-            style: AppTextStyles.headline5(),
-          ),
-        ),
-        body: Container(
+        // appBar: AppBar(
+        //   backgroundColor: AppColors.whiteColor,
+        //   title: Text(
+        //     'Quotes',
+        //     style: AppTextStyles.headline5(),
+        //   ),
+        // ),
+        body: SafeArea(
           child: Center(
             child: SelectedQuote(quote, _randomImage),
           ),
@@ -100,6 +100,8 @@ class _QuotePageState extends State<QuotePage> {
 class SelectedQuote extends StatefulWidget {
   final Quote quote;
   late Future<Uint8List>? randomImage;
+  static GlobalKey screenshotKey = GlobalKey();
+  late final ScreenshotProvider screenshotProvider;
 
   SelectedQuote(this.quote, this.randomImage, {Key? key}) : super(key: key);
 
@@ -108,9 +110,54 @@ class SelectedQuote extends StatefulWidget {
 }
 
 class _SelectedQuoteState extends State<SelectedQuote> {
+  void takeScreenshotAndShare() async {
+    RenderRepaintBoundary boundary = SelectedQuote.screenshotKey.currentContext!
+        .findRenderObject() as RenderRepaintBoundary;
+    dart_ui.Image screenshot = await boundary.toImage(pixelRatio: 2.0);
+    ByteData? byteData =
+        await screenshot.toByteData(format: ImageByteFormat.png);
+    Uint8List pngBytes = byteData!.buffer.asUint8List();
+    // Get the directory for saving the image
+    final directory = await getApplicationDocumentsDirectory();
+    final imagePath = '${directory.path}/screenshot.png';
+
+    // Write the image data to a file
+    File(imagePath).writeAsBytesSync(pngBytes);
+
+    await Share.shareFiles([imagePath],
+        text: widget.quote.quoteText,
+        subject: widget.quote.author,
+        mimeTypes: ['image/png'],
+        sharePositionOrigin: const Rect.fromLTWH(0, 0, 10, 10));
+  }
+
+  @override
+  void dispose() {
+    print('Dispose!');
+    widget.screenshotProvider.removeListener(_screenShotListener);
+    super.dispose();
+  }
+
+  void _screenShotListener() {
+    print('Calling screenshot callback!');
+    takeScreenshotAndShare();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    widget.screenshotProvider =
+        Provider.of<ScreenshotProvider>(context, listen: true);
+    widget.screenshotProvider.addListener(_screenShotListener);
+  }
+
   @override
   void initState() {
+    // widget.screenshotProvider =
+    //     Provider.of<ScreenshotProvider>(context, listen: true);
+    // widget.screenshotProvider.addListener(_screenShotListener);
     super.initState();
+    // context.read<ScreenshotProvider>().addListener(_screenShotListener);
   }
 
   @override
@@ -159,36 +206,12 @@ class QuoteStack extends StatelessWidget {
 
   const QuoteStack(this.quote, this.image, {super.key});
 
-  void takeScreenshotAndShare() async {
-    RenderRepaintBoundary boundary = screenshotKey.currentContext!
-        .findRenderObject() as RenderRepaintBoundary;
-    dart_ui.Image screenshot = await boundary.toImage(pixelRatio: 2.0);
-    ByteData? byteData =
-        await screenshot.toByteData(format: ImageByteFormat.png);
-    Uint8List pngBytes = byteData!.buffer.asUint8List();
-    // Get the directory for saving the image
-    final directory = await getApplicationDocumentsDirectory();
-    final imagePath = '${directory.path}/screenshot.png';
-
-    // Write the image data to a file
-    File(imagePath).writeAsBytesSync(pngBytes);
-
-    await Share.shareFiles([imagePath],
-        text: quote.quoteText,
-        subject: quote.author,
-        mimeTypes: ['image/png'],
-        sharePositionOrigin: const Rect.fromLTWH(0, 0, 10, 10));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<ScreenshotProvider>(
       builder: (BuildContext context, provider, Widget? child) {
-        provider.addListener(() {
-          takeScreenshotAndShare();
-        });
         return RepaintBoundary(
-          key: screenshotKey,
+          key: SelectedQuote.screenshotKey,
           child: Stack(
             children: [
               Container(
