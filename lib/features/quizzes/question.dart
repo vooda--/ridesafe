@@ -147,7 +147,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
             child: Text(
               textAlign: TextAlign.center,
               widget.question.question,
-              style: AppTextStyles.headline5,
+              style: AppTextStyles.headline5(),
             )),
         const SizedBox(
           height: 10,
@@ -177,7 +177,10 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                 ),
               ),
               onPressed: () {
-                print('PRessed!');
+                if (_selectedAnswer.isNotEmpty) {
+                  return;
+                }
+                print('Selected answer pressed!');
                 setState(() {
                   _selectedAnswer = e.key;
                   _isCorrect = widget.onAnswerSelected(e.key);

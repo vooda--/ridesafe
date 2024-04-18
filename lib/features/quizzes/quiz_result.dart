@@ -34,7 +34,7 @@ class _QuizResultState extends State<QuizResultPage> {
         backgroundColor: AppColors.whiteColor,
         title: Text(
           quizName,
-          style: AppTextStyles.headline5,
+          style: AppTextStyles.headline5(),
         ),
       ),
       body: Container(
@@ -80,6 +80,7 @@ class _QuizResultWidgetState extends State<QuizResultWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
+          // alignment: AlignmentDirectional.topCenter,
           margin: const EdgeInsets.only(bottom: 30),
           child: Text(
             (widget.score > 80) ? 'Congrats!' : 'You can do better!',

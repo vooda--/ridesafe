@@ -43,17 +43,17 @@ class Quote extends HiveObject {
       required this.author});
 
   factory Quote.fromJson(Map<String, dynamic> json) => Quote(
-        id: json["id"],
-        image: json["image"],
-        url: json["url"],
-        youtubeUrl: json["youtubeUrl"],
-        tags: json["tags"],
-        content: json["content"],
-        draft: json["draft"],
-        hidden: json["hidden"],
-        quoteText: json["quoteText"],
-        author: json["author"],
-      );
+      id: json["id"],
+      image: json["image"],
+      url: json["url"],
+      youtubeUrl: json["youtubeUrl"],
+      tags: json["tags"],
+      content: json["content"],
+      draft: json["draft"],
+      hidden: json["hidden"],
+      quoteText: json["quoteText"],
+      author: json["author"],
+      isFavorite: json["favorite"]);
 }
 
 class QuoteAdapter extends TypeAdapter<Quote> {
@@ -74,7 +74,7 @@ class QuoteAdapter extends TypeAdapter<Quote> {
       quoteText: reader.read(),
       author: reader.read(),
       imageBytes: reader.read(),
-      isFavorite: reader.read(),
+      isFavorite: reader.read() ?? false,
     );
   }
 
@@ -86,11 +86,12 @@ class QuoteAdapter extends TypeAdapter<Quote> {
     writer.write(obj.youtubeUrl);
     writer.write(obj.tags);
     writer.write(obj.content);
-    writer.write(obj.isFavorite);
+    // writer.write(obj.isFavorite ?? false);
     writer.write(obj.draft);
     writer.write(obj.hidden);
     writer.write(obj.quoteText);
     writer.write(obj.author);
     writer.write(obj.imageBytes);
+    writer.write(obj.isFavorite);
   }
 }

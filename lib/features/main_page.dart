@@ -16,7 +16,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.whiteColor,
-          title: Text('Ride Safe', style: AppTextStyles.headline5,),
+          title: Text('Ride Safe', style: AppTextStyles.headline5(),),
         ),
         body: Container(
           child: const Text('Main Page'),

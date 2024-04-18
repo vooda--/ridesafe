@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -31,17 +32,19 @@ class _ArticlePageState extends State<ArticlePage> {
     var article = ModalRoute.of(context)!.settings.arguments as Article;
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: AppColors.whiteColor,
-          title: Text(
-            article.title ?? 'Article',
-            style: AppTextStyles.headline5,
-          ),
-        ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Center(
-            child: SelectedArticle(article),
+        // appBar: AppBar(
+        //   backgroundColor: AppColors.whiteColor,
+        //   title: Text(
+        //     article.title ?? 'Article',
+        //     style: AppTextStyles.headline5(),
+        //   ),
+        // ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Center(
+              child: SelectedArticle(article),
+            ),
           ),
         ),
         drawer: const SafeArea(child: MyDrawer()));
@@ -74,70 +77,82 @@ class _SelectedArticleState extends State<SelectedArticle> {
 
   @override
   Widget build(BuildContext context) {
+    final author = widget.article.author!.isEmpty ? 'Vooda' : widget.article.author!;
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.article.title,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  child: CachedNetworkImage(
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      // height: 300,
+                      cacheKey: Helpers.getImageUrlById(
+                        widget.article.image?.id,
+                      ),
+                      imageUrl: Helpers.getImageUrlById(
+                        widget.article.image?.id,
+                      ),
+                      errorWidget: (context, url, error) => const Image(
+                        image: AssetImage('assets/images/default.jpeg'),
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Category: ${widget.article.articleCategory.title}',
-                // Replace with actual category
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
+                  child: Container(
+                    color: Colors.black.withOpacity(0.25),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-            CachedNetworkImage(
-                width: double.infinity,
-                fit: BoxFit.cover,
-                height: 300,
-                cacheKey: Helpers.getImageUrlById(
-                  widget.article.image?.id,
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            widget.article.title,
+                            style: AppTextStyles.headline5(color: AppColors.neutrals8)
+                          ),
+                        Text(
+                            author,
+                          style: AppTextStyles.captions
+                        ),
+                        // Text(
+                        //     widget.article.articleCategory.title ?? 'Category',
+                        //     style: AppTextStyles.captions
+                        // ),
+                      ],
+                    ),
+                  ),
                 ),
-                imageUrl: Helpers.getImageUrlById(
-                  widget.article.image?.id,
-                ),
-                errorWidget: (context, url, error) => const Image(
-                  image: AssetImage('assets/images/default.jpeg'),
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                )),
-              const SizedBox(height: 16),
-              Text(
-                'Author: ${widget.article.author}',
-                // Replace with actual author
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(height: 16),
-              HtmlWidget(
+              ],
+            ),
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: HtmlWidget(
                 widget.article.content ?? '<div>No text yet...</div>',
                 textStyle: const TextStyle(
                   fontSize: 16,
                 ),
               ),
-              // Text(
-              //   widget.article.content ?? 'No text yet...',
-              //   // Replace with actual article content
-              //   style: const TextStyle(
-              //     fontSize: 16,
-              //   ),
-              // ),
-            ],
-          ),
+            ),
+            // Text(
+            //   widget.article.content ?? 'No text yet...',
+            //   // Replace with actual article content
+            //   style: const TextStyle(
+            //     fontSize: 16,
+            //   ),
+            // ),
+          ],
         ),
       ],
     );

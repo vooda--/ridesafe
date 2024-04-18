@@ -20,12 +20,12 @@ class AppColors {
 
 }
 class AppTextStyles {
-    static TextStyle headline5 = const TextStyle(
+    static TextStyle headline5({Color? color}) => TextStyle(
         fontSize: 24,
         letterSpacing: -0.24,
         fontWeight: FontWeight.bold,
         fontFamily: 'Ubuntu',
-        color: AppColors.primaryTextColor,
+        color: color ?? AppColors.primaryTextColor
     );
     static TextStyle hairlineLarge = const TextStyle(
         fontSize: 16,
@@ -45,7 +45,7 @@ class AppTextStyles {
     static TextStyle captions = const TextStyle(
         fontSize: 14,
         letterSpacing: 1.4,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.bold,
         fontFamily: 'Ubuntu',
         color: AppColors.neutrals4,
     );

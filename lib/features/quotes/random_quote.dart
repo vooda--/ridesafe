@@ -38,7 +38,7 @@ class _RandomQuotePageState extends State<RandomQuotePage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.whiteColor,
-          title: Text('Quotes', style: AppTextStyles.headline5),
+          title: Text('Quotes', style: AppTextStyles.headline5()),
         ),
         body: Container(
           child: Center(

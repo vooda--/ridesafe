@@ -25,7 +25,7 @@ class _QuizPageState extends State<QuizPage> {
           backgroundColor: AppColors.whiteColor,
           title: Text(
             quiz.title ?? 'Quiz',
-            style: AppTextStyles.headline5,
+            style: AppTextStyles.headline5(),
           ),
         ),
         body: Container(

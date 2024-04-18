@@ -57,7 +57,7 @@ class _QuotePageState extends State<QuotePage> {
           backgroundColor: AppColors.whiteColor,
           title: Text(
             'Quotes',
-            style: AppTextStyles.headline5,
+            style: AppTextStyles.headline5(),
           ),
         ),
         body: Container(

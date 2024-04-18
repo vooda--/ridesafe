@@ -30,7 +30,7 @@ class _SchoolPageState extends State<SchoolPage> {
         backgroundColor: AppColors.whiteColor,
         title: Text(
           'Ride Safe',
-          style: AppTextStyles.headline5,
+          style: AppTextStyles.headline5(),
         ),
       ),
       body: Container(

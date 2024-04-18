@@ -31,7 +31,7 @@ class _QuizesPageState extends State<QuizesPage> {
         backgroundColor: AppColors.secondary1,
         title: Text(
           'Let\'s play',
-          style: AppTextStyles.headline5,
+          style: AppTextStyles.headline5(),
         ),
       ),
       body: Container(
