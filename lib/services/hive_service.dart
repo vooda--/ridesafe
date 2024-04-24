@@ -68,11 +68,12 @@ class HiveService {
           .cast<Quote>()
           .toList();
     }
+    print('Quotes $quotes');
     return quotes;
   }
 
   Future<void> setFavorite(Quote quote) async {
-    quote.isFavorite = (quote.isFavorite == null) ? true : false;
+    quote.isFavorite = (quote.isFavorite == null || quote.isFavorite == false) ? true : false;
     await quote.save();
   }
 
