@@ -17,6 +17,7 @@ import 'package:ride_safe/services/models/question.dart';
 import 'package:ride_safe/services/models/quiz.dart';
 import 'package:ride_safe/services/models/quiz_category.dart';
 import 'package:ride_safe/services/models/quote.dart';
+import 'package:ride_safe/services/providers/download_provider.dart';
 import 'package:ride_safe/services/providers/prefetched_images_provider.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 import 'package:ride_safe/services/providers/screenshot_provider.dart';
@@ -48,6 +49,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => AppStateModel()),
         ChangeNotifierProvider(create: (context) => ScreenshotProvider()),
+        ChangeNotifierProvider(create: (context) => DownloadProvider()),
         ChangeNotifierProvider(create: (context) => BottomMenuLogic()),
         ChangeNotifierProvider(create: (context) => rideSafeProvider),
         // ChangeNotifierProvider(create: (context) => rideSafeProvider),

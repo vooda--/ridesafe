@@ -11,6 +11,7 @@ class BottomNavigationMenu extends StatelessWidget {
 
   void Function()? onAddToFavoriteClick;
   void Function()? onShareClick;
+  void Function()? onDownloadClick;
   void Function()? onSearchClick;
   void Function(String filter)? searchCallback;
 
@@ -19,12 +20,14 @@ class BottomNavigationMenu extends StatelessWidget {
       required this.controller,
       this.onAddToFavoriteClick,
       this.onSearchClick,
+      this.onDownloadClick,
       this.searchCallback,
       this.onShareClick})
       : super(key: key) {
     onAddToFavoriteClick ??= () {};
     onShareClick ??= () {};
     onSearchClick ??= () {};
+    onDownloadClick ??= () {};
     searchCallback ??= (String filter) {};
   }
 
@@ -69,29 +72,33 @@ class BottomNavigationMenu extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         // crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
+                          // IconButton(
+                          //   onPressed: () {},
+                          //   icon: SvgPicture.asset('assets/icons/download.svg',
+                          //       height: 24,
+                          //       width: 24,
+                          //       semanticsLabel: 'Download'),
+                          // ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              onDownloadClick!();
+                              // menuLogic.toggleSearch();
+                            },
                             icon: SvgPicture.asset('assets/icons/download.svg',
                                 height: 24,
                                 width: 24,
                                 semanticsLabel: 'Download'),
                           ),
-                          // IconButton(
-                          //     onPressed: () {
-                          //       onSearchClick!();
-                          //       menuLogic.toggleSearch();
-                          //     },
-                          //     icon: const Icon(Icons.search)),
-                          IconButton(
-                              onPressed: () {
-                                onAddToFavoriteClick!();
-                              },
-                              icon: const Icon(Icons.favorite)),
                           IconButton(
                               onPressed: () {
                                 onShareClick!();
                               },
                               icon: const Icon(Icons.share)),
+                          IconButton(
+                              onPressed: () {
+                                onAddToFavoriteClick!();
+                              },
+                              icon: const Icon(Icons.favorite)),
                         ],
                       ),
                     ),

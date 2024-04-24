@@ -6,6 +6,7 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:ride_safe/services/constants.dart';
+import 'package:ride_safe/services/providers/download_provider.dart';
 import 'package:ride_safe/services/providers/screenshot_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:io';
@@ -75,6 +76,11 @@ class _QuotePageState extends State<QuotePage> {
             onSearchClick: () {
               log('Callback search ${quote.quoteText}');
             },
+            onDownloadClick: () {
+              log('Download click ${quote.quoteText}');
+              Provider.of<DownloadProvider>(context, listen: false)
+                  .downloadQuote();
+            },
             searchCallback: (String filter) {
               log('Callback search $filter');
               Provider.of<RideSafeProvider>(context, listen: false)
@@ -102,6 +108,7 @@ class SelectedQuote extends StatefulWidget {
   late Future<Uint8List>? randomImage;
   static GlobalKey screenshotKey = GlobalKey();
   late final ScreenshotProvider screenshotProvider;
+  late final DownloadProvider downloadProvider;
 
   SelectedQuote(this.quote, this.randomImage, {Key? key}) : super(key: key);
 
@@ -110,7 +117,7 @@ class SelectedQuote extends StatefulWidget {
 }
 
 class _SelectedQuoteState extends State<SelectedQuote> {
-  void takeScreenshotAndShare() async {
+  void saveScreenshotAndShare(bool share) async {
     RenderRepaintBoundary boundary = SelectedQuote.screenshotKey.currentContext!
         .findRenderObject() as RenderRepaintBoundary;
     dart_ui.Image screenshot = await boundary.toImage(pixelRatio: 2.0);
@@ -124,40 +131,50 @@ class _SelectedQuoteState extends State<SelectedQuote> {
     // Write the image data to a file
     File(imagePath).writeAsBytesSync(pngBytes);
 
-    await Share.shareFiles([imagePath],
-        text: widget.quote.quoteText,
-        subject: widget.quote.author,
-        mimeTypes: ['image/png'],
-        sharePositionOrigin: const Rect.fromLTWH(0, 0, 10, 10));
+    if (share) {
+      await Share.shareFiles([imagePath],
+          text: widget.quote.quoteText,
+          subject: widget.quote.author,
+          mimeTypes: ['image/png'],
+          sharePositionOrigin: const Rect.fromLTWH(0, 0, 10, 10));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("$imagePath saved ")));
+    }
   }
 
   @override
   void dispose() {
     print('Dispose!');
     widget.screenshotProvider.removeListener(_screenShotListener);
+    widget.downloadProvider.removeListener(_downloadListener);
     super.dispose();
   }
 
   void _screenShotListener() {
     print('Calling screenshot callback!');
-    takeScreenshotAndShare();
+    saveScreenshotAndShare(true);
+  }
+
+  void _downloadListener() {
+    print('Calling download callback!');
+    saveScreenshotAndShare(false);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    widget.downloadProvider =
+        Provider.of<DownloadProvider>(context, listen: false);
+    widget.downloadProvider.addListener(_downloadListener);
     widget.screenshotProvider =
-        Provider.of<ScreenshotProvider>(context, listen: true);
+        Provider.of<ScreenshotProvider>(context, listen: false);
     widget.screenshotProvider.addListener(_screenShotListener);
   }
 
   @override
   void initState() {
-    // widget.screenshotProvider =
-    //     Provider.of<ScreenshotProvider>(context, listen: true);
-    // widget.screenshotProvider.addListener(_screenShotListener);
     super.initState();
-    // context.read<ScreenshotProvider>().addListener(_screenShotListener);
   }
 
   @override
