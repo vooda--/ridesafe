@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:typed_data';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ride_safe/services/models/article.dart';
@@ -9,6 +8,7 @@ import 'package:ride_safe/services/models/quiz_category.dart';
 
 import 'models/image.dart';
 import 'models/quote.dart';
+import 'models/user.dart';
 
 class HiveService {
   static const String quizCategoriesKey = 'quizCategories';
@@ -21,6 +21,7 @@ class HiveService {
   static const String articlesKey = 'articles';
   static const String articleCategoriesKey = 'articleCategories';
   static const String fetchedAt = 'fetchedAt';
+  static const String userData = 'userData';
   late Box quotesBox;
   late Box imagesBox;
   late Box prefetchedImagesBox;
@@ -30,6 +31,7 @@ class HiveService {
   late Box articleCategoriesBox;
   late Box favoriteBox;
   late Box userDataBox;
+  late Box fetchedAtBox;
 
   HiveService();
 
@@ -43,7 +45,8 @@ class HiveService {
     quizzesBox = await Hive.openBox(HiveService.quizesKeys);
     articlesBox = await Hive.openBox(HiveService.articlesKey);
     articleCategoriesBox = await Hive.openBox(HiveService.articleCategoriesKey);
-    userDataBox = await Hive.openBox(HiveService.fetchedAt);
+    userDataBox = await Hive.openBox<User>(HiveService.userData);
+    fetchedAtBox = await Hive.openBox(HiveService.fetchedAt);
     favoriteBox = await Hive.openBox(HiveService.favoriteQuotesKey);
   }
 
@@ -87,7 +90,11 @@ class HiveService {
 
   Future<void> saveFetchTime([bool? reset]) async {
     var time = (reset == true) ? 0 : DateTime.now().millisecondsSinceEpoch;
-    await userDataBox.put(fetchedAt, time);
+    await fetchedAtBox.put(fetchedAt, time);
+  }
+
+  Future<void> saveUserData(User user) async {
+    await userDataBox.put('user', user);
   }
 
   Future<void> setQuizCategories(List<QuizCategory> quizCategories) async {
@@ -112,8 +119,8 @@ class HiveService {
 
   int getFetchTime() {
     log('LAast time fetched: ');
-    var lastTime = userDataBox.get(fetchedAt);
-    if (lastTime != Null) {
+    var lastTime = fetchedAtBox.get(fetchedAt);
+    if (lastTime != null) {
       log(lastTime.toString());
     } else {
       log('null last time');
@@ -151,6 +158,10 @@ class HiveService {
           .toList();
     }
     return (articles.cast<Article>());
+  }
+
+  User getUserBox() {
+    return userDataBox.get('user');
   }
 
   List<ArticleCategory> getArticleCategoriesBox() {

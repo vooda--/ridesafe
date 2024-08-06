@@ -17,6 +17,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../api.dart';
 import '../models/quote.dart';
+import '../models/user.dart';
 
 class RideSafeProvider with ChangeNotifier {
   final API apiService;
@@ -45,6 +46,8 @@ class RideSafeProvider with ChangeNotifier {
   List<Article> get articles => hiveService.getArticlesBox(articleFilter);
 
   List<Quote> get favoriteQuotes => hiveService.getFavoriteQuotes();
+
+  User get user => hiveService.getUserBox();
 
   List<QuizCategory> get quizCategories => hiveService.getQuizCategoriesBox();
 
@@ -83,12 +86,17 @@ class RideSafeProvider with ChangeNotifier {
     // if (quotes.isNotEmpty) {
     //   await hiveService.saveFetchTime(true);
     // }
-
-    await fetchQuotes();
-    await fetchQuizes();
-    await fetchQuizCategories();
-    await fetchArticles();
-    await fetchArticleCategories();
+    try {
+      await fetchQuotes();
+      await fetchQuizes();
+      await fetchQuizCategories();
+      await fetchArticles();
+      await fetchArticleCategories();
+      await fetchUserData();
+    }
+    catch (e) {
+      print('SocketException: $e');
+    }
     hiveService.saveFetchTime();
   }
 
@@ -214,14 +222,10 @@ class RideSafeProvider with ChangeNotifier {
       notifyListeners();
     });
   }
-
-  /*
-  @deprecated: remove this method
-   */
-  Future<void> fetchUsers() async {
-    return apiService.fetchUsers().then((quotes) {
-      // _quotes = quotes;
-      log('Users fetched: ${quotes.length}');
+  
+  Future<void> fetchUserData() async {
+    return apiService.fetchUser().then((user) {
+      hiveService.saveUserData(user);
       notifyListeners();
     });
   }

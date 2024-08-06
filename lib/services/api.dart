@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:ride_safe/services/models/prefetchedImage.dart';
 import 'package:ride_safe/services/models/quiz_category.dart';
+import 'package:ride_safe/services/models/user.dart';
 
 import 'models/article.dart';
 import 'models/article_category.dart';
@@ -40,6 +41,14 @@ class API {
     return '$API_URL/images/name';
   }
 
+  _userData() {
+    return '$API_URL/user/current';
+  }
+
+  _users() {
+    return '$API_URL/user';
+  }
+
   _articles(String locale, int lastTimeFetched) {
     return '$API_URL/school/articles/$locale?lastRequest=$lastTimeFetched';
   }
@@ -57,9 +66,7 @@ class API {
   }
 
   Future imageById(int id) async {
-    final response = await http.get(Uri.parse(_imageById(id)), headers: {
-      HttpHeaders.authorizationHeader: _basicAuth(),
-    });
+    http.Response response = await performGetRequest(_imageById(id));
     log('Response image: $response');
 
     if (response.statusCode == 200) {
@@ -85,9 +92,7 @@ class API {
   }
 
   Future fetchRandomImage(String orientation) async {
-    final response = await http.get(Uri.parse(_random(orientation)), headers: {
-      HttpHeaders.authorizationHeader: _basicAuth(),
-    });
+    http.Response response = await performGetRequest(_random(orientation));
     log('Response: $response');
 
     if (response.statusCode == 200) {
@@ -98,10 +103,8 @@ class API {
   }
 
   Future fetchRandomImages(String orientation, int number) async {
-    final response =
-        await http.get(Uri.parse(_randomN(orientation, number)), headers: {
-      HttpHeaders.authorizationHeader: _basicAuth(),
-    });
+    http.Response response =
+        await performGetRequest(_randomN(orientation, number));
     log('Response: $response');
 
     if (response.statusCode == 200) {
@@ -117,24 +120,40 @@ class API {
     }
   }
 
-  Future<List<Quote>> fetchUsers() async {
-    const String baseUrl = 'https://jsonplaceholder.typicode.com';
+  Future<http.Response> performGetRequest(String url) async {
+    http.Response response = http.Response('Error', 500);
+    try {
+      response = await http.get(Uri.parse(url), headers: {
+        HttpHeaders.authorizationHeader: _basicAuth(),
+      });
+    } on SocketException catch (e) {
+      // Handle other types of SocketException errors
+      print('SocketException: $e');
+      return Future(() => http.Response('Error', 500));
+    }
+    return response;
+  }
 
-    final response = await http.get(Uri.parse('$baseUrl/users'));
+  Future<User> fetchUser() async {
+    http.Response response = await performGetRequest(_userData());
 
     if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((user) => Quote.fromJson(user)).toList();
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      return User.fromJson(jsonResponse);
     } else {
-      throw Exception('Failed to load users: $response.statusCode');
+      return User(
+          email: 'test@test.com',
+          firstName: 'test',
+          id: -1,
+          enabled: true,
+          lastName: 'Test',
+          role: 'user');
+      throw Exception('Failed to load user: $response.statusCode');
     }
   }
 
   Future fetchQuizCategories(String locale) async {
-    final response =
-        await http.get(Uri.parse(_quizCategories(locale)), headers: {
-      HttpHeaders.authorizationHeader: _basicAuth(),
-    });
+    http.Response response = await performGetRequest(_quizCategories(locale));
 
     log('Response: $response');
     if (response.statusCode == 200) {
@@ -148,11 +167,10 @@ class API {
   }
 
   Future fetchArticleCategories(String locale) async {
-    final response =
-        await http.get(Uri.parse(_articleCategories(locale)), headers: {
-      HttpHeaders.authorizationHeader: _basicAuth(),
-    });
+    http.Response response =
+        await performGetRequest(_articleCategories(locale));
     log('Response: $response');
+
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse
@@ -164,10 +182,8 @@ class API {
   }
 
   Future fetchQuizes(String locale, int lastTImeFetched) async {
-    final response =
-        await http.get(Uri.parse(_quizes(locale, lastTImeFetched)), headers: {
-      HttpHeaders.authorizationHeader: _basicAuth(),
-    });
+    http.Response response =
+        await performGetRequest(_quizes(locale, lastTImeFetched));
     log('Response: $response');
 
     if (response.statusCode == 200) {
@@ -179,10 +195,8 @@ class API {
   }
 
   Future fetchArticles(String locale, int lastTimeFetched) async {
-    final response =
-        await http.get(Uri.parse(_articles(locale, lastTimeFetched)), headers: {
-      HttpHeaders.authorizationHeader: _basicAuth(),
-    });
+    http.Response response =
+        await performGetRequest(_articles(locale, lastTimeFetched));
     log('Response: $response');
 
     if (response.statusCode == 200) {
@@ -194,10 +208,8 @@ class API {
   }
 
   Future fetchQuotes(String locale, int lastTimeFetched) async {
-    final response =
-        await http.get(Uri.parse(_quotes(locale, lastTimeFetched)), headers: {
-      HttpHeaders.authorizationHeader: _basicAuth(),
-    });
+    http.Response response =
+        await performGetRequest(_quotes(locale, lastTimeFetched));
     log('Response: $response');
 
     if (response.statusCode == 200) {

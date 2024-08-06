@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:provider/provider.dart';
 import 'package:ride_safe/services/helpers.dart';
 
 import '../../services/constants.dart';
+import '../../services/models/user.dart';
+import '../../services/providers/ride_safe_provider.dart';
 
 class MyHeaderDrawer extends StatefulWidget {
-  const MyHeaderDrawer({super.key});
+  MyHeaderDrawer({super.key});
+  late User user;
 
   @override
   State<MyHeaderDrawer> createState() => _MyHeaderDrawerState();
 }
 
 class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
+
+
+  @override
+  void initState() {
+    var provider = Provider.of<RideSafeProvider>(context, listen: false);
+    setState(() {
+      widget.user = provider.user;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,29 +65,31 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
                                   AssetImage('assets/images/user_logo.png'))),
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                     flex: 2,
                     child: Column(
                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          'Julia M.',
-                          style: TextStyle(
+                          widget.user.firstName + widget.user.lastName,
+                          style: const TextStyle(
                               color: AppColors.primaryTextColor,
                               fontWeight: FontWeight.w800,
                               height: 1.2,
                               fontSize: 32),
                         ),
-                        Text(
+                        const Text(
                           'since April, 2023',
                           style: TextStyle(
-                              color: AppColors.neutrals5, fontWeight: FontWeight.bold, fontSize: 14),
+                              color: AppColors.neutrals5,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16.0,
                         ),
-                        Text(
+                        const Text(
                           'Edit info',
                           style: TextStyle(
                               color: AppColors.neutrals3,
@@ -88,7 +105,8 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
           OutlinedButton(
               onPressed: () => {debugPrint('Upgrade clicked')},
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: createMaterialColor(AppColors.primaryColor)),
+                side: BorderSide(
+                    color: createMaterialColor(AppColors.primaryColor)),
                 textStyle: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,

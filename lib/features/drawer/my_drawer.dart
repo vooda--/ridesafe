@@ -42,7 +42,7 @@ class _MyDrawerState extends State<MyDrawer> {
         // crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const MyHeaderDrawer(),
+          MyHeaderDrawer(),
           Expanded(child: MyDrawerList()),
           const Text(
             'Developed by VoodaLab LLC. Copyright 2024',

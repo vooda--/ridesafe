@@ -17,6 +17,7 @@ import 'package:ride_safe/services/models/question.dart';
 import 'package:ride_safe/services/models/quiz.dart';
 import 'package:ride_safe/services/models/quiz_category.dart';
 import 'package:ride_safe/services/models/quote.dart';
+import 'package:ride_safe/services/models/user.dart';
 import 'package:ride_safe/services/providers/download_provider.dart';
 import 'package:ride_safe/services/providers/prefetched_images_provider.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
@@ -37,6 +38,7 @@ void main() async {
   Hive.registerAdapter(ImageAdapter());
   Hive.registerAdapter(ArticleAdapter());
   Hive.registerAdapter(ArticleCategoryAdapter());
+  Hive.registerAdapter(UserAdapter());
   var hiveService = HiveService();
   var api = API();
   var prefetchedImagesProvider = PrefetchedImagesProvider(hiveService, api);
