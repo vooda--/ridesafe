@@ -47,7 +47,7 @@ class RideSafeProvider with ChangeNotifier {
 
   List<Quote> get favoriteQuotes => hiveService.getFavoriteQuotes();
 
-  User get user => hiveService.getUserBox();
+  User? get user => hiveService.getUserBox();
 
   List<QuizCategory> get quizCategories => hiveService.getQuizCategoriesBox();
 

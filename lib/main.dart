@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ride_safe/features/bottom_menu/bottom_mixin/bottom_mixin.dart';
+import 'package:ride_safe/features/login.dart';
 import 'package:ride_safe/features/quizzes/quiz_result.dart';
 import 'package:ride_safe/features/quizzes/quizes.dart';
 import 'package:ride_safe/features/quotes/quotes.dart';
 import 'package:ride_safe/features/school/articles.dart';
+import 'package:ride_safe/features/signup.dart';
 import 'package:ride_safe/services/api.dart';
 import 'package:ride_safe/services/helpers.dart';
 import 'package:ride_safe/services/hive_service.dart';
@@ -70,6 +72,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const MainPage(),
+        '/login': (context) => const LoginPage(),
+        '/signup': (context) => const SignupPage(),
         '/quote': (context) => const QuotesPage(quoteType: QuoteType.all),
         // '/quote
         '/quote/selected': (context) => const QuotePage(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
+import 'package:ride_safe/features/login.dart';
 import 'package:ride_safe/services/helpers.dart';
 
 import '../../services/constants.dart';
@@ -9,20 +10,27 @@ import '../../services/providers/ride_safe_provider.dart';
 
 class MyHeaderDrawer extends StatefulWidget {
   MyHeaderDrawer({super.key});
+
   late User user;
+  bool isAuthorized = false;
 
   @override
   State<MyHeaderDrawer> createState() => _MyHeaderDrawerState();
 }
 
 class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
-
-
   @override
   void initState() {
     var provider = Provider.of<RideSafeProvider>(context, listen: false);
     setState(() {
-      widget.user = provider.user;
+      if (provider.user != null &&
+          provider.user!.id > 0 &&
+          provider.user!.id != AppValues.anonymousUserId) {
+        widget.isAuthorized = true;
+        widget.user = provider.user!;
+      } else {
+        widget.isAuthorized = false;
+      }
     });
   }
 
@@ -72,16 +80,20 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          widget.user.firstName + widget.user.lastName,
+                          widget.isAuthorized
+                              ? widget.user.firstName + widget.user.lastName
+                              : '',
                           style: const TextStyle(
                               color: AppColors.primaryTextColor,
                               fontWeight: FontWeight.w800,
                               height: 1.2,
                               fontSize: 32),
                         ),
-                        const Text(
-                          'since April, 2023',
-                          style: TextStyle(
+                        Text(
+                          widget.isAuthorized
+                              ? widget.user.email
+                              : AppValues.loginMessage,
+                          style: const TextStyle(
                               color: AppColors.neutrals5,
                               fontWeight: FontWeight.bold,
                               fontSize: 14),
@@ -89,13 +101,14 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
                         const SizedBox(
                           height: 16.0,
                         ),
-                        const Text(
-                          'Edit info',
-                          style: TextStyle(
-                              color: AppColors.neutrals3,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        ),
+                        if (widget.isAuthorized)
+                          const Text(
+                            'Edit info',
+                            style: TextStyle(
+                                color: AppColors.neutrals3,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          )
                       ],
                     ),
                   )
@@ -103,7 +116,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
           ),
           const Expanded(child: SizedBox()),
           OutlinedButton(
-              onPressed: () => {debugPrint('Upgrade clicked')},
+              onPressed: () => {Navigator.pushNamed(context, '/login')},
               style: OutlinedButton.styleFrom(
                 side: BorderSide(
                     color: createMaterialColor(AppColors.primaryColor)),
@@ -122,7 +135,9 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              child: const Text('Upgrade to Premium')),
+              child: widget.isAuthorized
+                  ? const Text('Upgrade to Premium')
+                  : const Text('Login')),
         ],
       ),
     );

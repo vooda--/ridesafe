@@ -49,6 +49,10 @@ class API {
     return '$API_URL/user';
   }
 
+  _login() {
+    return '$API_URL/user/authenticate';
+  }
+
   _articles(String locale, int lastTimeFetched) {
     return '$API_URL/school/articles/$locale?lastRequest=$lastTimeFetched';
   }
@@ -120,6 +124,25 @@ class API {
     }
   }
 
+  Future<http.Response> performPostRequest(
+      String url, String payload, bool authHeader) async {
+    http.Response response = http.Response('Error', 500);
+    try {
+      response = await http.post(Uri.parse(url),
+          body: payload,
+          headers: authHeader
+              ? {
+                  HttpHeaders.authorizationHeader: _basicAuth(),
+                }
+              : {});
+    } on SocketException catch (e) {
+      // Handle other types of SocketException errors
+      print('SocketException: $e');
+      return Future(() => http.Response('Error', 500));
+    }
+    return response;
+  }
+
   Future<http.Response> performGetRequest(String url) async {
     http.Response response = http.Response('Error', 500);
     try {
@@ -134,6 +157,17 @@ class API {
     return response;
   }
 
+  Future<String> login(String email, String password) async {
+    http.Response response = await performPostRequest(
+        _login(), jsonEncode({email, password}), false);
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to login: $response.statusCode');
+    }
+  }
+
   Future<User> fetchUser() async {
     http.Response response = await performGetRequest(_userData());
 
@@ -143,10 +177,10 @@ class API {
     } else {
       return User(
           email: 'test@test.com',
-          firstName: 'test',
+          firstName: '',
           id: -1,
           enabled: true,
-          lastName: 'Test',
+          lastName: '',
           role: 'user');
       throw Exception('Failed to load user: $response.statusCode');
     }

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+class AppValues {
+    static const anonymousUserId = 2;
+    static const loginMessage = 'Login to see your data';
+}
 class AppColors {
     static const primaryColor = Color(0xFF778FF0);
     static const primaryTextColor = Color(0xFF17171A);

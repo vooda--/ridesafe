@@ -113,11 +113,12 @@ class _ArticleListState extends State<ArticleList> {
                   child: Wrap(
                       spacing: 10,
                       direction: Axis.horizontal,
-                      crossAxisAlignment: WrapCrossAlignment.end,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      alignment: WrapAlignment.center,
                       children: [
                         Text(category.title, style: AppTextStyles.bodyNormalBold),
                         SvgPicture.asset('assets/icons/vector.svg',
-                            fit: BoxFit.contain, height: 18, width: 18)
+                            fit: BoxFit.contain, alignment: Alignment.center, height: 10, width: 10)
                       ]),
                 ),
                 SizedBox(

@@ -160,7 +160,7 @@ class HiveService {
     return (articles.cast<Article>());
   }
 
-  User getUserBox() {
+  User? getUserBox() {
     return userDataBox.get('user');
   }
 
