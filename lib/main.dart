@@ -24,6 +24,7 @@ import 'package:ride_safe/services/providers/download_provider.dart';
 import 'package:ride_safe/services/providers/prefetched_images_provider.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 import 'package:ride_safe/services/providers/screenshot_provider.dart';
+import 'package:ride_safe/services/providers/user_provider.dart';
 
 import 'features/about/about.dart';
 import 'features/main_page.dart';
@@ -45,6 +46,7 @@ void main() async {
   var api = API();
   var prefetchedImagesProvider = PrefetchedImagesProvider(hiveService, api);
   var rideSafeProvider = RideSafeProvider(hiveService, api);
+  var userProvider = UserProvider(hiveService, api);
 
   await rideSafeProvider.openBoxes();
   await rideSafeProvider.fetchAll();
@@ -56,7 +58,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => DownloadProvider()),
         ChangeNotifierProvider(create: (context) => BottomMenuLogic()),
         ChangeNotifierProvider(create: (context) => rideSafeProvider),
-        // ChangeNotifierProvider(create: (context) => rideSafeProvider),
+        ChangeNotifierProvider(create: (context) => userProvider),
         ChangeNotifierProvider(create: (context)=> prefetchedImagesProvider)
       ],
       child: const MyApp())

@@ -20,8 +20,12 @@ class MyHeaderDrawer extends StatefulWidget {
 
 class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
   @override
-  void initState() {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     var provider = Provider.of<RideSafeProvider>(context, listen: false);
+    print('Update state of header: ');
+    print('user');
+    print(provider.user?.email);
     setState(() {
       if (provider.user != null &&
           provider.user!.id > 0 &&

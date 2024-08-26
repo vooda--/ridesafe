@@ -224,10 +224,10 @@ class RideSafeProvider with ChangeNotifier {
   }
   
   Future<void> fetchUserData() async {
-    return apiService.fetchUser().then((user) {
-      hiveService.saveUserData(user);
-      notifyListeners();
-    });
+    // return apiService.fetchUser().then((user) {
+    //   hiveService.saveUserData(user);
+    //   notifyListeners();
+    // });
   }
 }
 

@@ -76,7 +76,8 @@ class HiveService {
   }
 
   Future<void> setFavorite(Quote quote) async {
-    quote.isFavorite = (quote.isFavorite == null || quote.isFavorite == false) ? true : false;
+    quote.isFavorite =
+        (quote.isFavorite == null || quote.isFavorite == false) ? true : false;
     await quote.save();
   }
 
@@ -93,8 +94,11 @@ class HiveService {
     await fetchedAtBox.put(fetchedAt, time);
   }
 
-  Future<void> saveUserData(User user) async {
+  Future<void> saveUserData(User? user) async {
+    print('user');
+    print(user?.email);
     await userDataBox.put('user', user);
+    user?.save();
   }
 
   Future<void> setQuizCategories(List<QuizCategory> quizCategories) async {

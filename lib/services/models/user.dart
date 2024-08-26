@@ -15,6 +15,8 @@ class User extends HiveObject {
   final String role;
   @HiveField(5)
   bool enabled;
+  @HiveField(6)
+  String? token;
 
   User(
       {required this.email,
@@ -22,13 +24,14 @@ class User extends HiveObject {
       required this.id,
       required this.enabled,
       required this.lastName,
-      required this.role});
+      required this.role,
+      this.token});
 
   factory User.fromJson(Map<String, dynamic> json) => User(
       id: json["id"],
       email: json["email"],
-      firstName: json["firstName"],
-      lastName: json["lastName"],
+      firstName: json["firstname"],
+      lastName: json["lastname"],
       role: json["role"],
       enabled: json["enabled"]);
 }
@@ -45,7 +48,8 @@ class UserAdapter extends TypeAdapter<User> {
         firstName: reader.read(),
         lastName: reader.read(),
         role: reader.read(),
-        enabled: reader.read());
+        enabled: reader.read(),
+        token: reader.read());
   }
 
   @override
@@ -56,5 +60,6 @@ class UserAdapter extends TypeAdapter<User> {
     writer.write(obj.lastName);
     writer.write(obj.role);
     writer.write(obj.enabled);
+    writer.write(obj.token);
   }
 }

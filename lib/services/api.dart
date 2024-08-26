@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:ride_safe/services/models/prefetchedImage.dart';
 import 'package:ride_safe/services/models/quiz_category.dart';
+import 'package:ride_safe/services/models/token.dart';
 import 'package:ride_safe/services/models/user.dart';
 
 import 'models/article.dart';
@@ -70,7 +71,7 @@ class API {
   }
 
   Future imageById(int id) async {
-    http.Response response = await performGetRequest(_imageById(id));
+    http.Response response = await performGetRequest(url: _imageById(id));
     log('Response image: $response');
 
     if (response.statusCode == 200) {
@@ -96,7 +97,7 @@ class API {
   }
 
   Future fetchRandomImage(String orientation) async {
-    http.Response response = await performGetRequest(_random(orientation));
+    http.Response response = await performGetRequest(url: _random(orientation));
     log('Response: $response');
 
     if (response.statusCode == 200) {
@@ -108,7 +109,7 @@ class API {
 
   Future fetchRandomImages(String orientation, int number) async {
     http.Response response =
-        await performGetRequest(_randomN(orientation, number));
+        await performGetRequest(url: _randomN(orientation, number));
     log('Response: $response');
 
     if (response.statusCode == 200) {
@@ -133,8 +134,9 @@ class API {
           headers: authHeader
               ? {
                   HttpHeaders.authorizationHeader: _basicAuth(),
+                  HttpHeaders.contentTypeHeader: "application/json"
                 }
-              : {});
+              : {HttpHeaders.contentTypeHeader: "application/json"});
     } on SocketException catch (e) {
       // Handle other types of SocketException errors
       print('SocketException: $e');
@@ -143,12 +145,14 @@ class API {
     return response;
   }
 
-  Future<http.Response> performGetRequest(String url) async {
+  Future<http.Response> performGetRequest(
+      {required String url, String? token}) async {
     http.Response response = http.Response('Error', 500);
     try {
       response = await http.get(Uri.parse(url), headers: {
-        HttpHeaders.authorizationHeader: _basicAuth(),
+        HttpHeaders.authorizationHeader: 'Bearer $token' ?? _basicAuth(),
       });
+      print('$response');
     } on SocketException catch (e) {
       // Handle other types of SocketException errors
       print('SocketException: $e');
@@ -157,20 +161,21 @@ class API {
     return response;
   }
 
-  Future<String> login(String email, String password) async {
+  Future<Token> login(String email, String password) async {
     http.Response response = await performPostRequest(
-        _login(), jsonEncode({email, password}), false);
-
+        _login(), jsonEncode({'email': email, 'password': password}), false);
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      Map<String, dynamic> tokenJson = json.decode(response.body);
+      return Token.fromJson(tokenJson);
     } else {
+      return Token(token: '');
       throw Exception('Failed to login: $response.statusCode');
     }
   }
 
-  Future<User> fetchUser() async {
-    http.Response response = await performGetRequest(_userData());
-
+  Future<User> fetchUser(String token) async {
+    http.Response response =
+        await performGetRequest(url: _userData(), token: token);
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       return User.fromJson(jsonResponse);
@@ -187,7 +192,8 @@ class API {
   }
 
   Future fetchQuizCategories(String locale) async {
-    http.Response response = await performGetRequest(_quizCategories(locale));
+    http.Response response =
+        await performGetRequest(url: _quizCategories(locale));
 
     log('Response: $response');
     if (response.statusCode == 200) {
@@ -202,7 +208,7 @@ class API {
 
   Future fetchArticleCategories(String locale) async {
     http.Response response =
-        await performGetRequest(_articleCategories(locale));
+        await performGetRequest(url: _articleCategories(locale));
     log('Response: $response');
 
     if (response.statusCode == 200) {
@@ -217,7 +223,7 @@ class API {
 
   Future fetchQuizes(String locale, int lastTImeFetched) async {
     http.Response response =
-        await performGetRequest(_quizes(locale, lastTImeFetched));
+        await performGetRequest(url: _quizes(locale, lastTImeFetched));
     log('Response: $response');
 
     if (response.statusCode == 200) {
@@ -230,7 +236,7 @@ class API {
 
   Future fetchArticles(String locale, int lastTimeFetched) async {
     http.Response response =
-        await performGetRequest(_articles(locale, lastTimeFetched));
+        await performGetRequest(url: _articles(locale, lastTimeFetched));
     log('Response: $response');
 
     if (response.statusCode == 200) {
@@ -243,7 +249,7 @@ class API {
 
   Future fetchQuotes(String locale, int lastTimeFetched) async {
     http.Response response =
-        await performGetRequest(_quotes(locale, lastTimeFetched));
+        await performGetRequest(url: _quotes(locale, lastTimeFetched));
     log('Response: $response');
 
     if (response.statusCode == 200) {
