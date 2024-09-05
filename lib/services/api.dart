@@ -121,7 +121,8 @@ class API {
           .map((prefetchedImage) => PrefetchedImage.fromJson(prefetchedImage))
           .toList();
     } else {
-      throw Exception('Failed to load images: $response.statusCode');
+      print(response);
+      throw Exception('Failed to load images: $response');
     }
   }
 
@@ -150,7 +151,8 @@ class API {
     http.Response response = http.Response('Error', 500);
     try {
       response = await http.get(Uri.parse(url), headers: {
-        HttpHeaders.authorizationHeader: 'Bearer $token' ?? _basicAuth(),
+        HttpHeaders.authorizationHeader:
+            (token != null) ? 'Bearer $token' : _basicAuth(),
       });
       print('$response');
     } on SocketException catch (e) {
@@ -250,10 +252,11 @@ class API {
   Future fetchQuotes(String locale, int lastTimeFetched) async {
     http.Response response =
         await performGetRequest(url: _quotes(locale, lastTimeFetched));
-    log('Response: $response');
+    log('Quote Response: $response');
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
+      log('quotes: $jsonResponse.length');
       return jsonResponse.map((quote) => Quote.fromJson(quote)).toList();
     } else {
       throw Exception('Failed to load quotes from API $response');
