@@ -30,24 +30,26 @@ class _ArticlePageState extends State<ArticlePage> {
   @override
   Widget build(BuildContext context) {
     var article = ModalRoute.of(context)!.settings.arguments as Article;
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        // appBar: AppBar(
-        //   backgroundColor: AppColors.whiteColor,
-        //   title: Text(
-        //     article.title ?? 'Article',
-        //     style: AppTextStyles.headline5(),
-        //   ),
-        // ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Center(
-              child: SelectedArticle(article),
+    return SafeArea(
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          // appBar: AppBar(
+          //   backgroundColor: AppColors.whiteColor,
+          //   title: Text(
+          //     article.title ?? 'Article',
+          //     style: AppTextStyles.headline5(),
+          //   ),
+          // ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Center(
+                child: SelectedArticle(article),
+              ),
             ),
           ),
-        ),
-        drawer: const SafeArea(child: MyDrawer()));
+          drawer: const SafeArea(child: MyDrawer())),
+    );
   }
 }
 

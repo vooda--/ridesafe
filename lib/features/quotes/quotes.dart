@@ -36,20 +36,22 @@ class _QuotesPageState extends State<QuotesPage> {
         widget.quoteType == QuoteType.all ? 'All Quotes' : 'Favorite Quotes';
     ScrollController controller = ScrollController();
     // ScrollController bodyScrollController = ScrollController();
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.whiteColor,
-        title: Text(
-          title,
-          style: AppTextStyles.headline5(),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.whiteColor,
+          title: Text(
+            title,
+            style: AppTextStyles.headline5(),
+          ),
         ),
-      ),
-      body: Center(
-        child: QuoteList(quoteType: widget.quoteType),
-      ),
-      drawer: const MyDrawer(),
-      bottomNavigationBar: BottomNavigationMenu(
-        controller: controller,
+        body: Center(
+          child: QuoteList(quoteType: widget.quoteType),
+        ),
+        drawer: const MyDrawer(),
+        bottomNavigationBar: BottomNavigationMenu(
+          controller: controller,
+        ),
       ),
     );
   }

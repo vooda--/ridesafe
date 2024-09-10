@@ -95,134 +95,136 @@ class _QuizListState extends State<QuizList> {
       builder: (context, rideSafeProvider, child) {
         final quizzes = rideSafeProvider.quizzes;
 
-        return Container(
-          color: AppColors.secondary1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: SizedBox(
-                  height: 45.0, //40 doesn't fit to android devices
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: rideSafeProvider.quizCategories.length,
-                    itemBuilder: (context, index) {
-                      final category = rideSafeProvider.quizCategories[index];
-                      return Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 5.0),
-                        height: 45,
-                        child: OutlinedButton(
-                          onPressed: () => {
-                            print('Updating set'),
-                            setState(() {
-                                  selectedCategory = category.id;
-                                  updateQuizList(quizzes);
-                                  print(listQuizz.length);
-                                  print(selectedCategory);
-                                })
-                          },
-                          style: OutlinedButton.styleFrom(
-                              // maximumSize: Size(100, 30),
-                              minimumSize: const Size(100, 26),
-                              foregroundColor: MaterialStateColor.resolveWith(
-                                  (state) => (selectedCategory == category.id)
-                                      ? createMaterialColor(
-                                          AppColors.secondaryTextColor)
-                                      : createMaterialColor(
-                                          AppColors.primaryTextColor)),
-                              side: BorderSide(
-                                  color:
-                                      createMaterialColor(Colors.transparent)),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5.0, horizontal: 12.0),
-                              textStyle: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Ubuntu',
-                              ),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide.none,
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              backgroundColor: MaterialStateColor.resolveWith(
-                                  (state) => getColor(category.id))),
-                          child: Text(category.title),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Expanded(
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: listQuizz.length,
+        return SafeArea(
+          child: Container(
+            color: AppColors.secondary1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SizedBox(
+                    height: 45.0, //40 doesn't fit to android devices
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: rideSafeProvider.quizCategories.length,
                       itemBuilder: (context, index) {
-                        final quiz = listQuizz.elementAt(index);
-                        print('Rendering list quiz: ${quiz} - ${index}');
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/quizes/quiz',
-                                arguments: quiz);
-                          },
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8))),
-                            margin: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: CachedNetworkImage(
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                    cacheKey: Helpers.getImageUrlById(
-                                      quiz.image?.id ?? 0,
-                                    ),
-                                    imageUrl: Helpers.getImageUrlById(
-                                      quiz.image?.id ?? 0,
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        const Image(
-                                      image: AssetImage(
-                                          'assets/images/default.jpeg'),
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    // child: FutureImage(id: int.parse(widget.question.imageId),
-                                    //     width: double.infinity, fit: BoxFit.cover),
-                                  ),
+                        final category = rideSafeProvider.quizCategories[index];
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 5.0),
+                          height: 45,
+                          child: OutlinedButton(
+                            onPressed: () => {
+                              print('Updating set'),
+                              setState(() {
+                                    selectedCategory = category.id;
+                                    updateQuizList(quizzes);
+                                    print(listQuizz.length);
+                                    print(selectedCategory);
+                                  })
+                            },
+                            style: OutlinedButton.styleFrom(
+                                // maximumSize: Size(100, 30),
+                                minimumSize: const Size(100, 26),
+                                foregroundColor: MaterialStateColor.resolveWith(
+                                    (state) => (selectedCategory == category.id)
+                                        ? createMaterialColor(
+                                            AppColors.secondaryTextColor)
+                                        : createMaterialColor(
+                                            AppColors.primaryTextColor)),
+                                side: BorderSide(
+                                    color:
+                                        createMaterialColor(Colors.transparent)),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5.0, horizontal: 12.0),
+                                textStyle: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Ubuntu',
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        quiz.title,
-                                        style: AppTextStyles.hairlineLarge,
-                                      ),
-                                      Text(
-                                        quiz.description ?? 'description',
-                                        style: AppTextStyles.captions,
-                                      ),
-                                      Text(quiz.tags ?? 'tags')
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                backgroundColor: MaterialStateColor.resolveWith(
+                                    (state) => getColor(category.id))),
+                            child: Text(category.title),
                           ),
                         );
-                      }))
-            ],
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: listQuizz.length,
+                        itemBuilder: (context, index) {
+                          final quiz = listQuizz.elementAt(index);
+                          print('Rendering list quiz: ${quiz} - ${index}');
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/quizes/quiz',
+                                  arguments: quiz);
+                            },
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              margin: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: CachedNetworkImage(
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                      cacheKey: Helpers.getImageUrlById(
+                                        quiz.image?.id ?? 0,
+                                      ),
+                                      imageUrl: Helpers.getImageUrlById(
+                                        quiz.image?.id ?? 0,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Image(
+                                        image: AssetImage(
+                                            'assets/images/default.jpeg'),
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      // child: FutureImage(id: int.parse(widget.question.imageId),
+                                      //     width: double.infinity, fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          quiz.title,
+                                          style: AppTextStyles.hairlineLarge,
+                                        ),
+                                        Text(
+                                          quiz.description ?? 'description',
+                                          style: AppTextStyles.captions,
+                                        ),
+                                        Text(quiz.tags ?? 'tags')
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        }))
+              ],
+            ),
           ),
         );
       },

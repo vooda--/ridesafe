@@ -95,11 +95,14 @@ class HiveService {
   }
 
   Future<void> saveUserData(User? user) async {
-    print('user');
-    print(user?.email);
-    await userDataBox.put('user', user);
-    user?.save();
+    if (user != null) {
+      await userDataBox.put('user', user);
+      print('User saved: ${user.email}');
+    } else {
+      print('User is null, nothing to save');
+    }
   }
+
 
   Future<void> setQuizCategories(List<QuizCategory> quizCategories) async {
     await quizCategoriesBox.clear();

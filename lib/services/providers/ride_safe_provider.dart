@@ -93,8 +93,7 @@ class RideSafeProvider with ChangeNotifier {
       await fetchArticles();
       await fetchArticleCategories();
       await fetchUserData();
-    }
-    catch (e) {
+    } catch (e) {
       print('SocketException: $e');
     }
     hiveService.saveFetchTime();
@@ -222,11 +221,15 @@ class RideSafeProvider with ChangeNotifier {
       notifyListeners();
     });
   }
-  
+
   Future<void> fetchUserData() async {
     User? user = hiveService.getUserBox();
-    log('saved user');
-    log('$user');
+    log('User from hive');
+    if (user == null) {
+      log('No user logged in!');
+    } else {
+      log('User: $user.name $user.email');
+    }
     // return apiService.fetchUser().then((user) {
     //   hiveService.saveUserData(user);
     //   notifyListeners();

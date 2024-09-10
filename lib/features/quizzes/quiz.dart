@@ -72,19 +72,21 @@ class _SelectedQuizState extends State<SelectedQuiz> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: QuestionWidget(
-                  question: widget.quizEngine.currentQuestion,
-                  index: widget.quizEngine.questionNumber,
-                  totalQuestions: widget.quizEngine.totalQuestions,
-                  onContinue: onContinue,
-                  onAnswerSelected: onAnswerSelected)),
-        ],
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: QuestionWidget(
+                    question: widget.quizEngine.currentQuestion,
+                    index: widget.quizEngine.questionNumber,
+                    totalQuestions: widget.quizEngine.totalQuestions,
+                    onContinue: onContinue,
+                    onAnswerSelected: onAnswerSelected)),
+          ],
+        ),
       ),
     );
   }

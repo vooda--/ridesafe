@@ -35,16 +35,18 @@ class _RandomQuotePageState extends State<RandomQuotePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.whiteColor,
-          title: Text('Quotes', style: AppTextStyles.headline5()),
-        ),
-        body: Container(
-          child: Center(
-            child: SelectedQuote(_randomQuote!, image),
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: AppColors.whiteColor,
+            title: Text('Quotes', style: AppTextStyles.headline5()),
           ),
-        ),
-        drawer: const SafeArea(child: MyDrawer()));
+          body: Container(
+            child: Center(
+              child: SelectedQuote(_randomQuote!, image),
+            ),
+          ),
+          drawer: const SafeArea(child: MyDrawer())),
+    );
   }
 }
