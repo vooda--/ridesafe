@@ -14,6 +14,7 @@ import 'package:ride_safe/services/models/prefetchedImage.dart';
 import 'package:ride_safe/services/models/quiz.dart';
 import 'package:ride_safe/services/models/quiz_category.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:ride_safe/services/models/quiz_progress.dart';
 
 import '../api.dart';
 import '../models/quote.dart';
@@ -46,6 +47,8 @@ class RideSafeProvider with ChangeNotifier {
   List<Article> get articles => hiveService.getArticlesBox(articleFilter);
 
   List<Quote> get favoriteQuotes => hiveService.getFavoriteQuotes();
+
+  List<QuizProgress> get quizProgress => hiveService.getQuizProgress();
 
   User? get user => hiveService.getUserBox();
 
@@ -93,6 +96,7 @@ class RideSafeProvider with ChangeNotifier {
       await fetchArticles();
       await fetchArticleCategories();
       await fetchUserData();
+      await fetchQuizProgress();
     } catch (e) {
       print('SocketException: $e');
     }
@@ -107,6 +111,20 @@ class RideSafeProvider with ChangeNotifier {
     return apiService.fetchQuizes('en', lastFetchTime).then((quizzes) {
       hiveService.setQuizzes(quizzes);
       log('Fetched quizzes: ${quizzes.length}');
+      notifyListeners();
+    });
+  }
+
+  Future<void> updateQuizProgress(QuizProgress progress) async {
+    return apiService.updateQuizProgress(user?.token, progress).then((value) {
+      fetchQuizProgress();
+    });
+  }
+
+  Future<void> fetchQuizProgress() async {
+    print('user for fetch: ${user?.token}');
+    return apiService.fetchUserQuizesProgress(user?.token).then((value) {
+      hiveService.setQuizProgress(value);
       notifyListeners();
     });
   }
@@ -220,6 +238,13 @@ class RideSafeProvider with ChangeNotifier {
       log('Fetched articles: ${articles.length}');
       notifyListeners();
     });
+  }
+
+  int getQuizProgressByQuizId(int quizId) {
+    var progress = quizProgress.firstWhere(
+        (element) => element.quizId == quizId,
+        orElse: () => QuizProgress.zero(quizId: quizId));
+    return progress.progress;
   }
 
   Future<void> fetchUserData() async {

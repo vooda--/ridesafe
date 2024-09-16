@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:ride_safe/services/models/prefetchedImage.dart';
 import 'package:ride_safe/services/models/quiz_category.dart';
+import 'package:ride_safe/services/models/quiz_progress.dart';
 import 'package:ride_safe/services/models/token.dart';
 import 'package:ride_safe/services/models/user.dart';
 
@@ -48,6 +49,10 @@ class API {
 
   _users() {
     return '$API_URL/user';
+  }
+
+  _quizProgress() {
+    return '$API_URL/quiz-progress';
   }
 
   _login() {
@@ -220,6 +225,33 @@ class API {
           .toList();
     } else {
       throw Exception('Failed to load article categories from API $response');
+    }
+  }
+
+  Future updateQuizProgress(String? token, QuizProgress quiz) async {
+    http.Response response = await performPostRequest(
+        _quizProgress() + '/add',
+        jsonEncode(quiz.toJson()),
+        true);
+    log('Response: $response');
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update quiz progress from API $response');
+    }
+  }
+
+  Future fetchUserQuizesProgress(String? token) async {
+    http.Response response = await performGetRequest(
+        url: _quizProgress() + '/user/quizes', token: token);
+    log('Response: $response');
+
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse
+          .map((quizProgress) => QuizProgress.fromJson(quizProgress))
+          .toList();
+    } else {
+      throw Exception('Failed to load quiz progress from API $response');
     }
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/services/constants.dart';
 import 'package:ride_safe/services/helpers.dart';
+import 'package:ride_safe/services/models/quiz_progress.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 
 import '../../services/models/quiz.dart';
@@ -61,6 +62,7 @@ class QuizList extends StatefulWidget {
 
 class _QuizListState extends State<QuizList> {
   late int selectedCategory;
+  List<QuizProgress> quizProgress = List.empty(growable: true);
   List<Quiz> listQuizz = List.empty(growable: true);
 
   Color getColor(int currentCategory) {
@@ -83,8 +85,10 @@ class _QuizListState extends State<QuizList> {
   void initState() {
     super.initState();
     var provider = Provider.of<RideSafeProvider>(context, listen: false);
+    provider.fetchQuizProgress();
     setState(() {
       selectedCategory = provider.quizCategories.first.id ?? 0;
+      quizProgress = provider.quizProgress;
       updateQuizList(provider.quizzes);
     });
   }
@@ -162,7 +166,9 @@ class _QuizListState extends State<QuizList> {
                         itemCount: listQuizz.length,
                         itemBuilder: (context, index) {
                           final quiz = listQuizz.elementAt(index);
+                          final progress = rideSafeProvider.getQuizProgressByQuizId(quiz.id);
                           print('Rendering list quiz: ${quiz} - ${index}');
+                          print('Rendering list quiz progress: ${quiz} - ${progress}');
                           return GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(context, '/quizes/quiz',
@@ -214,7 +220,8 @@ class _QuizListState extends State<QuizList> {
                                           quiz.description ?? 'description',
                                           style: AppTextStyles.captions,
                                         ),
-                                        Text(quiz.tags ?? 'tags')
+                                        Text(quiz.tags ?? 'tags'),
+                                        Text(progress.toString() ?? '0'),
                                       ],
                                     ),
                                   )

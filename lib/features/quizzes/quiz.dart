@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:ride_safe/features/quizzes/question.dart';
+import 'package:ride_safe/services/models/quiz_progress.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 import 'package:ride_safe/services/quiz_engine.dart';
 
@@ -52,12 +53,37 @@ class SelectedQuiz extends StatefulWidget {
 class _SelectedQuizState extends State<SelectedQuiz> {
   void onContinue() {
     if (widget.quizEngine.isFinished) {
+      _onQuizFinished();
       Navigator.pushNamed(context, '/quizes/quiz/result',
           arguments: widget.quizEngine);
     } else {
       setState(() {
         widget.quizEngine.nextQuestion();
       });
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.quizEngine.removeListener(_onQuizFinished);
+    super.dispose();
+  }
+
+  void _onQuizFinished() {
+    if (widget.quizEngine.isFinished) {
+      // Trigger the API call when the quiz is finished
+      final apiService = Provider.of<RideSafeProvider>(context, listen: false);
+      final quizProgress = QuizProgress(
+          userId: apiService.user!.id,
+          quizId: widget.quiz.id,
+          correctAnswers: widget.quizEngine.correctAnswers,
+          wrongAnswers: widget.quizEngine.incorrectAnswers,
+          progress: (widget.quizEngine.correctAnswers ~/
+                  widget.quiz.content!.length) *
+              100,
+          // totalQuestions: widget.quizEngine.totalQuestions,
+          lastAttempted: widget.quizEngine.timeSpent.inSeconds);
+      apiService.updateQuizProgress(quizProgress);
     }
   }
 
@@ -68,6 +94,7 @@ class _SelectedQuizState extends State<SelectedQuiz> {
   @override
   void initState() {
     super.initState();
+    widget.quizEngine.addListener(_onQuizFinished);
   }
 
   @override

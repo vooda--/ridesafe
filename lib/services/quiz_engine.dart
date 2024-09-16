@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:ride_safe/services/models/question.dart';
 
-class QuizEngine {
+class QuizEngine extends ChangeNotifier {
   int _currentQuestionNumber = 0;
   int _correctAnswers = 0;
   int _incorrectAnswers = 0;
@@ -39,6 +40,7 @@ class QuizEngine {
   nextQuestion() {
     if (isFinished) {
       _timeFinished = DateTime.now().millisecondsSinceEpoch;
+      notifyListeners();
       return false;
     }
     _currentQuestionNumber++;

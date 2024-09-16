@@ -5,6 +5,7 @@ import 'package:ride_safe/services/models/article.dart';
 import 'package:ride_safe/services/models/article_category.dart';
 import 'package:ride_safe/services/models/quiz.dart';
 import 'package:ride_safe/services/models/quiz_category.dart';
+import 'package:ride_safe/services/models/quiz_progress.dart';
 
 import 'models/image.dart';
 import 'models/quote.dart';
@@ -22,6 +23,7 @@ class HiveService {
   static const String articleCategoriesKey = 'articleCategories';
   static const String fetchedAt = 'fetchedAt';
   static const String userData = 'userData';
+  static const String quizProgressData = 'userQuizProgressData';
   late Box quotesBox;
   late Box imagesBox;
   late Box prefetchedImagesBox;
@@ -32,6 +34,7 @@ class HiveService {
   late Box favoriteBox;
   late Box userDataBox;
   late Box fetchedAtBox;
+  late Box quizProgressBox;
 
   HiveService();
 
@@ -48,6 +51,7 @@ class HiveService {
     userDataBox = await Hive.openBox<User>(HiveService.userData);
     fetchedAtBox = await Hive.openBox(HiveService.fetchedAt);
     favoriteBox = await Hive.openBox(HiveService.favoriteQuotesKey);
+    quizProgressBox = await Hive.openBox(HiveService.quizProgressData);
   }
 
   destroy() {
@@ -60,6 +64,14 @@ class HiveService {
 
   Future<void> closeBox(String boxName) async {
     await Hive.box(boxName).close();
+  }
+
+  List<QuizProgress> getQuizProgress() {
+    return quizProgressBox.values.toList().cast<QuizProgress>();
+  }
+
+  Future<void> setQuizProgress(List<QuizProgress> quizProgress) async {
+    await quizProgressBox.addAll(quizProgress);
   }
 
   List<Quote> getFavoriteQuotes() {
