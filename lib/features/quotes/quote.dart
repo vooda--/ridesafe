@@ -15,7 +15,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:ride_safe/features/bottom_menu/bottom_menu.dart';
+import 'package:ride_safe/features/bottom_menu/bottom_menu_quotes.dart';
 
 import '../../services/models/quote.dart';
 import '../../services/providers/ride_safe_provider.dart';

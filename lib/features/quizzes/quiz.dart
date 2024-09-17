@@ -54,7 +54,7 @@ class _SelectedQuizState extends State<SelectedQuiz> {
   void onContinue() {
     if (widget.quizEngine.isFinished) {
       _onQuizFinished();
-      Navigator.pushNamed(context, '/quizes/quiz/result',
+      Navigator.pushReplacementNamed(context, '/quizes/quiz/result',
           arguments: widget.quizEngine);
     } else {
       setState(() {

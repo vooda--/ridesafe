@@ -142,7 +142,7 @@ class _MyDrawerState extends State<MyDrawer> {
         nextPage = const QuizesPage();
         break;
     }
-    Navigator.of(context).push(_createRoute(nextPage));
+    Navigator.of(context).pushReplacement(_createRoute(nextPage));
     context.read<AppStateModel>().setSelectedMenuItem(id);
   }
 }

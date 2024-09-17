@@ -10,7 +10,7 @@ import 'package:ride_safe/services/providers/prefetched_images_provider.dart';
 
 import '../../services/helpers.dart';
 import '../../services/providers/ride_safe_provider.dart';
-import '../bottom_menu/bottom_menu.dart';
+import '../bottom_menu/bottom_menu_quotes.dart';
 import '../drawer/my_drawer.dart';
 
 enum QuoteType { all, favorite }
@@ -139,7 +139,7 @@ class _QuoteListState extends State<QuoteList> {
                               child: quote.imageBytes == null
                                   ? const Image(
                                       image: AssetImage(
-                                          'assets/images/default.jpeg'),
+                                          'assets/images/default.png'),
                                       fit: BoxFit.cover,
                                       width: double.infinity,
                                       // width: 170,

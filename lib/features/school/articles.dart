@@ -6,12 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:ride_safe/features/bottom_menu/bottom_menu_search.dart';
 import 'package:ride_safe/services/constants.dart';
 import 'package:ride_safe/services/helpers.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 
 import '../../services/models/article.dart';
-import '../bottom_menu/bottom_menu.dart';
+import '../bottom_menu/bottom_menu_quotes.dart';
 import '../drawer/my_drawer.dart';
 
 class SchoolPage extends StatefulWidget {
@@ -26,6 +27,7 @@ class _SchoolPageState extends State<SchoolPage> {
   Widget build(BuildContext context) {
     var controller = ScrollController();
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: AppColors.whiteColor,
         title: Text(
@@ -39,7 +41,7 @@ class _SchoolPageState extends State<SchoolPage> {
         ),
       ),
       drawer: const MyDrawer(),
-      bottomNavigationBar: BottomNavigationMenu(
+      bottomNavigationBar: BottomSearchMenu(
         controller: controller,
         onSearchClick: () => {},
         searchCallback: (String filter) => {
@@ -160,7 +162,7 @@ class _ArticleListState extends State<ArticleList> {
                                             errorWidget: (context, url, error) =>
                                                 const Image(
                                                   image: AssetImage(
-                                                      'assets/images/default.jpeg'),
+                                                      'assets/images/default.png'),
                                                   width: 153,
                                                   height: 183,
                                                   fit: BoxFit.cover,

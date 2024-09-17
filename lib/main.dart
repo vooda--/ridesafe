@@ -75,18 +75,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => const MainPage(),
+        '/': (context) => const QuotesPage(quoteType: QuoteType.all),
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignupPage(),
         '/quote': (context) => const QuotesPage(quoteType: QuoteType.all),
-        // '/quote
         '/quote/selected': (context) => const QuotePage(),
-        // '/quote/selected
         '/favorites': (context) =>
         const QuotesPage(quoteType: QuoteType.favorite),
-        // '/favorites
         '/favorites/selected': (context) => const QuotePage(),
-        // '/favorites/selected
         '/quizes': (context) => const QuizesPage(),
         '/quizes/quiz': (context) => const QuizPage(),
         '/quizes/quiz/result': (context) => const QuizResultPage(),

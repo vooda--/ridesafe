@@ -5,7 +5,7 @@ import 'package:ride_safe/services/helpers.dart';
 import 'package:ride_safe/services/quiz_engine.dart';
 
 import '../../services/providers/ride_safe_provider.dart';
-import '../bottom_menu/bottom_menu.dart';
+import '../bottom_menu/bottom_menu_quotes.dart';
 import '../drawer/my_drawer.dart';
 
 class QuizResultPage extends StatefulWidget {
@@ -19,9 +19,6 @@ class _QuizResultState extends State<QuizResultPage> {
   @override
   void initState() {
     super.initState();
-    // Provider.of<RideSafeProvider>(context, listen: false).fetchArticles();
-    // Provider.of<RideSafeProvider>(context, listen: false)
-    //     .fetchArticleCategories();
   }
 
   @override
@@ -117,7 +114,7 @@ class _QuizResultWidgetState extends State<QuizResultWidget> {
                     fontWeight: FontWeight.bold)),
                 backgroundColor: MaterialStatePropertyAll(
                     createMaterialColor(AppColors.primaryColor))),
-            onPressed: () => Navigator.pushNamed(context, '/quizes'),
+            onPressed: () => Navigator.pushReplacementNamed(context, '/quizes'), //pushNamed(context, '/quizes'),
             child: const Text(
               'Play other quizzes',
               style: TextStyle(color: AppColors.secondaryTextColor),

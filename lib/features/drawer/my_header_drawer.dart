@@ -120,7 +120,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
           ),
           const Expanded(child: SizedBox()),
           OutlinedButton(
-              onPressed: () => {Navigator.pushNamed(context, '/login')},
+              onPressed: () => {Navigator.pushReplacementNamed(context, '/login')},
               style: OutlinedButton.styleFrom(
                 side: BorderSide(
                     color: createMaterialColor(AppColors.primaryColor)),

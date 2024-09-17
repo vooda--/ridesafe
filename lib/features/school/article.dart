@@ -100,7 +100,7 @@ class _SelectedArticleState extends State<SelectedArticle> {
                         widget.article.image?.id,
                       ),
                       errorWidget: (context, url, error) => const Image(
-                        image: AssetImage('assets/images/default.jpeg'),
+                        image: AssetImage('assets/images/default.png'),
                         width: double.infinity,
                         fit: BoxFit.cover,
                       )),

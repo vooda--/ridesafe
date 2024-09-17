@@ -7,7 +7,7 @@ import 'package:ride_safe/services/models/quiz_progress.dart';
 import 'package:ride_safe/services/providers/ride_safe_provider.dart';
 
 import '../../services/models/quiz.dart';
-import '../bottom_menu/bottom_menu.dart';
+import '../bottom_menu/bottom_menu_quotes.dart';
 import '../drawer/my_drawer.dart';
 import '../futureImage.dart';
 
@@ -198,7 +198,7 @@ class _QuizListState extends State<QuizList> {
                                       errorWidget: (context, url, error) =>
                                           const Image(
                                         image: AssetImage(
-                                            'assets/images/default.jpeg'),
+                                            'assets/images/default.png'),
                                         width: double.infinity,
                                         fit: BoxFit.cover,
                                       ),
