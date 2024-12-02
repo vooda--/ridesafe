@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         print(userProvider.user?.token ?? ' no token!');
         print(userProvider.user?.id);
         print(userProvider.user?.email);
-        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, '/'); // Replace '/home' with your actual route name
       });
     } else {
       print('Please enter valid email and password');

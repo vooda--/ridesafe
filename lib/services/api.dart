@@ -72,7 +72,7 @@ class API {
   }
 
   _basicAuth() {
-    return 'Basic ${base64Encode(utf8.encode('user:test'))}';
+    return 'Basic ${base64Encode(utf8.encode('user:@test#12'))}';
   }
 
   Future imageById(int id) async {

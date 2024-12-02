@@ -45,6 +45,7 @@ void main() async {
   Hive.registerAdapter(UserAdapter());
   Hive.registerAdapter(QuizProgressAdapter());
   var hiveService = HiveService();
+  await hiveService.initialize();
   var api = API();
   var prefetchedImagesProvider = PrefetchedImagesProvider(hiveService, api);
   var rideSafeProvider = RideSafeProvider(hiveService, api);
@@ -53,69 +54,69 @@ void main() async {
   await rideSafeProvider.openBoxes();
   await rideSafeProvider.fetchAll();
 
-  runApp(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => AppStateModel()),
-        ChangeNotifierProvider(create: (context) => ScreenshotProvider()),
-        ChangeNotifierProvider(create: (context) => DownloadProvider()),
-        ChangeNotifierProvider(create: (context) => BottomMenuLogic()),
-        ChangeNotifierProvider(create: (context) => rideSafeProvider),
-        ChangeNotifierProvider(create: (context) => userProvider),
-        ChangeNotifierProvider(create: (context)=> prefetchedImagesProvider)
-      ],
-      child: const MyApp())
-  );
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => AppStateModel()),
+    ChangeNotifierProvider(create: (context) => ScreenshotProvider()),
+    ChangeNotifierProvider(create: (context) => DownloadProvider()),
+    ChangeNotifierProvider(create: (context) => BottomMenuLogic()),
+    ChangeNotifierProvider(create: (context) => rideSafeProvider),
+    ChangeNotifierProvider(create: (context) => userProvider),
+    ChangeNotifierProvider(create: (context) => prefetchedImagesProvider)
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
+  dispose() {
+    print('Disposing!');
+    Hive.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const QuotesPage(quoteType: QuoteType.all),
-        '/login': (context) => const LoginPage(),
-        '/signup': (context) => const SignupPage(),
-        '/quote': (context) => const QuotesPage(quoteType: QuoteType.all),
-        '/quote/selected': (context) => const QuotePage(),
-        '/favorites': (context) =>
-        const QuotesPage(quoteType: QuoteType.favorite),
-        '/favorites/selected': (context) => const QuotePage(),
-        '/quizes': (context) => const QuizesPage(),
-        '/quizes/quiz': (context) => const QuizPage(),
-        '/quizes/quiz/result': (context) => const QuizResultPage(),
-        '/school': (context) => const SchoolPage(),
-        '/school/article': (context) => const ArticlePage(),
-        '/about': (context) => const AboutPage(),
-      },
-      // darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const QuotesPage(quoteType: QuoteType.all),
+          '/login': (context) => const LoginPage(),
+          '/signup': (context) => const SignupPage(),
+          '/quote': (context) => const QuotesPage(quoteType: QuoteType.all),
+          '/quote/selected': (context) => const QuotePage(),
+          '/favorites': (context) =>
+              const QuotesPage(quoteType: QuoteType.favorite),
+          '/favorites/selected': (context) => const QuotePage(),
+          '/quizes': (context) => const QuizesPage(),
+          '/quizes/quiz': (context) => const QuizPage(),
+          '/quizes/quiz/result': (context) => const QuizResultPage(),
+          '/school': (context) => const SchoolPage(),
+          '/school/article': (context) => const ArticlePage(),
+          '/about': (context) => const AboutPage(),
+        },
+        // darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
 
-      theme: ThemeData.light(useMaterial3: true).copyWith(
-        scaffoldBackgroundColor: MaterialColorGenerator.from(Colors.white),
-        // extensions: <ThemeExtension<dynamic>>[
-        //   const MyColors(grayBorderColor: AppColors.buttonBorderColor,
-        //       lightBlueBg: AppColors.lightBlueColor,
-        //       blackTextColor: AppColors.primaryTextColor,
-        //       grayTextColor: AppColors.grayTextColor,
-        //       whiteTextColor: AppColors.whiteColor,
-        //       blueBg: AppColors.primaryColor,
-        //       successBg: AppColors.successColor,
-        //       dangerBg: AppColors.dangerColor)
-        // ])
-        // colorScheme: ColorScheme.light(
-        //   primary: MaterialColorGenerator.from(AppColors.primaryColor),
-        //   secondary: MaterialColorGenerator.from(AppColors.secondaryColor),
-        //   error: MaterialColorGenerator.from(AppColors.dangerColor),
-        //   tertiary: MaterialColorGenerator.from(AppColors.accentColor),
-        //   brightness: Brightness.light,
-        // )
-      //   // primaryColorDark: const Color(AppColors.primaryColorDark),
-      //   // primaryColorLight: const Color(AppColors.primaryColorLight),
-      )
-    );
+        theme: ThemeData.light(useMaterial3: true).copyWith(
+          scaffoldBackgroundColor: MaterialColorGenerator.from(Colors.white),
+          // extensions: <ThemeExtension<dynamic>>[
+          //   const MyColors(grayBorderColor: AppColors.buttonBorderColor,
+          //       lightBlueBg: AppColors.lightBlueColor,
+          //       blackTextColor: AppColors.primaryTextColor,
+          //       grayTextColor: AppColors.grayTextColor,
+          //       whiteTextColor: AppColors.whiteColor,
+          //       blueBg: AppColors.primaryColor,
+          //       successBg: AppColors.successColor,
+          //       dangerBg: AppColors.dangerColor)
+          // ])
+          // colorScheme: ColorScheme.light(
+          //   primary: MaterialColorGenerator.from(AppColors.primaryColor),
+          //   secondary: MaterialColorGenerator.from(AppColors.secondaryColor),
+          //   error: MaterialColorGenerator.from(AppColors.dangerColor),
+          //   tertiary: MaterialColorGenerator.from(AppColors.accentColor),
+          //   brightness: Brightness.light,
+          // )
+          //   // primaryColorDark: const Color(AppColors.primaryColorDark),
+          //   // primaryColorLight: const Color(AppColors.primaryColorLight),
+        ));
   }
 }
-
-

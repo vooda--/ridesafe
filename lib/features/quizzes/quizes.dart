@@ -35,10 +35,8 @@ class _QuizesPageState extends State<QuizesPage> {
           style: AppTextStyles.headline5(),
         ),
       ),
-      body: Container(
-        child: const Center(
-          child: QuizList(),
-        ),
+      body: const Center(
+        child: QuizList(),
       ),
       drawer: const MyDrawer(),
       bottomNavigationBar: BottomNavigationMenu(
@@ -87,7 +85,9 @@ class _QuizListState extends State<QuizList> {
     var provider = Provider.of<RideSafeProvider>(context, listen: false);
     provider.fetchQuizProgress();
     setState(() {
-      selectedCategory = provider.quizCategories.first.id ?? 0;
+      selectedCategory = provider.quizCategories.isNotEmpty
+          ? provider.quizCategories.first.id
+          : 0;
       quizProgress = provider.quizProgress;
       updateQuizList(provider.quizzes);
     });
@@ -122,11 +122,11 @@ class _QuizListState extends State<QuizList> {
                             onPressed: () => {
                               print('Updating set'),
                               setState(() {
-                                    selectedCategory = category.id;
-                                    updateQuizList(quizzes);
-                                    print(listQuizz.length);
-                                    print(selectedCategory);
-                                  })
+                                selectedCategory = category.id;
+                                updateQuizList(quizzes);
+                                print(listQuizz.length);
+                                print(selectedCategory);
+                              })
                             },
                             style: OutlinedButton.styleFrom(
                                 // maximumSize: Size(100, 30),
@@ -138,8 +138,8 @@ class _QuizListState extends State<QuizList> {
                                         : createMaterialColor(
                                             AppColors.primaryTextColor)),
                                 side: BorderSide(
-                                    color:
-                                        createMaterialColor(Colors.transparent)),
+                                    color: createMaterialColor(
+                                        Colors.transparent)),
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 5.0, horizontal: 12.0),
                                 textStyle: const TextStyle(
@@ -166,9 +166,11 @@ class _QuizListState extends State<QuizList> {
                         itemCount: listQuizz.length,
                         itemBuilder: (context, index) {
                           final quiz = listQuizz.elementAt(index);
-                          final progress = rideSafeProvider.getQuizProgressByQuizId(quiz.id);
+                          final progress =
+                              rideSafeProvider.getQuizProgressByQuizId(quiz.id);
                           print('Rendering list quiz: ${quiz} - ${index}');
-                          print('Rendering list quiz progress: ${quiz} - ${progress}');
+                          print(
+                              'Rendering list quiz progress: ${quiz} - ${progress}');
                           return GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(context, '/quizes/quiz',

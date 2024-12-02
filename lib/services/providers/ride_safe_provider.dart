@@ -116,6 +116,7 @@ class RideSafeProvider with ChangeNotifier {
   }
 
   Future<void> updateQuizProgress(QuizProgress progress) async {
+    print('Update quiz progress: $progress.progress');
     return apiService.updateQuizProgress(user?.token, progress).then((value) {
       fetchQuizProgress();
     });
@@ -125,6 +126,9 @@ class RideSafeProvider with ChangeNotifier {
     print('user for fetch: ${user?.token}');
     return apiService.fetchUserQuizesProgress(user?.token).then((value) {
       hiveService.setQuizProgress(value);
+      notifyListeners();
+    }).catchError((error) {
+      hiveService.setQuizProgress(List.empty());
       notifyListeners();
     });
   }
@@ -143,6 +147,8 @@ class RideSafeProvider with ChangeNotifier {
     return apiService.fetchQuizCategories('en').then((value) {
       if (value.length > 0) {
         hiveService.setQuizCategories(value);
+      } else {
+        hiveService.setQuizCategories(List.empty());
       }
 
       log('Fetched quiz categories: ${quizCategories.length}');
@@ -154,6 +160,8 @@ class RideSafeProvider with ChangeNotifier {
     return apiService.fetchArticleCategories('en').then((value) {
       if (value.length > 0) {
         hiveService.setArticleCategories(value);
+      } else {
+        hiveService.setArticleCategories(List.empty());
       }
 
       log('Fetched article categories: ${articleCategories.length}');

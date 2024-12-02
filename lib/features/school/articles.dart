@@ -75,7 +75,9 @@ class _ArticleListState extends State<ArticleList> {
     super.initState();
     var provider = Provider.of<RideSafeProvider>(context, listen: false);
     setState(() {
-      selectedCategory = provider.articleCategories.first.id ?? 0;
+      selectedCategory = provider.articleCategories.isNotEmpty
+          ? provider.articleCategories.first.id
+          : 0;
       updateArticleList(provider.articles);
     });
   }
@@ -119,9 +121,13 @@ class _ArticleListState extends State<ArticleList> {
                         crossAxisAlignment: WrapCrossAlignment.center,
                         alignment: WrapAlignment.center,
                         children: [
-                          Text(category.title, style: AppTextStyles.bodyNormalBold),
+                          Text(category.title,
+                              style: AppTextStyles.bodyNormalBold),
                           SvgPicture.asset('assets/icons/vector.svg',
-                              fit: BoxFit.contain, alignment: Alignment.center, height: 10, width: 10)
+                              fit: BoxFit.contain,
+                              alignment: Alignment.center,
+                              height: 10,
+                              width: 10)
                         ]),
                   ),
                   SizedBox(
@@ -134,11 +140,13 @@ class _ArticleListState extends State<ArticleList> {
                           final article = articles[index];
                           return GestureDetector(
                             onTap: () {
+                              print("Selected article, index: $article,$index");
                               Navigator.pushNamed(context, '/school/article',
                                   arguments: article);
                             },
                             child: Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 4.0),
                               child: Stack(
                                   // alignment: Alignment.center,
                                   children: [
@@ -159,14 +167,15 @@ class _ArticleListState extends State<ArticleList> {
                                             imageUrl: Helpers.getImageUrlById(
                                               article.image?.id,
                                             ),
-                                            errorWidget: (context, url, error) =>
-                                                const Image(
-                                                  image: AssetImage(
-                                                      'assets/images/default.png'),
-                                                  width: 153,
-                                                  height: 183,
-                                                  fit: BoxFit.cover,
-                                                )),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Image(
+                                                      image: AssetImage(
+                                                          'assets/images/default.png'),
+                                                      width: 153,
+                                                      height: 183,
+                                                      fit: BoxFit.cover,
+                                                    )),
                                       ),
                                     ),
                                     SizedBox(
@@ -177,7 +186,8 @@ class _ArticleListState extends State<ArticleList> {
                                           filter: ImageFilter.blur(
                                               sigmaX: 0.5, sigmaY: 0.5),
                                           child: Container(
-                                            color: Colors.black.withOpacity(0.25),
+                                            color:
+                                                Colors.black.withOpacity(0.25),
                                           ),
                                         ),
                                       ),

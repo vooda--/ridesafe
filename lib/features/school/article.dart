@@ -30,6 +30,7 @@ class _ArticlePageState extends State<ArticlePage> {
   @override
   Widget build(BuildContext context) {
     var article = ModalRoute.of(context)!.settings.arguments as Article;
+    print('selected article: $article');
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -56,7 +57,7 @@ class _ArticlePageState extends State<ArticlePage> {
 class SelectedArticle extends StatefulWidget {
   final Article article;
 
-  const SelectedArticle(this.article, {Key? key}) : super(key: key);
+  const SelectedArticle(this.article);
 
   @override
   State<SelectedArticle> createState() => _SelectedArticleState();

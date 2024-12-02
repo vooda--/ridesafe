@@ -54,7 +54,9 @@ class HiveService {
     quizProgressBox = await Hive.openBox(HiveService.quizProgressData);
   }
 
-  destroy() {
+  @override
+  dispose() {
+    print('Dispose! hive');
     Hive.close();
   }
 
