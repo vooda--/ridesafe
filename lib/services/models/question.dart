@@ -4,15 +4,15 @@ class Question {
   final String question;
   final Map<String, String> answers;
   final String correctAnswer;
-  final String explanation;
-  final String imageId;
+  final String? explanation;
+  final String? imageId;
 
   Question({
     required this.question,
     required this.answers,
     required this.correctAnswer,
-    required this.explanation,
-    required this.imageId
+    this.explanation,
+    this.imageId
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {

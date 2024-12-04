@@ -62,11 +62,14 @@ class QuizAdapter extends TypeAdapter<Quiz> {
         title: reader.read(),
         description: reader.read(),
         content: (reader.read() as List<dynamic>).map((e) {
+          try {
           if (e is Map<String, dynamic>) {
             return Question.fromJson(e);
           } else {
             // Handle the case where the element is not a map
             return e as Question; // Provide a default value or handle accordingly
+          } } catch(e) {
+            return Question(question: 'question', answers: Map.fromEntries([]), correctAnswer: 'A', explanation: null);
           }
         }).toList(growable: false),
     );

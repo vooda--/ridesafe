@@ -33,7 +33,7 @@ class QuestionWidget extends StatefulWidget {
 class _QuestionWidgetState extends State<QuestionWidget> {
   String _selectedAnswer = '';
   bool _isCorrect = false;
-  String imageId = '';
+  String? imageId;
 
   Color getForegroundColor(String answer) {
     if (_selectedAnswer.isEmpty) {
@@ -121,7 +121,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         const SizedBox(
           height: 36.0,
         ),
-        widget.question.imageId.isEmpty
+        widget.question.imageId == null
             ? SizedBox.shrink()
             : Container(
                 constraints: const BoxConstraints(maxHeight: 250),
@@ -130,10 +130,14 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                     width: double.infinity,
                     fit: BoxFit.cover,
                     cacheKey: Helpers.getImageUrlById(
-                      int.parse(widget.question.imageId),
+                      widget.question.imageId == null
+                          ? int.parse(widget.question.imageId!)
+                          : null,
                     ),
                     imageUrl: Helpers.getImageUrlById(
-                      int.parse(widget.question.imageId),
+                      widget.question.imageId == null
+                          ? int.parse(widget.question.imageId!)
+                          : null,
                     ),
                     errorWidget: (context, url, error) => const Image(
                           image: AssetImage('assets/images/default.png'),
@@ -162,8 +166,8 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Ubuntu',
                 ),
-                backgroundColor: MaterialStateColor.resolveWith(
-                    (state) => getColor(e.key)),
+                backgroundColor:
+                    MaterialStateColor.resolveWith((state) => getColor(e.key)),
                 foregroundColor: MaterialStateColor.resolveWith(
                     (states) => getForegroundColor(e.key)),
                 minimumSize: const Size(double.infinity, 48),
@@ -245,8 +249,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Ubuntu',
                   ),
-                  backgroundColor:
-                      createMaterialColor(AppColors.primaryColor),
+                  backgroundColor: createMaterialColor(AppColors.primaryColor),
                   foregroundColor:
                       createMaterialColor(AppColors.secondaryTextColor),
                   //MaterialStateColor.resolveWith((state)=>getColor('A')),
