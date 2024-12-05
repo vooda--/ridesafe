@@ -32,6 +32,7 @@ class _QuizPageState extends State<QuizPage> {
         body: Container(
           child: SelectedQuiz(quiz),
         ),
+        bottomNavigationBar: null,
         drawer: const SafeArea(child: MyDrawer()));
   }
 }
@@ -39,6 +40,7 @@ class _QuizPageState extends State<QuizPage> {
 class SelectedQuiz extends StatefulWidget {
   final Quiz quiz;
   late final QuizEngine quizEngine;
+
   // bool _isPreview = true;
   final bool _isFinished = false;
 
@@ -73,6 +75,9 @@ class _SelectedQuizState extends State<SelectedQuiz> {
     if (widget.quizEngine.isFinished) {
       // Trigger the API call when the quiz is finished
       final apiService = Provider.of<RideSafeProvider>(context, listen: false);
+      if (apiService.user == null) {
+        return;
+      }
       final quizProgress = QuizProgress(
           userId: apiService.user!.id,
           quizId: widget.quiz.id,

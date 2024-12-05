@@ -42,14 +42,14 @@ class _QuizResultState extends State<QuizResultPage> {
         ),
       ),
       drawer: const MyDrawer(),
-      bottomNavigationBar: BottomNavigationMenu(
-        controller: controller,
-        onSearchClick: () => {},
-        searchCallback: (String filter) => {
-          Provider.of<RideSafeProvider>(context, listen: false)
-              .filterQuizes(filter)
-        },
-      ),
+      // bottomNavigationBar: BottomNavigationMenu(
+      //   controller: controller,
+      //   onSearchClick: () => {},
+      //   searchCallback: (String filter) => {
+      //     Provider.of<RideSafeProvider>(context, listen: false)
+      //         .filterQuizes(filter)
+      //   },
+      // ),
     );
   }
 }
@@ -77,7 +77,7 @@ class _QuizResultWidgetState extends State<QuizResultWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          // alignment: AlignmentDirectional.topCenter,
+          alignment: AlignmentDirectional.topCenter,
           margin: const EdgeInsets.only(bottom: 30),
           child: Text(
             (widget.score > 80) ? 'Congrats!' : 'You can do better!',

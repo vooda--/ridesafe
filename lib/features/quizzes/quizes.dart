@@ -39,14 +39,14 @@ class _QuizesPageState extends State<QuizesPage> {
         child: QuizList(),
       ),
       drawer: const MyDrawer(),
-      bottomNavigationBar: BottomNavigationMenu(
-        controller: controller,
-        onSearchClick: () => {},
-        searchCallback: (String filter) => {
-          Provider.of<RideSafeProvider>(context, listen: false)
-              .filterQuizes(filter)
-        },
-      ),
+      // bottomNavigationBar: BottomNavigationMenu(
+      //   controller: controller,
+      //   onSearchClick: () => {},
+      //   searchCallback: (String filter) => {
+      //     Provider.of<RideSafeProvider>(context, listen: false)
+      //         .filterQuizes(filter)
+      //   },
+      // ),
     );
   }
 }

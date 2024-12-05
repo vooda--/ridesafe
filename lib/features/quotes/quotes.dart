@@ -49,9 +49,9 @@ class _QuotesPageState extends State<QuotesPage> {
           child: QuoteList(quoteType: widget.quoteType),
         ),
         drawer: const MyDrawer(),
-        bottomNavigationBar: BottomNavigationMenu(
-          controller: controller,
-        ),
+        // bottomNavigationBar: BottomNavigationMenu(
+        //   controller: controller,
+        // ),
       ),
     );
   }
